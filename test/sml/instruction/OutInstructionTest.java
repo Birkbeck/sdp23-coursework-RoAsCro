@@ -18,4 +18,17 @@ public class OutInstructionTest extends AbstractInstructionTest {
         instruction.execute(machine);
     }
 
+    @Test
+    void testToStringWithLabel() {
+        Instruction instruction = new OutInstruction("x", EAX);
+        assertEquals("x: out EAX", instruction.toString());
+    }
+
+
+    @Test
+    void testToStringNoLabel() {
+        Instruction instruction = new OutInstruction(null, EAX);
+        assertEquals("out EAX", instruction.toString());
+    }
+
 }
