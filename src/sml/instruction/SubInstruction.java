@@ -18,6 +18,13 @@ public class SubInstruction extends ArithmeticOperationInstruction {
         super(label, OP_CODE, result, source);
     }
 
+    /**
+     * Takes machine m as an argument.
+     *  Upon executing will store the integer given at construction in the register in m
+     *  corresponding to the RegisterName given at construction.
+     * @param m the not null machine the instruction runs on
+     * @return
+     */
     @Override
     public int execute(Machine m) {
         return super.execute(m, (one, two) -> one - two);

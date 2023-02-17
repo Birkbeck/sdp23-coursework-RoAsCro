@@ -39,7 +39,7 @@ public class MovInstruction extends Instruction {
      * Upon executing will store the integer given at construction in the register in m
      * corresponding to the RegisterName given at construction.
      *
-     * @param m the machine the instruction runs on.
+     * @param m the not null machine the instruction runs on.
      * @return the normal program counter update of -1.
      */
     @Override

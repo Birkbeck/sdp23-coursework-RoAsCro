@@ -31,12 +31,12 @@ public class OutInstruction extends Instruction {
     /**
      * Prints the current value of the register given at construction on the console.
      *
-     * @param machine the machine the instruction runs on
+     * @param m the not null machine the instruction runs on
      * @return the normal program counter update of -1.
      */
     @Override
-    public int execute(Machine machine) {
-        System.out.println(machine.getRegisters().get(reg));
+    public int execute(Machine m) {
+        System.out.println(m.getRegisters().get(reg));
         return NORMAL_PROGRAM_COUNTER_UPDATE;
     }
 
