@@ -29,11 +29,17 @@ public class MovInstructionTest {
     }
 
     @Test
-    void executeValid() {
+    void executeValidPositive() {
         Instruction instruction = new MovInstruction(null, EAX, 1);
         instruction.execute(machine);
         assertEquals(1, registers.get(EAX));
+    }
 
+    @Test
+    void executeValidNegative() {
+        Instruction instruction = new MovInstruction(null, EAX, -1);
+        instruction.execute(machine);
+        assertEquals(-1, registers.get(EAX));
     }
 
 }
