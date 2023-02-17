@@ -12,7 +12,7 @@ import sml.RegisterName;
  */
 public class SubInstruction extends ArithmeticOperationInstruction {
 
-    private final static String OP_CODE = "sub";
+    public final static String OP_CODE = "sub";
 
     /**
      * Constructor: takes two registers r and s. The value of s is to be subtracted from r.
