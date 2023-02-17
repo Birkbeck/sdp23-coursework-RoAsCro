@@ -9,6 +9,10 @@ public class MovInstruction extends Instruction {
 
     public static final String OP_CODE = "mov";
 
+    private final RegisterName reg;
+
+    private final int value;
+
 
     /**
      * Constructor: an Instruction that stores the given integer value in the given register.
@@ -19,6 +23,8 @@ public class MovInstruction extends Instruction {
      */
     public MovInstruction(String label, RegisterName reg, int value) {
         super(label, OP_CODE);
+        this.reg = reg;
+        this.value = value;
     }
 
     @Override
