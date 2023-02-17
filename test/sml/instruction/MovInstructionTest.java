@@ -48,4 +48,10 @@ public class MovInstructionTest {
         assertEquals("x: mov EAX 1", instruction.toString());
     }
 
+
+    @Test
+    void testToStringNoLabel() {
+        Instruction instruction = new MovInstruction(null, EAX, 1);
+        assertEquals("mov EAX 1", instruction.toString());
+    }
 }
