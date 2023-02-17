@@ -2,9 +2,9 @@ package sml.instruction;
 
 import sml.Instruction;
 import sml.Machine;
+import sml.RegisterName;
 
-public class SubInstruction extends Instruction {
-
+public class SubInstruction extends ArithmeticOperationInstruction {
 
     private final static String OP_CODE = "sub";
     /**
@@ -14,13 +14,13 @@ public class SubInstruction extends Instruction {
      * @param label  optional label (can be null)
      * @param opcode operation name
      */
-    public SubInstruction(String label, String opcode) {
-        super(label, OP_CODE);
+    public SubInstruction(String label, RegisterName result, RegisterName source) {
+        super(label, OP_CODE, result, source);
     }
 
     @Override
-    public int execute(Machine machine) {
-        return 0;
+    public int execute(Machine m) {
+        return super.execute(m, (one, two) -> one - two);
     }
 
     @Override
