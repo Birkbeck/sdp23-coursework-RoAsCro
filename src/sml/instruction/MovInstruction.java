@@ -25,7 +25,7 @@ public class MovInstruction extends Instruction {
      * Constructor: takes the RegisterName of the register to be used as storage and the integer value to be stored.
      *
      * @param label  optional label (can be null)
-     * @param reg   the name of the register to store the integer value in
+     * @param reg   the not-null name of the register to store the integer value in
      * @param value the integer value to be stored in the register
      */
     public MovInstruction(String label, RegisterName reg, int value) {
