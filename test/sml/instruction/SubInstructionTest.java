@@ -43,4 +43,17 @@ public class SubInstructionTest extends AbstractInstructionTest {
         assertEquals(-1, machine.getRegisters().get(EAX));
     }
 
+    @Test
+    void testToStringWithLabel() {
+        Instruction instruction = new SubInstruction("x", EAX, EBX);
+        assertEquals("x: sub EAX EBX", instruction.toString());
+    }
+
+
+    @Test
+    void testToStringNoLabel() {
+        Instruction instruction = new SubInstruction(null, EAX, EBX);
+        assertEquals("sub EAX EBX", instruction.toString());
+    }
+
 }
