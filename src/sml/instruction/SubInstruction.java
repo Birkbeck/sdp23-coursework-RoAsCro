@@ -1,18 +1,25 @@
 package sml.instruction;
 
-import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+/**
+ * Concrete implementation of the abstract Instruction class.
+ *  This instruction takes two register name r and s.
+ *  When executed, s will be subtracted from r, and the result stored in r.
+ *
+ * @author Roland Crompton
+ */
 public class SubInstruction extends ArithmeticOperationInstruction {
 
     private final static String OP_CODE = "sub";
+
     /**
-     * Constructor: an instruction with a label and an opcode
-     * (opcode must be an operation of the language)
+     * Constructor: takes two registers r and s. The value of s is to be subtracted from r.
      *
-     * @param label  optional label (can be null)
-     * @param opcode operation name
+     * @param label optional label (can be null)
+     * @param result a not null RegisterName where the result will be stored and whose value will be subtracted from
+     * @param source a not null RegisterName whose value will be the subtrahend
      */
     public SubInstruction(String label, RegisterName result, RegisterName source) {
         super(label, OP_CODE, result, source);
@@ -20,18 +27,14 @@ public class SubInstruction extends ArithmeticOperationInstruction {
 
     /**
      * Takes machine m as an argument.
-     *  Upon executing will store the integer given at construction in the register in m
-     *  corresponding to the RegisterName given at construction.
+     *  Upon executing will subtract the value of register s from the value of register r and store it in register r.
+     *
      * @param m the not null machine the instruction runs on
-     * @return
+     * @return the normal program counter update of -1.
      */
     @Override
     public int execute(Machine m) {
         return super.execute(m, (one, two) -> one - two);
     }
 
-    @Override
-    public String toString() {
-        return null;
-    }
 }
