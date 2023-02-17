@@ -23,8 +23,8 @@ public abstract class ArithmeticOperationInstruction extends Instruction {
      *
      * @param label  optional label (can be null)
      * @param opcode operation name
-     * @param result the RegisterName of the register storing the first operand and where the result will be stored
-     * @param source the RegisterName of the register storing the second operand.
+     * @param result the not null RegisterName of the register storing the first operand and where the result will be stored
+     * @param source the not null RegisterName of the register storing the second operand.
      */
     public ArithmeticOperationInstruction(String label, String opcode, RegisterName result, RegisterName source) {
         super(label, opcode);

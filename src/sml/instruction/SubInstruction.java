@@ -4,9 +4,9 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * Concrete implementation of the abstract Instruction class.
- *  This instruction takes two register name r and s.
- *  When executed, s will be subtracted from r, and the result stored in r.
+ * Concrete implementation of the abstract ArithmeticOperationInstruction class.
+ * This instruction takes two register names r and s.
+ * When executed, the value store at s will be subtracted from the value store at r, and the result stored in r.
  *
  * @author Roland Crompton
  */
