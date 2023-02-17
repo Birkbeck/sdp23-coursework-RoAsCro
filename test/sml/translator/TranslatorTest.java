@@ -26,6 +26,7 @@ public class TranslatorTest {
         LinkedList<Instruction> list = new LinkedList<>();
         translator.readAndTranslate(new Labels(), list);
         assertEquals("mov", list.get(0).getOpcode());
+        assertEquals("out", list.get(3).getOpcode());
     }
 
 }
