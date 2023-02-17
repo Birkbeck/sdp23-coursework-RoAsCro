@@ -22,5 +22,5 @@ public abstract class AbstractInstructionTest {
         machine = null;
         registers = null;
     }
-    
+
 }

@@ -10,21 +10,7 @@ import sml.Registers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static sml.Registers.Register.EAX;
 
-public class OutInstructionTest {
-    private Machine machine;
-    private Registers registers;
-
-    @BeforeEach
-    void setUp() {
-        machine = new Machine(new Registers());
-        registers = machine.getRegisters();
-    }
-
-    @AfterEach
-    void tearDown() {
-        machine = null;
-        registers = null;
-    }
+public class OutInstructionTest extends AbstractInstructionTest {
     @Test
     void executeValid() {
         registers.set(EAX, 1);
