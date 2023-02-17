@@ -11,7 +11,6 @@ public class MulInstruction extends ArithmeticOperationInstruction {
      * Constructor: takes an optional label, opcode, and two RegisterNames corresponding to registers in some machine.
      *
      * @param label  optional label (can be null)
-     * @param opcode operation name
      * @param result the RegisterName of the register storing the first operand and where the result will be stored
      * @param source the RegisterName of the register storing the second operand.
      */
@@ -20,7 +19,7 @@ public class MulInstruction extends ArithmeticOperationInstruction {
     }
 
     @Override
-    public int execute(Machine machine) {
-        return 0;
+    public int execute(Machine m) {
+        return super.execute(m, (one, two) -> one * two);
     }
 }
