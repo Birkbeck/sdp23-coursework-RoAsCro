@@ -20,9 +20,15 @@ public class OutInstruction extends Instruction {
         this.reg = reg;
     }
 
+    /**
+     * Prints the current value of the register given at construction on the console.
+     *
+     * @param machine the machine the instruction runs on
+     * @return the normal program counter update of -1.
+     */
     @Override
     public int execute(Machine machine) {
-        
+        System.out.println(machine.getRegisters().get(reg));
         return NORMAL_PROGRAM_COUNTER_UPDATE;
     }
 
