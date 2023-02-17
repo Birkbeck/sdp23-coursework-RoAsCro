@@ -25,4 +25,13 @@ public class SubInstructionTest extends AbstractInstructionTest {
         assertEquals(1, machine.getRegisters().get(EAX));
     }
 
+    @Test
+    void executeValidSubtrahendNegative() {
+        registers.set(EAX, 3);
+        registers.set(EBX, -2);
+        Instruction instruction = new SubInstruction(null, EAX, EBX);
+        instruction.execute(machine);
+        assertEquals(5, machine.getRegisters().get(EAX));
+    }
+
 }
