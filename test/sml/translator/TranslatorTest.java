@@ -27,6 +27,7 @@ public class TranslatorTest {
         translator.readAndTranslate(new Labels(), list);
         assertEquals("mov", list.get(0).getOpcode());
         assertEquals("out", list.get(3).getOpcode());
+        assertEquals("sub", list.get(4).getOpcode());
     }
 
 }
