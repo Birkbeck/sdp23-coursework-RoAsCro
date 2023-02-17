@@ -25,10 +25,11 @@ public abstract class ArithmeticOperationInstruction extends Instruction {
         this.source = source;
     }
 
-    public void operation(Machine m, BinaryOperator<Integer> f) {
+    public int operation(Machine m, BinaryOperator<Integer> f) {
         int value1 = m.getRegisters().get(result);
         int value2 = m.getRegisters().get(source);
         m.getRegisters().set(result, f.apply(value1, value2));
+        return NORMAL_PROGRAM_COUNTER_UPDATE;
     }
 
 }
