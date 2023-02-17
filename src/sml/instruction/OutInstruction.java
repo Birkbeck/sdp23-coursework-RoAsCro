@@ -32,8 +32,13 @@ public class OutInstruction extends Instruction {
         return NORMAL_PROGRAM_COUNTER_UPDATE;
     }
 
+    /**
+     * Overridden toString method.
+     *
+     * @return a string in the format "l: out r" where l is the label if any, and r is the register.
+     */
     @Override
     public String toString() {
-        return null;
+        return getLabelString() + OP_CODE + " " + reg;
     }
 }
