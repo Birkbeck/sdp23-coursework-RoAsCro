@@ -4,6 +4,9 @@ import sml.Instruction;
 import sml.Machine;
 
 public class SubInstruction extends Instruction {
+
+
+    private final static String OP_CODE = "sub";
     /**
      * Constructor: an instruction with a label and an opcode
      * (opcode must be an operation of the language)
@@ -12,7 +15,7 @@ public class SubInstruction extends Instruction {
      * @param opcode operation name
      */
     public SubInstruction(String label, String opcode) {
-        super(label, opcode);
+        super(label, OP_CODE);
     }
 
     @Override
