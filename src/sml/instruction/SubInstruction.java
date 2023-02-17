@@ -3,7 +3,7 @@ package sml.instruction;
 import sml.Instruction;
 import sml.Machine;
 
-public class SunInstruction extends Instruction {
+public class SubInstruction extends Instruction {
     /**
      * Constructor: an instruction with a label and an opcode
      * (opcode must be an operation of the language)
@@ -11,7 +11,7 @@ public class SunInstruction extends Instruction {
      * @param label  optional label (can be null)
      * @param opcode operation name
      */
-    public SunInstruction(String label, String opcode) {
+    public SubInstruction(String label, String opcode) {
         super(label, opcode);
     }
 
