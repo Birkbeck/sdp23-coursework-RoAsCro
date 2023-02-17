@@ -4,6 +4,14 @@ import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+/**
+ * Concrete implementation of the abstract Instruction class.
+ * This instruction takes a register name r.
+ * When executed, the value store in r will be printed on the console.
+ *
+ * @author Roland Crompton
+ */
+
 public class OutInstruction extends Instruction {
 
     private final RegisterName reg;
