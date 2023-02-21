@@ -22,5 +22,18 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
         assertEquals(0, machine.getRegisters().get(EBX));
 
     }
-    
+
+    @Test
+    void testToStringWithLabel() {
+        Instruction instruction = new JnzInstruction("x", EAX, "y");
+        assertEquals("x: jnz EAX y", instruction.toString());
+    }
+
+
+    @Test
+    void testToStringNoLabel() {
+        Instruction instruction = new JnzInstruction(null, EAX, "y");
+        assertEquals("jnz EAX y", instruction.toString());
+    }
+
 }
