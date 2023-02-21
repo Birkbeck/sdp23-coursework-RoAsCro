@@ -11,12 +11,13 @@ public class JnzInstruction extends Instruction {
     private RegisterName reg;
 
     private String targetLabel;
+
     /**
-     * Constructor: an instruction with a label and an opcode
-     * (opcode must be an operation of the language)
      *
-     * @param label  optional label (can be null)
      *
+     * @param label optional label. Can be null.
+     * @param reg the not-null RegisterName of the register to be checked.
+     * @param targetLabel the not-null String corresponding to a label of another instruction in the program.
      */
     public JnzInstruction(String label, RegisterName reg, String targetLabel) {
         super(label, OP_CODE);
@@ -24,6 +25,15 @@ public class JnzInstruction extends Instruction {
         this.targetLabel = targetLabel;
     }
 
+    /**
+     * If the value stored in the register corresponding to the RegisterName specified at construction does not equal 0,
+     * will jump to the instruction with the label given at construction. Otherwise, the program continues to the next
+     * instruction.
+     *
+     * @param m the machine the instruction runs on
+     * @return the integer corresponding to the place in the program of the target instruction if the value of the
+     * register is not 0, other the normal program counter update of -1.
+     */
     @Override
     public int execute(Machine m) {
         int programCounterUpdate;
