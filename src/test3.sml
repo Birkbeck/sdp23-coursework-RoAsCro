@@ -4,3 +4,4 @@ add EAX ECX
 out EAX
 sub EAX ECX
 out EAX
+mul ECX EAX
