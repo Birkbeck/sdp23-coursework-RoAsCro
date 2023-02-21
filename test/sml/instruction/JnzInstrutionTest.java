@@ -9,6 +9,7 @@ import sml.Translator;
 import java.io.IOException;
 
 import static sml.Registers.Register.EAX;
+import static sml.Registers.Register.EBX;
 
 public class JnzInstrutionTest extends AbstractInstructionTest{
 
@@ -18,5 +19,8 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
         translator.readAndTranslate(machine.getLabels(), machine.getProgram());
         machine.execute();
         assertEquals(0, machine.getRegisters().get(EAX));
+        assertEquals(0, machine.getRegisters().get(EBX));
+
     }
+    
 }
