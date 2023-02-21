@@ -22,12 +22,21 @@ public class DivInstruction extends ArithmeticOperationInstruction{
     /**
      * Divides the value stored in the register in m corresponding to result field by the value stored in the register
      * corresponding to the source field. The result is stored in the result register.
+     * If the value of divisor is 0, the values stored in both registers will remain unchanged, an error message will be
+     * printed,and the normal program counter will be returned.
      *
      * @param m the machine the instruction runs on
      * @return the normal program counter update of -1.
      */
     @Override
     public int execute(Machine m) {
+        if (m.getRegisters().get(source) == 0) {
+            System.out.println("Error"+
+                    " in instruction "
+                    + this
+                    + ": Cannot divide by zero");
+            return NORMAL_PROGRAM_COUNTER_UPDATE;
+        }
         return super.execute(m, (one, two) -> one/two);
     }
 }
