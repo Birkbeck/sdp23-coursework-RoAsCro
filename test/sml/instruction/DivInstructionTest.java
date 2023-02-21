@@ -59,6 +59,7 @@ public class DivInstructionTest extends AbstractInstructionTest{
         registers.set(EBX, 0);
         Instruction instruction = new DivInstruction(null, EAX, EBX);
         instruction.execute(machine);
+        assertEquals(1, machine.getRegisters().get(EAX));
     }
 
     @Test
