@@ -44,8 +44,14 @@ public class JnzInstruction extends Instruction {
         return programCounterUpdate;
     }
 
+    /**
+     * Overridden toString method.
+     *
+     * @return a string in the format "l: o r t" where l is the label if there is one, o is the opcode, r is
+     * the register specified at construction, and t is the target label specified at construction.
+     */
     @Override
     public String toString() {
-        return null;
+        return getLabelString() + OP_CODE + " " + reg + " " + targetLabel;
     }
 }
