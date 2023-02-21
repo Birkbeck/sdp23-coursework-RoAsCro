@@ -2,23 +2,36 @@ package sml.instruction;
 
 import sml.Instruction;
 import sml.Machine;
+import sml.RegisterName;
 
 public class JnzInstruction extends Instruction {
-    
+
+    public static final String OP_CODE = "jnz";
+
+    private RegisterName reg;
+
+    private String targetLabel;
     /**
      * Constructor: an instruction with a label and an opcode
      * (opcode must be an operation of the language)
      *
      * @param label  optional label (can be null)
-     * @param opcode operation name
+     *
      */
-    public JnzInstruction(String label, String opcode) {
-        super(label, opcode);
+    public JnzInstruction(String label, RegisterName reg, String targetLabel) {
+        super(label, OP_CODE);
+        this.reg = reg;
+        this.targetLabel = targetLabel;
     }
 
     @Override
-    public int execute(Machine machine) {
-        return 0;
+    public int execute(Machine m) {
+        int programCounterUpdate;
+        if (m.getRegisters().get(reg) == 0)
+            programCounterUpdate = NORMAL_PROGRAM_COUNTER_UPDATE;
+        else
+            programCounterUpdate = m.getLabels().getAddress(targetLabel);
+        return programCounterUpdate;
     }
 
     @Override
