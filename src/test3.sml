@@ -5,3 +5,4 @@ out EAX
 sub EAX ECX
 out EAX
 mul ECX EAX
+div ECX EAX

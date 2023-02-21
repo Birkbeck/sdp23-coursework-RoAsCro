@@ -29,6 +29,7 @@ public class TranslatorTest {
         assertEquals("out", list.get(3).getOpcode());
         assertEquals("sub", list.get(4).getOpcode());
         assertEquals("mul", list.get(6).getOpcode());
+        assertEquals("div", list.get(7).getOpcode());
     }
 
 }
