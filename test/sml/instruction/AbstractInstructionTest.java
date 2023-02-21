@@ -14,7 +14,6 @@ public abstract class AbstractInstructionTest {
     void setUp() {
         machine = new Machine(new Registers());
         registers = machine.getRegisters();
-        //...
     }
 
     @AfterEach
