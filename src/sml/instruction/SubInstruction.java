@@ -10,7 +10,7 @@ import sml.RegisterName;
  *
  * @author Roland Crompton
  */
-public class SubInstruction extends ArithmeticOperationInstruction {
+public class SubInstruction extends BiRegisterInstruction {
 
     public final static String OP_CODE = "sub";
 

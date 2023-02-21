@@ -3,7 +3,7 @@ package sml.instruction;
 import sml.Machine;
 import sml.RegisterName;
 
-public class DivInstruction extends ArithmeticOperationInstruction{
+public class DivInstruction extends BiRegisterInstruction {
 
     public static final String OP_CODE = "div";
 

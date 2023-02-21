@@ -12,7 +12,7 @@ import java.util.function.BinaryOperator;
  *
  * @author Roland Crompton
  */
-public abstract class ArithmeticOperationInstruction extends Instruction {
+public abstract class BiRegisterInstruction extends Instruction {
 
     protected final RegisterName result;
 
@@ -26,7 +26,7 @@ public abstract class ArithmeticOperationInstruction extends Instruction {
      * @param result the not null RegisterName of the register storing the first operand and where the result will be stored
      * @param source the not null RegisterName of the register storing the second operand.
      */
-    public ArithmeticOperationInstruction(String label, String opcode, RegisterName result, RegisterName source) {
+    public BiRegisterInstruction(String label, String opcode, RegisterName result, RegisterName source) {
         super(label, opcode);
         this.result = result;
         this.source = source;
