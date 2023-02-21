@@ -83,7 +83,7 @@ public final class Translator {
             }
 
             case DivInstruction.OP_CODE -> {
-
+                return new DivInstruction(label, Register.valueOf(r), Register.valueOf(s));
             }
 
             case MovInstruction.OP_CODE -> {
