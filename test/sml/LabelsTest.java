@@ -29,7 +29,7 @@ public class LabelsTest {
     void testToString() {
         labels.addLabel("a", 0);
         labels.addLabel("b", 3);
-        Assertions.assertEquals("[a, b]", labels.toString());
+        Assertions.assertEquals("[a -> 0, b -> 3]", labels.toString());
 
     }
 
