@@ -42,7 +42,15 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
         Assertions.assertNotEquals(new JnzInstruction(null, EAX, "a"), new JnzInstruction("x", EAX, "a"));
         Assertions.assertNotEquals(new JnzInstruction(null, ECX, "a"), new JnzInstruction(null, EAX, "a"));
         Assertions.assertNotEquals(new JnzInstruction(null, EAX, "a"), new JnzInstruction(null, EAX, "b"));
+    }
 
+    @Test
+    void testHashCode() {
+        Assertions.assertEquals(new JnzInstruction("x", EAX, "a").hashCode(), new JnzInstruction("x", EAX, "a").hashCode());
+        Assertions.assertEquals(new JnzInstruction(null, EAX, "a").hashCode(), new JnzInstruction(null, EAX, "a").hashCode());
+        Assertions.assertNotEquals(new JnzInstruction(null, EAX, "a").hashCode(), new JnzInstruction("x", EAX, "a").hashCode());
+        Assertions.assertNotEquals(new JnzInstruction(null, ECX, "a").hashCode(), new JnzInstruction(null, EAX, "a").hashCode());
+        Assertions.assertNotEquals(new JnzInstruction(null, ECX, "a").hashCode(), new JnzInstruction(null, ECX, "b").hashCode());
     }
 
 }
