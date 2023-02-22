@@ -48,7 +48,15 @@ public class LabelsTest {
 
     @Test
     void testHashCode() {
-
+        Labels labels2 = new Labels();
+        Assertions.assertEquals(labels.hashCode(), labels2.hashCode());
+        labels.addLabel("a", 0);
+        Assertions.assertNotEquals(labels.hashCode(), labels2.hashCode());
+        labels2.addLabel("a", 0);
+        Assertions.assertEquals(labels.hashCode(), labels2.hashCode());
+        labels.addLabel("b", 1);
+        labels2.addLabel("b", 2);
+        Assertions.assertNotEquals(labels.hashCode(), labels2.hashCode());
     }
 
 }
