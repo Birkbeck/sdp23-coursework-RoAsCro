@@ -3,6 +3,8 @@ package sml.instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+import java.util.Objects;
+
 /**
  * A concrete implementation of the abstract BiRegisterInstruction class. An instruction for deducting one value from
  * another.
@@ -47,6 +49,23 @@ public class SubInstruction extends BiRegisterInstruction {
     @Override
     public int execute(Machine m) {
         return super.execute(m, (one, two) -> one - two);
+    }
+
+    /**
+     * Checks if two SubInstructions are equal. Two SubInstructions are equal if they have the same label, result, and
+     * source.
+     *
+     * @param o an object to be compared to this SubInstruction.
+     * @return false if o is not an SubInstruction or is not equal to this. True if o is equal to this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof SubInstruction instruction) {
+            return Objects.equals(this.label, instruction.label) &&
+                    this.result == instruction.result &&
+                    this.source == instruction.source;
+        }
+        return false;
     }
 
 }
