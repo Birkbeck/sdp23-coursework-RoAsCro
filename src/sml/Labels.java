@@ -15,14 +15,23 @@ public final class Labels {
 
 	/**
 	 * Adds a label with the associated address to the map.
+	 * <p></p>
+	 * If the label already exists in the program, the label will not be added to the map, and an error message will be
+	 * displayed.
 	 *
 	 * @param label the label
 	 * @param address the address the label refers to
 	 */
 	public void addLabel(String label, int address) {
 		Objects.requireNonNull(label);
-		// TODO: Add a check that there are no label duplicates.
-		labels.put(label, address);
+		if (labels.containsKey(label)) {
+			System.out.println("Error at line " +
+					address +
+					" of program. Label "
+					+ label
+					+ " is already in use. Label not assigned.");
+		} else
+			labels.put(label, address);
 	}
 
 	/**
