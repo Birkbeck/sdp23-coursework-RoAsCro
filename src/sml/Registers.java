@@ -6,20 +6,36 @@ import java.util.stream.Collectors;
 // TODO: write a JavaDoc for the class
 
 /**
- *
+ * The Registers of a Machine, storing their RegisterNames and the corresponding integer values.
+ * <p></p>
+ * Registers are predefined by the enum Register. The value of registers can be set, gotten, and cleared.
  * @author ...
+ * @author Roland Crompton
  */
 public final class Registers {
+
+    /**
+     * The HashMap in which the Registers and their corresponding integer values are stored.
+     */
     private final Map<Register, Integer> registers = new HashMap<>();
 
+    /**
+     * Implementation of interface RegisterName.
+     */
     public enum Register implements RegisterName {
         EAX, EBX, ECX, EDX, ESP, EBP, ESI, EDI;
     }
 
+    /**
+     * Constructs a new instance of Registers with the value of all Registers set to zero.
+     */
     public Registers() {
         clear(); // the class is final
     }
 
+    /**
+     * Sets the value of all Registers to zero.
+     */
     public void clear() {
         for (Register register : Register.values())
             registers.put(register, 0);
@@ -45,8 +61,18 @@ public final class Registers {
         return registers.get((Register)register);
     }
 
+
     // TODO: use pattern matching for instanceof
     // https://docs.oracle.com/en/java/javase/14/language/pattern-matching-instanceof-operator.html
+
+    /**
+     *Compares two instances of Registers. Two instances of Registers are equal if their Registers are all set to the
+     * same values.
+     *
+     * @param o the object to be compared to this instance of Registers
+     * @return false if o is not an instance of Registers or if the values of o's Registers are not set to the same
+     * values as this instance's Registers.
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Registers other) {
@@ -55,11 +81,23 @@ public final class Registers {
         return false;
     }
 
+    /**
+     * Returns a hash code for this instance of Registers. Two instances of Registers will have the same hash code if
+     * their Registers are all set to the same values.
+     *
+     * @return the hash code for this instance of Registers
+     */
     @Override
     public int hashCode() {
         return registers.hashCode();
     }
 
+    /**
+     * Returns a String representation of this instance of Registers in the format "[EAX = x, EBX = y, ... , EDI = z]"
+     * where x, y, and z are the integer values of their respective Registers.
+     *
+     * @return a String value representing this instance of Registers readable by humans.
+     */
     @Override
     public String toString() {
         return registers.entrySet().stream()
