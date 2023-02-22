@@ -88,4 +88,15 @@ public class MovInstruction extends Instruction {
         }
         return false;
     }
+
+    /**
+     * Returns a hash code for this MovInstruction. If two MovInstructions have the same opcode, label, result, and
+     * value, they will have the same hash code.
+     *
+     * @return a hash code representing this MovInstruction.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(opcode, label, result, value);
+    }
 }
