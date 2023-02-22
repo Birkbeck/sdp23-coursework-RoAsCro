@@ -45,4 +45,12 @@ class AddInstructionTest {
     instruction.execute(machine);
     Assertions.assertEquals(1, machine.getRegisters().get(EAX));
   }
+
+  @Test
+  void testEquals() {
+    Assertions.assertEquals(new AddInstruction("x", EAX, EBX), new AddInstruction("x", EAX, EBX));
+    Assertions.assertEquals(new AddInstruction(null, EAX, EBX), new AddInstruction(null, EAX, EBX));
+    Assertions.assertNotEquals(new AddInstruction(null, EAX, EBX), new AddInstruction("x", EAX, EBX));
+  }
+
 }
