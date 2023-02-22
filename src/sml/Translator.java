@@ -11,27 +11,45 @@ import java.util.Scanner;
 import static sml.Registers.Register;
 
 /**
- * This class ....
- * <p>
- * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
+ * The translator of a <b>S</b><b>M</b>al<b>L</b> program. Takes a text file on construction containing an SML program
+ * to be translated, converting it into Instructions executable by a Machine.
  *
  * @author ...
+ * @author Roland Crompton
  */
 public final class Translator {
 
-    private final String fileName; // source file of SML code
+    /**
+     * The source file of the SML code
+     */
+    private final String fileName;
 
-    // line contains the characters in the current line that's not been processed yet
+    /**
+     * line contains the characters in the current line that's not been processed yet
+     */
     private String line = "";
 
+    /**
+     * Constructs a Translator taking the String fileName as the location of the source file of the SML program.
+     * @param fileName the source file of the SML program.
+     */
     public Translator(String fileName) {
         this.fileName =  fileName;
     }
 
-    // translate the small program in the file into lab (the labels) and
-    // prog (the program)
-    // return "no errors were detected"
 
+//    translate the small program in the file into lab (the labels) and
+//     prog (the program)
+//     return "no errors were detected"
+
+    /**
+     * Translates the SML program in the file into a series of Instructions executable by a Machine. Instructions are
+     * stored in program parameter, and Labels in the labels parameter.
+     *
+     * @param labels an instance of Labels where the labels of the instructions in the program will be stored
+     * @param program a list of Instructions where the translated Instructions will be stored
+     * @throws IOException if something goes wrong in the process of reading the file
+     */
     public void readAndTranslate(Labels labels, List<Instruction> program) throws IOException {
         try (var sc = new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
             labels.reset();
@@ -113,7 +131,10 @@ public final class Translator {
         return null;
     }
 
-
+    /**
+     * Checks if the current line of the file contains a label.
+     * @return the label if there is one, null if there is not.
+     */
     private String getLabel() {
         String word = scan();
         if (word.endsWith(":"))
@@ -124,9 +145,11 @@ public final class Translator {
         return null;
     }
 
-    /*
-     * Return the first word of line and remove it from line.
-     * If there is no word, return "".
+
+    /**
+     * Return the first word of the current line and remove it from the line.
+     *
+     * @return the first word of the line if there is one, otherwise the line.
      */
     private String scan() {
         line = line.trim();
