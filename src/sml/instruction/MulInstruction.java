@@ -3,6 +3,8 @@ package sml.instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+import java.util.Objects;
+
 /**
  * Concrete implementation of the abstract BiRegisterInstruction class. An instruction for multiplying two values.
  * <p></p>
@@ -47,5 +49,22 @@ public class MulInstruction extends BiRegisterInstruction {
     @Override
     public int execute(Machine m) {
         return super.execute(m, (one, two) -> one * two);
+    }
+
+    /**
+     * Checks if two MulInstructions are equal. Two MulInstructions are equal if they have the same label, result, and
+     * source.
+     *
+     * @param o an object to be compared to this MulInstruction.
+     * @return false if o is not an MulInstruction or is not equal to this. True if o is equal to this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof MulInstruction instruction) {
+            return Objects.equals(this.label, instruction.label) &&
+                    this.result == instruction.result &&
+                    this.source == instruction.source;
+        }
+        return false;
     }
 }
