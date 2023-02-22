@@ -4,6 +4,8 @@ import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+import java.util.Objects;
+
 /**
  * A concrete implementation of the abstract Instruction class. An instruction for storing integer values in a machine's
  * registers.
@@ -68,5 +70,22 @@ public class MovInstruction extends Instruction {
     @Override
     public String toString() {
         return getLabelString() + getOpcode() + " " + result.toString() + " " + value;
+    }
+
+    /**
+     * Checks if two MovInstructions are equal. Two MovInstructions are equal if they have the same label, result, and
+     * source.
+     *
+     * @param o an object to be compared to this MovInstruction.
+     * @return false if o is not an MovInstruction or is not equal to this. True if o is equal to this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof MovInstruction instruction) {
+            return Objects.equals(this.label, instruction.label) &&
+                    this.value == instruction.value &&
+                    this.result == instruction.result;
+        }
+        return false;
     }
 }
