@@ -51,6 +51,7 @@ class AddInstructionTest {
     Assertions.assertEquals(new AddInstruction("x", EAX, EBX), new AddInstruction("x", EAX, EBX));
     Assertions.assertEquals(new AddInstruction(null, EAX, EBX), new AddInstruction(null, EAX, EBX));
     Assertions.assertNotEquals(new AddInstruction(null, EAX, EBX), new AddInstruction("x", EAX, EBX));
+    Assertions.assertNotEquals(new AddInstruction(null, ECX, EBX), new AddInstruction(null, EAX, EBX));
   }
 
 }

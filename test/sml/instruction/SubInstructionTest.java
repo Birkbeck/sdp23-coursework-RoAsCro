@@ -1,6 +1,7 @@
 package sml.instruction;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,6 +55,14 @@ public class SubInstructionTest extends AbstractInstructionTest {
     void testToStringNoLabel() {
         Instruction instruction = new SubInstruction(null, EAX, EBX);
         assertEquals("sub EAX EBX", instruction.toString());
+    }
+
+    @Test
+    void testEquals() {
+        Assertions.assertEquals(new SubInstruction("x", EAX, EBX), new SubInstruction("x", EAX, EBX));
+        Assertions.assertEquals(new SubInstruction(null, EAX, EBX), new SubInstruction(null, EAX, EBX));
+        Assertions.assertNotEquals(new SubInstruction(null, EAX, EBX), new SubInstruction("x", EAX, EBX));
+        Assertions.assertNotEquals(new SubInstruction(null, ECX, EBX), new SubInstruction(null, EAX, EBX));
     }
 
 }

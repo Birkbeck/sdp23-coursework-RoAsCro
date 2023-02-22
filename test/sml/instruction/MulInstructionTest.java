@@ -1,11 +1,11 @@
 package sml.instruction;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sml.Instruction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static sml.Registers.Register.EAX;
-import static sml.Registers.Register.EBX;
+import static sml.Registers.Register.*;
 
 public class MulInstructionTest extends AbstractInstructionTest{
     @Test
@@ -46,6 +46,14 @@ public class MulInstructionTest extends AbstractInstructionTest{
     void testToStringNoLabel() {
         Instruction instruction = new MulInstruction(null, EAX, EBX);
         assertEquals("mul EAX EBX", instruction.toString());
+    }
+
+    @Test
+    void testEquals() {
+        Assertions.assertEquals(new MulInstruction("x", EAX, EBX), new MulInstruction("x", EAX, EBX));
+        Assertions.assertEquals(new MulInstruction(null, EAX, EBX), new MulInstruction(null, EAX, EBX));
+        Assertions.assertNotEquals(new MulInstruction(null, EAX, EBX), new MulInstruction("x", EAX, EBX));
+        Assertions.assertNotEquals(new MulInstruction(null, ECX, EBX), new MulInstruction(null, EAX, EBX));
     }
 
 }

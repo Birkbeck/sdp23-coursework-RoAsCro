@@ -1,11 +1,11 @@
 package sml.instruction;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sml.Instruction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static sml.Registers.Register.EAX;
-import static sml.Registers.Register.EBX;
+import static sml.Registers.Register.*;
 
 public class DivInstructionTest extends AbstractInstructionTest{
     @Test
@@ -73,5 +73,13 @@ public class DivInstructionTest extends AbstractInstructionTest{
     void testToStringNoLabel() {
         Instruction instruction = new DivInstruction(null, EAX, EBX);
         assertEquals("div EAX EBX", instruction.toString());
+    }
+
+    @Test
+    void testEquals() {
+        Assertions.assertEquals(new DivInstruction("x", EAX, EBX), new DivInstruction("x", EAX, EBX));
+        Assertions.assertEquals(new DivInstruction(null, EAX, EBX), new DivInstruction(null, EAX, EBX));
+        Assertions.assertNotEquals(new DivInstruction(null, EAX, EBX), new DivInstruction("x", EAX, EBX));
+        Assertions.assertNotEquals(new DivInstruction(null, ECX, EBX), new DivInstruction(null, EAX, EBX));
     }
 }
