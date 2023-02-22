@@ -13,6 +13,8 @@ import java.util.Objects;
 public final class Labels {
 	private final Map<String, Integer> labels = new HashMap<>();
 
+	private static final int NORMAL_PROGRAM_COUNTER_UPDATE = -1;
+
 	/**
 	 * Adds a label with the associated address to the map.
 	 * <p></p>
@@ -36,14 +38,23 @@ public final class Labels {
 
 	/**
 	 * Returns the address associated with the label.
-	 *
+	 * <p></p>
+	 * If the label does not exist, displays an error message and returns the normal program counter update, indicating
+	 * the program counter should move onto the instruction with the next address.
 	 * @param label the label
-	 * @return the address the label refers to
+	 * @return the address the label refers to if the label exists. Otherwise, the normal program counter update
 	 */
 	public int getAddress(String label) {
 		// TODO: Where can NullPointerException be thrown here?
 		//       (Write an explanation.)
+		//A null pointer exception can be thrown if the label does not correspond to a key in the HashMap.
 		//       Add code to deal with non-existent labels.
+		if (!labels.containsKey(label)) {
+			System.out.println("Error: Label " +
+					label +
+					" is not assigned. Program counter moving onto the next address.");
+			return NORMAL_PROGRAM_COUNTER_UPDATE;
+		}
 		return labels.get(label);
 	}
 
