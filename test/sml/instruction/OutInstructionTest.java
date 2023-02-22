@@ -41,4 +41,12 @@ public class OutInstructionTest extends AbstractInstructionTest {
         Assertions.assertNotEquals(new OutInstruction(null, ECX), new OutInstruction(null, EAX));
     }
 
+    @Test
+    void testHashCode() {
+        Assertions.assertEquals(new OutInstruction("x", EAX).hashCode(), new OutInstruction("x", EAX).hashCode());
+        Assertions.assertEquals(new OutInstruction(null, EAX).hashCode(), new OutInstruction(null, EAX).hashCode());
+        Assertions.assertNotEquals(new OutInstruction(null, EAX).hashCode(), new OutInstruction("x", EAX).hashCode());
+        Assertions.assertNotEquals(new OutInstruction(null, ECX).hashCode(), new OutInstruction(null, EAX).hashCode());
+    }
+
 }
