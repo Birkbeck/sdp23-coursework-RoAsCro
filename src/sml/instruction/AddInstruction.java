@@ -95,8 +95,14 @@ public class AddInstruction extends Instruction {
 		return false;
 	}
 
+	/**
+	 * Returns a hash code for this AddInstruction. If two objects have the same opcode, label, result, and source, they
+	 * will have the same hash code.
+	 *
+	 * @return a hash code representing this AddInstruction.
+	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(label, result, source);
+		return Objects.hash(opcode, label, result, source);
 	}
 }
