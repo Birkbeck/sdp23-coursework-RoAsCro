@@ -1,4 +1,4 @@
-package sml.translator;
+package sml;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
