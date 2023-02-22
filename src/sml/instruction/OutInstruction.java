@@ -4,6 +4,8 @@ import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+import java.util.Objects;
+
 /**
  * A concrete implementation of the abstract Instruction class. An instruction for printing an instruction on the
  * console.
@@ -61,5 +63,21 @@ public class OutInstruction extends Instruction {
     @Override
     public String toString() {
         return getLabelString() + OP_CODE + " " + source;
+    }
+
+    /**
+     * Checks if two OutInstructions are equal. Two OutInstructions are equal if they have the same label and
+     * source.
+     *
+     * @param o an object to be compared to this OutInstruction.
+     * @return false if o is not an MovInstruction or is not equal to this. True if o is equal to this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof OutInstruction instruction) {
+            return Objects.equals(this.label, instruction.label) &&
+                    this.source == instruction.source;
+        }
+        return false;
     }
 }
