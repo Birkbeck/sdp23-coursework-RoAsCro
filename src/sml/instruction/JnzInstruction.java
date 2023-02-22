@@ -4,6 +4,8 @@ import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+import java.util.Objects;
+
 /**
  * A concrete implementation of the abstract Instruction class. An instruction for jumping to other instructions in the
  * program.
@@ -74,5 +76,22 @@ public class JnzInstruction extends Instruction {
     @Override
     public String toString() {
         return getLabelString() + OP_CODE + " " + source + " " + targetLabel;
+    }
+
+    /**
+     * Checks if two JnzInstructions are equal. Two JnzInstructions are equal if they have the same label, result, and
+     * source.
+     *
+     * @param o an object to be compared to this JnzInstruction.
+     * @return false if o is not an JnzInstruction or is not equal to this. True if o is equal to this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof JnzInstruction instruction) {
+            return Objects.equals(this.label, instruction.label) &&
+                    this.targetLabel.equals(instruction.targetLabel) &&
+                    this.source == instruction.source;
+        }
+        return false;
     }
 }

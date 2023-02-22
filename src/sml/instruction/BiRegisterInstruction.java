@@ -70,4 +70,6 @@ public abstract class BiRegisterInstruction extends Instruction {
         return getLabelString() + getOpcode() + " " + result + " " + source;
     }
 
+
+
 }
