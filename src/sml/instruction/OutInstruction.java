@@ -80,4 +80,15 @@ public class OutInstruction extends Instruction {
         }
         return false;
     }
+
+    /**
+     * Returns a hash code for this OutInstruction. If two OutInstructions have the same opcode, label, and source they will
+     * have the same hash code.
+     *
+     * @return a hash code representing this OutInstruction.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(opcode, label, source);
+    }
 }
