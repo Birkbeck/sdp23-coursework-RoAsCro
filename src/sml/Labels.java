@@ -3,6 +3,7 @@ package sml;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 // TODO: write a JavaDoc for the class
 
@@ -67,7 +68,10 @@ public final class Labels {
 	@Override
 	public String toString() {
 		// TODO: Implement the method using the Stream API (see also class Registers).
-		return "";
+		return labels.entrySet().stream()
+				.sorted(Map.Entry.comparingByKey())
+				.map(l -> l.getKey() + " -> " + l.getValue())
+				.collect(Collectors.joining(", ", "[", "]"));
 	}
 
 	// TODO: Implement equals and hashCode (needed in class Machine).
