@@ -78,6 +78,8 @@ public abstract class Instruction {
 
 	// TODO: What does abstract in the declaration below mean?
 	//       (Write a short explanation.)
+	//Here, abstract means that the method has not been implemented by this class and must be implemented by any
+	//concrete subclass of this this class.
 
 	/**
 	 * Returns a String representation of this Instruction.
