@@ -22,7 +22,7 @@ public class LabelsTest {
 
     @Test
     void testGetAddress() {
-
+        Assertions.assertEquals(-1, labels.getAddress("a"));
     }
 
     @Test
