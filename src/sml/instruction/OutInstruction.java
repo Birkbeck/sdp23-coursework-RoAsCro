@@ -38,12 +38,12 @@ public class OutInstruction extends Instruction {
     }
 
     /**
-     * Prints on the console the current value of the register in Machine m corresponding to the RegisterName source given at
-     * construction.
+     * Prints on the console the current value of the register in Machine m corresponding to the RegisterName source
+     * given at construction.
      *
      * @param m the not null machine the instruction runs on
-     * @return the normal program counter update indicating the program counter should move onto the next instruction
-     * sequentially
+     * @return the normal program counter update indicating the program counter should move onto the instruction with
+     * the next address
      */
     @Override
     public int execute(Machine m) {

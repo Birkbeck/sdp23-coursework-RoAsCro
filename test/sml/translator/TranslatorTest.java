@@ -32,4 +32,9 @@ public class TranslatorTest {
         assertEquals("div", list.get(7).getOpcode());
     }
 
+    @Test
+    void testDuplicateLabels() {
+
+    }
+
 }

@@ -37,12 +37,12 @@ public class SubInstruction extends BiRegisterInstruction {
      * RegisterName source defined at construction, subtracts it from the value stored in the Register in m
      * corresponding to RegisterName result defined a construction, and stores the result in the result Register in m.
      * <p></p>
-     * The program counter in m will then move onto the next instruction sequentially.
+     * The program counter in m will then move onto the instruction with the next address
      *
      * @param m the machine the instruction runs on, where the values will be retrieved from and where the result will
      *          be stored
-     * @return the normal program counter update indicating the program counter should move onto the next instruction
-     * sequentially
+     * @return the normal program counter update indicating the program counter should move onto the instruction with
+     * the next address
      */
     @Override
     public int execute(Machine m) {

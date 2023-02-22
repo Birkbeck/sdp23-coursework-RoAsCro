@@ -47,8 +47,8 @@ public abstract class BiRegisterInstruction extends Instruction {
      * @param m the machine the instruction runs on, where the values will be retrieved from and where the result will
      *          be stored
      * @param f a BinaryOperator specifying the operation to be done to the values stored at the registers
-     * @return the normal program counter update indicating the program counter should move onto the next instruction
-     * sequentially
+     * @return the normal program counter update indicating the program counter should move onto the instruction with
+     * the next address
      */
     public int execute(Machine m, BinaryOperator<Integer> f) {
         int value1 = m.getRegisters().get(result);

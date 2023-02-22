@@ -47,12 +47,12 @@ public class JnzInstruction extends Instruction {
     /**
      * If the value stored in the register corresponding to RegisterName source specified at construction is not equal
      * to 0, the instruction will tell the program counter in Machine m to jump to the instruction with the label given
-     * at construction. Otherwise, the program continues to the next instruction sequentially.
+     * at construction. Otherwise, the program continues to the instruction with the next address.
      *
      * @param m the machine the instruction runs on
      * @return the integer corresponding to the place in the program of the instruction to be jumper to if the value of
      * the register is not 0, otherwise returns the normal program counter update indicating the program counter should
-     * move onto the next instruction sequentially
+     * move onto the instruction with the next address
      */
     @Override
     public int execute(Machine m) {

@@ -40,12 +40,12 @@ public class DivInstruction extends BiRegisterInstruction {
      * The program counter in m will then move onto the next instruction sequentially.
      * <p></p>
      * If the value of divisor is 0, the values stored in both registers will remain unchanged,and an error message will
-     * be printed. The program counter in m will then move onto the next instruction sequentially.
+     * be printed. The program counter in m will then move onto the instruction with the next address
      *
      * @param m the machine the instruction runs on, where the values will be retrieved from and where the result will
      *          be stored
-     * @return the normal program counter update indicating the program counter should move onto the next instruction
-     * sequentially
+     * @return the normal program counter update indicating the program counter should move onto the instruction with
+     * the next address
      */
     @Override
     public int execute(Machine m) {

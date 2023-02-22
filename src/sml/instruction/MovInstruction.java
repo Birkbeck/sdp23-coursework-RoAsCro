@@ -49,8 +49,8 @@ public class MovInstruction extends Instruction {
      * result given at construction.
      *
      * @param m the machine the instruction runs on
-     * @return the normal program counter update indicating the program counter should move onto the next instruction
-     * sequentially
+     * @return the normal program counter update indicating the program counter should move onto the instruction with
+     * the next address
      */
     @Override
     public int execute(Machine m) {
