@@ -74,7 +74,7 @@ public class MovInstruction extends Instruction {
 
     /**
      * Checks if two MovInstructions are equal. Two MovInstructions are equal if they have the same label, result, and
-     * source.
+     * value.
      *
      * @param o an object to be compared to this MovInstruction.
      * @return false if o is not an MovInstruction or is not equal to this. True if o is equal to this.

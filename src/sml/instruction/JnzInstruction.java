@@ -79,8 +79,8 @@ public class JnzInstruction extends Instruction {
     }
 
     /**
-     * Checks if two JnzInstructions are equal. Two JnzInstructions are equal if they have the same label, result, and
-     * source.
+     * Checks if two JnzInstructions are equal. Two JnzInstructions are equal if they have the same label,
+     * source, and targetLabel.
      *
      * @param o an object to be compared to this JnzInstruction.
      * @return false if o is not an JnzInstruction or is not equal to this. True if o is equal to this.
