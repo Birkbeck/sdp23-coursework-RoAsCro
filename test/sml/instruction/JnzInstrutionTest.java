@@ -1,15 +1,14 @@
 package sml.instruction;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static sml.Registers.Register.*;
 
 import sml.Instruction;
 import sml.Translator;
 
 import java.io.IOException;
-
-import static sml.Registers.Register.EAX;
-import static sml.Registers.Register.EBX;
 
 public class JnzInstrutionTest extends AbstractInstructionTest{
 
@@ -34,6 +33,16 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
     void testToStringNoLabel() {
         Instruction instruction = new JnzInstruction(null, EAX, "y");
         assertEquals("jnz EAX y", instruction.toString());
+    }
+
+    @Test
+    void testEquals() {
+        Assertions.assertEquals(new JnzInstruction("x", EAX, "a"), new JnzInstruction("x", EAX, "a"));
+        Assertions.assertEquals(new JnzInstruction(null, EAX, "a"), new JnzInstruction(null, EAX, "a"));
+        Assertions.assertNotEquals(new JnzInstruction(null, EAX, "a"), new JnzInstruction("x", EAX, "a"));
+        Assertions.assertNotEquals(new JnzInstruction(null, ECX, "a"), new JnzInstruction(null, EAX, "a"));
+        Assertions.assertNotEquals(new JnzInstruction(null, EAX, "a"), new JnzInstruction(null, EAX, "b"));
+
     }
 
 }
