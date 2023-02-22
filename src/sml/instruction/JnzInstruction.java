@@ -19,12 +19,12 @@ public class JnzInstruction extends Instruction {
     /**
      * The RegisterName for the register whose value will be checked in the execution. Should never be null.
      */
-    private RegisterName source;
+    private final RegisterName source;
 
     /**
      * A String corresponding to the label of another instruction in the program.
      */
-    private String targetLabel;
+    private final String targetLabel;
 
     /**
      * The operation code for all JnzInstructions. The name of the operation.
