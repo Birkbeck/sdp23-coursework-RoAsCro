@@ -50,4 +50,13 @@ public class MovInstructionTest extends AbstractInstructionTest {
         Assertions.assertNotEquals(new MovInstruction(null, ECX, 1), new MovInstruction(null, EAX, 1));
         Assertions.assertNotEquals(new MovInstruction(null, EAX, 1), new MovInstruction(null, EAX, 2));
     }
+
+    @Test
+    void testHashCode() {
+        Assertions.assertEquals(new MovInstruction("x", EAX, 1).hashCode(), new MovInstruction("x", EAX, 1).hashCode());
+        Assertions.assertEquals(new MovInstruction(null, EAX, 1).hashCode(), new MovInstruction(null, EAX, 1).hashCode());
+        Assertions.assertNotEquals(new MovInstruction(null, EAX, 1).hashCode(), new MovInstruction("x", EAX, 1).hashCode());
+        Assertions.assertNotEquals(new MovInstruction(null, ECX, 1).hashCode(), new MovInstruction(null, EAX, 1).hashCode());
+        Assertions.assertNotEquals(new MovInstruction(null, ECX, 1).hashCode(), new MovInstruction(null, ECX, 2).hashCode());
+    }
 }
