@@ -33,8 +33,6 @@ public class TranslatorTest {
     }
 
     @Test
-    void testDuplicateLabels() {
-
-    }
+    void testDuplicateLabels() {}
 
 }

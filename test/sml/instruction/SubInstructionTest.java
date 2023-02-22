@@ -65,4 +65,13 @@ public class SubInstructionTest extends AbstractInstructionTest {
         Assertions.assertNotEquals(new SubInstruction(null, ECX, EBX), new SubInstruction(null, EAX, EBX));
     }
 
+    @Test
+    void testHashCode() {
+        Assertions.assertEquals(new SubInstruction("x", EAX, EBX).hashCode(), new SubInstruction("x", EAX, EBX).hashCode());
+        Assertions.assertEquals(new SubInstruction(null, EAX, EBX).hashCode(), new SubInstruction(null, EAX, EBX).hashCode());
+        Assertions.assertNotEquals(new SubInstruction(null, EAX, EBX).hashCode(), new SubInstruction("x", EAX, EBX).hashCode());
+        Assertions.assertNotEquals(new SubInstruction(null, ECX, EBX).hashCode(), new SubInstruction(null, EAX, EBX).hashCode());
+        Assertions.assertNotEquals(new SubInstruction(null, ECX, EBX).hashCode(), new AddInstruction(null, ECX, EBX).hashCode());
+    }
+
 }

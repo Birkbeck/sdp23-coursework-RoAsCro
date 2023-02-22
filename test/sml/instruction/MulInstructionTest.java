@@ -56,4 +56,13 @@ public class MulInstructionTest extends AbstractInstructionTest{
         Assertions.assertNotEquals(new MulInstruction(null, ECX, EBX), new MulInstruction(null, EAX, EBX));
     }
 
+    @Test
+    void testHashCode() {
+        Assertions.assertEquals(new MulInstruction("x", EAX, EBX).hashCode(), new MulInstruction("x", EAX, EBX).hashCode());
+        Assertions.assertEquals(new MulInstruction(null, EAX, EBX).hashCode(), new MulInstruction(null, EAX, EBX).hashCode());
+        Assertions.assertNotEquals(new MulInstruction(null, EAX, EBX).hashCode(), new MulInstruction("x", EAX, EBX).hashCode());
+        Assertions.assertNotEquals(new MulInstruction(null, ECX, EBX).hashCode(), new MulInstruction(null, EAX, EBX).hashCode());
+        Assertions.assertNotEquals(new MulInstruction(null, ECX, EBX).hashCode(), new SubInstruction(null, ECX, EBX).hashCode());
+    }
+
 }

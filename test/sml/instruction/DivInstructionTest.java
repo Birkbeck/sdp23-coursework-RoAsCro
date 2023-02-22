@@ -82,4 +82,13 @@ public class DivInstructionTest extends AbstractInstructionTest{
         Assertions.assertNotEquals(new DivInstruction(null, EAX, EBX), new DivInstruction("x", EAX, EBX));
         Assertions.assertNotEquals(new DivInstruction(null, ECX, EBX), new DivInstruction(null, EAX, EBX));
     }
+
+    @Test
+    void testHashCode() {
+        Assertions.assertEquals(new DivInstruction("x", EAX, EBX).hashCode(), new DivInstruction("x", EAX, EBX).hashCode());
+        Assertions.assertEquals(new DivInstruction(null, EAX, EBX).hashCode(), new DivInstruction(null, EAX, EBX).hashCode());
+        Assertions.assertNotEquals(new DivInstruction(null, EAX, EBX).hashCode(), new DivInstruction("x", EAX, EBX).hashCode());
+        Assertions.assertNotEquals(new DivInstruction(null, ECX, EBX).hashCode(), new DivInstruction(null, EAX, EBX).hashCode());
+        Assertions.assertNotEquals(new DivInstruction(null, ECX, EBX).hashCode(), new SubInstruction(null, ECX, EBX).hashCode());
+    }
 }
