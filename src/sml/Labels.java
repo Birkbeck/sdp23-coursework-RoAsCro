@@ -82,6 +82,11 @@ public final class Labels {
 		}
 		return false;
 	}
+
+	@Override
+	public int hashCode() {
+		return labels.hashCode();
+	}
 	// TODO: Implement equals and hashCode (needed in class Machine).
 
 	/**
