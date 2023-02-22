@@ -94,4 +94,15 @@ public class JnzInstruction extends Instruction {
         }
         return false;
     }
+
+    /**
+     * Returns a hash code for this JnzInstruction. If two JnzInstructions have the same opcode, label, targetLabel, and
+     * source, they will have the same hash code.
+     *
+     * @return a hash code representing this JnzInstruction.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(opcode, label, targetLabel, source);
+    }
 }
