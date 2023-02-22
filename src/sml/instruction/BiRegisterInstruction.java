@@ -70,6 +70,17 @@ public abstract class BiRegisterInstruction extends Instruction {
         return getLabelString() + getOpcode() + " " + result + " " + source;
     }
 
+    /**
+     * Returns a hash code for this Instruction. If two BiRegisterInstructions have the same opcode, label, result, and
+     * source, they will have the same hash code.
+     *
+     * @return a hash code representing this Instruction.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(opcode, label, result, source);
+    }
+
 
 
 }

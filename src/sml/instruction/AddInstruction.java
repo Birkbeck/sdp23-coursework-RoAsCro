@@ -96,7 +96,7 @@ public class AddInstruction extends Instruction {
 	}
 
 	/**
-	 * Returns a hash code for this AddInstruction. If two objects have the same opcode, label, result, and source, they
+	 * Returns a hash code for this AddInstruction. If two AddInstructions have the same opcode, label, result, and source, they
 	 * will have the same hash code.
 	 *
 	 * @return a hash code representing this AddInstruction.
