@@ -74,6 +74,14 @@ public final class Labels {
 				.collect(Collectors.joining(", ", "[", "]"));
 	}
 
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Labels labels2) {
+			return labels.equals(labels2.labels);
+		}
+		return false;
+	}
 	// TODO: Implement equals and hashCode (needed in class Machine).
 
 	/**
