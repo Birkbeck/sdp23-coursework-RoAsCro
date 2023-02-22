@@ -8,8 +8,11 @@ import java.util.stream.Collectors;
 // TODO: write a JavaDoc for the class
 
 /**
+ * Stores a Map containing the labels of instructions in a program and the addresses of those instructions.
+ * Allows for adding and looking up the address of labels.
  *
  * @author ...
+ * @author Roland Crompton
  */
 public final class Labels {
 	private final Map<String, Integer> labels = new HashMap<>();
@@ -67,14 +70,21 @@ public final class Labels {
 	 */
 	@Override
 	public String toString() {
-		// TODO: Implement the method using the Stream API (see also class Registers).
-		return labels.entrySet().stream()
+		return labels.entrySet()
+				.stream()
 				.sorted(Map.Entry.comparingByKey())
 				.map(l -> l.getKey() + " -> " + l.getValue())
 				.collect(Collectors.joining(", ", "[", "]"));
 	}
 
 
+	/**
+	 * Checks whether an instance of Labels is equal to this instance of Labels. Two instances of class Labels are the
+	 * same if they have identical elements in their hash tables.
+	 *
+	 * @param o the Object to be compared to this Labels
+	 * @return false if o is not an instance of Labels, or it's HashMap contains different elements. True otherwise
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Labels labels2) {
@@ -83,6 +93,12 @@ public final class Labels {
 		return false;
 	}
 
+	/**
+	 * Returns a hash code for this instance of Labels. Two Labels will have the same hash code if they have the same
+	 * elements in their HashMaps.
+	 *
+	 * @return the hash code for this instance of Labels
+	 */
 	@Override
 	public int hashCode() {
 		return labels.hashCode();
