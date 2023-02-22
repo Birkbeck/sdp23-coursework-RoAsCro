@@ -4,34 +4,45 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * Concrete implementation of the abstract ArithmeticOperationInstruction class.
- * This instruction takes two register names r and s.
- * When executed, the value stored at r will be multiplied by the value store at r, and the result stored in r.
+ * Concrete implementation of the abstract BiRegisterInstruction class. An instruction for multiplying two values.
+ * <p></p>
+ * This instruction takes two register names, result and source, at construction.
+ * When executed, the value stored at result will be multiplied by the value store at source, and the result stored in
+ * result.
  *
  * @author Roland Crompton
  */
 public class MulInstruction extends BiRegisterInstruction {
 
+    /**
+     * The operation code for all MulInstructions. The name of the operation.
+     */
     public static final String OP_CODE = "mul";
 
     /**
-     * Constructor: takes an optional label, and two RegisterNames corresponding to registers in some machine.
+     * Constructs a new MulInstruction with an optional label, a RegisterName result, and a RegisterName source.
      *
-     * @param label  optional label (can be null)
-     * @param result the not null RegisterName of the register storing the first operand and where the result will
-     *               be stored
-     * @param source the not null RegisterName of the register storing the second operand.
+     * @param label optional label for the instruction (can be null)
+     * @param result a not null RegisterName corresponding to a Register in some machine. Value stored there will be
+     *               multiplied by source on execution, and the resulting value will then be stored in result
+     * @param source a not null RegisterName corresponding to a Register in some machine. Value stored there will be
+     *               multiplied by result on execution
      */
     public MulInstruction(String label, RegisterName result, RegisterName source) {
         super(label, OP_CODE, result, source);
     }
 
     /**
-     * Multiplies the values stored in the registers specified at construction together and stores the result in the
-     * first register specified at construction.
+     * Executes the instruction on the given machine m. Takes the value stored in the Register in m corresponding to
+     * RegisterName result defined at construction, multiplies it by the value stored in the Register in m corresponding
+     * to RegisterName source defined a construction, and stores the result in the result Register in m.
+     * <p></p>
+     * The program counter in m will then move onto the next instruction sequentially.
      *
-     * @param m the machine the instruction runs on
-     * @return the normal program counter update of -1.
+     * @param m the machine the instruction runs on, where the values will be retrieved from and where the result will
+     *          be stored
+     * @return the normal program counter update indicating the program counter should move onto the next instruction
+     * sequentially
      */
     @Override
     public int execute(Machine m) {

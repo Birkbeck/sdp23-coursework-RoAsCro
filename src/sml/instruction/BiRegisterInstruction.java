@@ -7,24 +7,33 @@ import sml.RegisterName;
 import java.util.function.BinaryOperator;
 
 /**
- * Abstract class for implementing Instructions that perform an arithmetic operation on two registers r and s, storing
- * the result in the second register. The operation will execute in the format "r operator s".
+ * Abstract class for implementing Instructions that upon execution perform an operation on two registers r and s,
+ * storing the result in r.
  *
  * @author Roland Crompton
  */
 public abstract class BiRegisterInstruction extends Instruction {
 
+    /**
+     * The RegisterName for a register whose value will be used in the execution, and where the result will be stored.
+     * Should never be null.
+     */
     protected final RegisterName result;
 
+    /**
+     * The RegisterName for a register whose value will be used in the execution. Should never be null.
+     */
     protected final RegisterName source;
 
     /**
-     * Constructor: takes an optional label, opcode, and two RegisterNames corresponding to registers in some machine.
+     * Constructs a new BiRegisterInstruction with an optional label, an opcode, a RegisterName result, and a
+     * RegisterName source.
      *
      * @param label  optional label (can be null)
-     * @param opcode operation name
-     * @param result the not null RegisterName of the register storing the first operand and where the result will be stored
-     * @param source the not null RegisterName of the register storing the second operand.
+     * @param opcode the not null operation name
+     * @param result the not null RegisterName of the register storing the first operand and where the result will be
+     *               stored
+     * @param source the not null RegisterName of the register storing the second operand
      */
     public BiRegisterInstruction(String label, String opcode, RegisterName result, RegisterName source) {
         super(label, opcode);
@@ -33,11 +42,13 @@ public abstract class BiRegisterInstruction extends Instruction {
     }
 
     /**
-     * Executes the given BinaryOperator on the registers specified at construction in a Machine.
+     * Executes the given BinaryOperator f on the value stored at the registers specified at construction in a Machine m.
      *
-     * @param m a machine whose registers will ahve the operation performed on them.
-     * @param f a BinaryOperator specifying the operation to be done to the registers.
-     * @return  the normal program counter update of -1.
+     * @param m the machine the instruction runs on, where the values will be retrieved from and where the result will
+     *          be stored
+     * @param f a BinaryOperator specifying the operation to be done to the values stored at the registers
+     * @return the normal program counter update indicating the program counter should move onto the next instruction
+     * sequentially
      */
     public int execute(Machine m, BinaryOperator<Integer> f) {
         int value1 = m.getRegisters().get(result);
@@ -47,10 +58,11 @@ public abstract class BiRegisterInstruction extends Instruction {
     }
 
     /**
-     * Overridden toString method.
+     * Returns a String representation of this Instruction. This will be in the format "[label: ]opcode result source",
+     * where label, opcode, result, and source are the fields defined at construction, and the text enclosed in the
+     * square brackets is optional.
      *
-     * @return a string in the format "l: o r s" where l is the label if there is one, o is the opcode, and r and s are
-     * the registers specified at construction.
+     * @return a String representation of this Instruction readable by humans.
      */
     @Override
     public String toString() {

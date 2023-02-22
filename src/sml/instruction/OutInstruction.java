@@ -5,48 +5,61 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * Concrete implementation of the abstract Instruction class.
- * This instruction takes a register name r.
- * When executed, the value store in r will be printed on the console.
+ * A concrete implementation of the abstract Instruction class. An instruction for printing an instruction on the
+ * console.
+ * <p></p>
+ * This instruction takes a RegisterName source.
+ * When executed, the value stored in source will be printed on the console.
  *
  * @author Roland Crompton
  */
 
 public class OutInstruction extends Instruction {
 
-    private final RegisterName reg;
+    /**
+     * The RegisterName for a register whose value will be used in the execution. Should never be null.
+     */
+    private final RegisterName source;
+
+    /**
+     * The operation code for all OutInstructions. The name of the operation.
+     */
     public static final String OP_CODE = "out";
 
     /**
-     *  Constructor: takes the RegisterName of the register to be printed.
+     *  Constructs a new OutInstruction with an optional label, and a RegisterName source.
      *
-     * @param label  optional label (can be null)
-     * @param reg   the not-null name of the RegisterName to be printed
+     * @param label optional label (can be null)
+     * @param source the not-null RegisterName of the register to be printed
      */
-    public OutInstruction(String label, RegisterName reg) {
+    public OutInstruction(String label, RegisterName source) {
         super(label, OP_CODE);
-        this.reg = reg;
+        this.source = source;
     }
 
     /**
-     * Prints the current value of the register given at construction on the console.
+     * Prints on the console the current value of the register in Machine m corresponding to the RegisterName source given at
+     * construction.
      *
      * @param m the not null machine the instruction runs on
-     * @return the normal program counter update of -1.
+     * @return the normal program counter update indicating the program counter should move onto the next instruction
+     * sequentially
      */
     @Override
     public int execute(Machine m) {
-        System.out.println(m.getRegisters().get(reg));
+        System.out.println(m.getRegisters().get(source));
         return NORMAL_PROGRAM_COUNTER_UPDATE;
     }
 
     /**
-     * Overridden toString method.
+     * Returns a String representation of this OutInstruction. This will be in the format "[label: ]out result source",
+     * where label, result, and source are the fields defined at construction, and the text enclosed in the
+     * square brackets is optional.
      *
-     * @return a string in the format "l: out r" where l is the label if any, and r is the register.
+     * @return a String representation of this OutInstruction readable by humans.
      */
     @Override
     public String toString() {
-        return getLabelString() + OP_CODE + " " + reg;
+        return getLabelString() + OP_CODE + " " + source;
     }
 }

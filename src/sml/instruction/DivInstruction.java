@@ -2,31 +2,50 @@ package sml.instruction;
 
 import sml.Machine;
 import sml.RegisterName;
-
+/**
+ * A concrete implementation of the abstract BiRegisterInstruction class. An instruction for dividing one value by
+ * another.
+ * <p></p>
+ * The instruction takes two RegisterNames, result and source, at construction.
+ * When executed will divide the value stored at result by the value stored at source, storing the resulting value in
+ * result.
+ *
+ * @author Roland Crompton
+ */
 public class DivInstruction extends BiRegisterInstruction {
 
+    /**
+     * The operation code for all DivInstructions. The name of the operation.
+     */
     public static final String OP_CODE = "div";
 
 
     /**
-     * Constructor: takes an optional label, opcode, and two RegisterNames corresponding to registers in some machine.
+     * Constructs a new DivInstruction with an optional label, a RegisterName result, and a RegisterName source.
      *
-     * @param label  optional label (can be null)
-     * @param result the not null RegisterName of the register storing the first operand and where the result will be stored
-     * @param source the not null RegisterName of the register storing the second operand.
+     * @param label optional label for the instruction (can be null)
+     * @param result a not null RegisterName corresponding to a Register in some machine. Value stored there will be
+     *               divided by source on execution, and the resulting value will then be stored in result
+     * @param source a not null RegisterName corresponding to a Register in some machine. Value stored there will be
+     *               the divisor to result on execution
      */
     public DivInstruction(String label, RegisterName result, RegisterName source) {
         super(label, OP_CODE, result, source);
     }
 
     /**
-     * Divides the value stored in the register in m corresponding to result field by the value stored in the register
-     * corresponding to the source field. The result is stored in the result register.
-     * If the value of divisor is 0, the values stored in both registers will remain unchanged, an error message will be
-     * printed,and the normal program counter will be returned.
+     * Divides the value stored in the register in Machine m corresponding to result field by the value stored in the
+     * register corresponding to the source field. The result is stored in the result register.
+     * <p></p>
+     * The program counter in m will then move onto the next instruction sequentially.
+     * <p></p>
+     * If the value of divisor is 0, the values stored in both registers will remain unchanged,and an error message will
+     * be printed. The program counter in m will then move onto the next instruction sequentially.
      *
-     * @param m the machine the instruction runs on
-     * @return the normal program counter update of -1.
+     * @param m the machine the instruction runs on, where the values will be retrieved from and where the result will
+     *          be stored
+     * @return the normal program counter update indicating the program counter should move onto the next instruction
+     * sequentially
      */
     @Override
     public int execute(Machine m) {
