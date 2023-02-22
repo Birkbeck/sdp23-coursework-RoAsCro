@@ -35,7 +35,15 @@ public class LabelsTest {
 
     @Test
     void testEquals() {
-
+        Labels labels2 = new Labels();
+        Assertions.assertEquals(labels, labels2);
+        labels.addLabel("a", 0);
+        Assertions.assertNotEquals(labels, labels2);
+        labels2.addLabel("a", 0);
+        Assertions.assertEquals(labels, labels2);
+        labels.addLabel("b", 1);
+        labels2.addLabel("b", 2);
+        Assertions.assertNotEquals(labels, labels2);
     }
 
     @Test
