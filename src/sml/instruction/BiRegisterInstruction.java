@@ -4,6 +4,7 @@ import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+import java.util.Objects;
 import java.util.function.BinaryOperator;
 
 /**

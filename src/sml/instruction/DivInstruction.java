@@ -2,6 +2,9 @@ package sml.instruction;
 
 import sml.Machine;
 import sml.RegisterName;
+
+import java.util.Objects;
+
 /**
  * A concrete implementation of the abstract BiRegisterInstruction class. An instruction for dividing one value by
  * another.
@@ -57,5 +60,22 @@ public class DivInstruction extends BiRegisterInstruction {
             return NORMAL_PROGRAM_COUNTER_UPDATE;
         }
         return super.execute(m, (one, two) -> one/two);
+    }
+
+    /**
+     * Checks if two DivInstructions are equal. Two DivInstructions are equal if they have the same label, result, and
+     * source.
+     *
+     * @param o an object to be compared to this DivInstruction.
+     * @return false if o is not an DivInstruction or is not equal to this. True if o is equal to this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof DivInstruction instruction) {
+            return Objects.equals(this.label, instruction.label) &&
+                    this.result == instruction.result &&
+                    this.source == instruction.source;
+        }
+        return false;
     }
 }
