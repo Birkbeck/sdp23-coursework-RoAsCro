@@ -27,6 +27,9 @@ public class LabelsTest {
 
     @Test
     void testToString() {
+        labels.addLabel("a", 0);
+        labels.addLabel("b", 3);
+        Assertions.assertEquals("[a, b]", labels.toString());
 
     }
 
