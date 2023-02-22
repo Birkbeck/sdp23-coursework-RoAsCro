@@ -4,6 +4,8 @@ import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+import java.util.Objects;
+
 /**
  * A concrete implementation of the abstract Instruction class. An instruction for adding two values.
  * <p></p>
@@ -75,4 +77,22 @@ public class AddInstruction extends Instruction {
 	public String toString() {
 		return getLabelString() + getOpcode() + " " + result + " " + source;
 	}
+
+	/**
+	 * Checks if two AddInstructions are equal. Two AddInstructions are equal if they have the same label, result, and
+	 * source.
+	 *
+	 * @param o an object to be compared to this AddInstruction.
+	 * @return false if o is not an AddInstruction or is not equal to this. True if o is equal to this.
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof AddInstruction instruction) {
+			return Objects.equals(this.label, instruction.label) &&
+					this.result == instruction.result &&
+					this.source == instruction.source;
+		}
+		return false;
+	}
+	
 }
