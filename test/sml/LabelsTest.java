@@ -41,6 +41,11 @@ public class LabelsTest {
         Assertions.assertNotEquals(labels, labels2);
         labels2.addLabel("a", 0);
         Assertions.assertEquals(labels, labels2);
+        labels.addLabel("c", 3);
+        labels.addLabel("d", 5);
+        labels2.addLabel("d", 5);
+        labels2.addLabel("c", 3);
+        Assertions.assertEquals(labels, labels2);
         labels.addLabel("b", 1);
         labels2.addLabel("b", 2);
         Assertions.assertNotEquals(labels, labels2);
