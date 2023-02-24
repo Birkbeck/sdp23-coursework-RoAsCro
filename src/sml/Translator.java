@@ -6,10 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static sml.Registers.Register;
@@ -91,49 +89,44 @@ public final class Translator {
             return null;
 
         String opcode = scan();
+        List<String> params = new ArrayList<>();
 
+
+        int length;
+        do  {
+            length = line.length();
+            params.add(scan());
+        } while (length != line.length());
+        params.remove(params.size()-1);
 
         try {
             switch (opcode) {
                 case AddInstruction.OP_CODE -> {
-                    String r = scan();
-                    String s = scan();
-                    return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
+                    return new AddInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
                 }
 
                 case SubInstruction.OP_CODE -> {
-                    String r = scan();
-                    String s = scan();
-                    return new SubInstruction(label, Register.valueOf(r), Register.valueOf(s));
+                    return new SubInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
                 }
 
                 case MulInstruction.OP_CODE -> {
-                    String r = scan();
-                    String s = scan();
-                    return new MulInstruction(label, Register.valueOf(r), Register.valueOf(s));
+                    return new MulInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
                 }
 
                 case DivInstruction.OP_CODE -> {
-                    String r = scan();
-                    String s = scan();
-                    return new DivInstruction(label, Register.valueOf(r), Register.valueOf(s));
+                    return new DivInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
                 }
 
                 case MovInstruction.OP_CODE -> {
-                    String r = scan();
-                    String s = scan();
-                    return new MovInstruction(label, Register.valueOf(r), Integer.parseInt(s));
+                    return new MovInstruction(label, Register.valueOf(params.get(0)), Integer.parseInt(params.get(1)));
                 }
 
                 case OutInstruction.OP_CODE -> {
-                    String r = scan();
-                    return new OutInstruction(label, Register.valueOf(r));
+                    return new OutInstruction(label, Register.valueOf(params.get(0)));
                 }
 
                 case JnzInstruction.OP_CODE -> {
-                    String r = scan();
-                    String s = scan();
-                    return new JnzInstruction(label, Register.valueOf(r), s);
+                    return new JnzInstruction(label, Register.valueOf(params.get(0)), params.get(1));
                 }
 
 
@@ -149,16 +142,19 @@ public final class Translator {
                 }
             }
         } catch (NumberFormatException e) {
-//            System.out.println("Error with instruction: " +
-//                    opcode + " "  + r + " " + s +
-//                    "\n" +
-//                    opcode +
-//                    " instruction requires an integer.");
+            System.out.println("Error with instruction: " +
+                    opcode + " "  +
+                    String.join(" ", params)
+                    +
+                    "\n" +
+                    opcode +
+                    " instruction requires an integer.");
         } catch (IllegalArgumentException e) {
-//            System.out.println("Error with instruction: " +
-//                    opcode + " "  + r + " " + s +
-//                    "\n" +
-//                    "One or more registers not found in machine.");
+            System.out.println("Error with instruction: " +
+                    opcode + " "  +
+                    String.join(" ", params) +
+                    "\n" +
+                    "One or more registers not found in machine.");
         }
         return null;
     }
