@@ -81,54 +81,60 @@ public final class Translator {
      * The input line should consist of a single SML instruction,
      * with its label already removed.
      */
-    private Instruction getInstruction(String label) {
+    private Instruction getInstruction(String label) throws IOException {
         if (line.isEmpty())
             return null;
 
         String opcode = scan();
-        String r = scan();
-        String s = scan();
-        switch (opcode) {
-            case AddInstruction.OP_CODE -> {
+        
+        try {
+            RegisterName r = Register.valueOf(scan());
+            String s = scan();
+            switch (opcode) {
+                case AddInstruction.OP_CODE -> {
 
-                return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
+                    return new AddInstruction(label, r, Register.valueOf(s));
+                }
+
+                case SubInstruction.OP_CODE -> {
+                    return new SubInstruction(label, r, Register.valueOf(s));
+                }
+
+                case MulInstruction.OP_CODE -> {
+                    return new MulInstruction(label, r, Register.valueOf(s));
+                }
+
+                case DivInstruction.OP_CODE -> {
+                    return new DivInstruction(label, r, Register.valueOf(s));
+                }
+
+                case MovInstruction.OP_CODE -> {
+                    return new MovInstruction(label, r, Integer.parseInt(s));
+                }
+
+                case OutInstruction.OP_CODE -> {
+                    return new OutInstruction(label, r);
+                }
+
+                case JnzInstruction.OP_CODE -> {
+                    return new JnzInstruction(label, r, s);
+                }
+
+
+                // TODO: add code for all other types of instructions
+
+                // TODO: Then, replace the switch by using the Reflection API
+
+                // TODO: Next, use dependency injection to allow this machine class
+                //       to work with different sets of opcodes (different CPUs)
+
+                default -> {
+                    System.out.println("Unknown instruction: " + opcode);
+                }
             }
-
-            case SubInstruction.OP_CODE -> {
-                return new SubInstruction(label, Register.valueOf(r), Register.valueOf(s));
-            }
-
-            case MulInstruction.OP_CODE -> {
-                return new MulInstruction(label, Register.valueOf(r), Register.valueOf(s));
-            }
-
-            case DivInstruction.OP_CODE -> {
-                return new DivInstruction(label, Register.valueOf(r), Register.valueOf(s));
-            }
-
-            case MovInstruction.OP_CODE -> {
-                return new MovInstruction(label, Register.valueOf(r), Integer.parseInt(s));
-            }
-
-            case OutInstruction.OP_CODE -> {
-                return new OutInstruction(label, Register.valueOf(r));
-            }
-
-            case JnzInstruction.OP_CODE -> {
-                return new JnzInstruction(label, Register.valueOf(r), s);
-            }
-
-
-            // TODO: add code for all other types of instructions
-
-            // TODO: Then, replace the switch by using the Reflection API
-
-            // TODO: Next, use dependency injection to allow this machine class
-            //       to work with different sets of opcodes (different CPUs)
-
-            default -> {
-                System.out.println("Unknown instruction: " + opcode);
-            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("x");
+            throw new IOException();
         }
         return null;
     }
