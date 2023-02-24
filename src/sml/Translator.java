@@ -5,8 +5,12 @@ import sml.instruction.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static sml.Registers.Register;
 
@@ -87,39 +91,49 @@ public final class Translator {
             return null;
 
         String opcode = scan();
-        String r = scan();
-        String s = scan();
+
 
         try {
-            RegisterName rName = Register.valueOf(r);
             switch (opcode) {
                 case AddInstruction.OP_CODE -> {
-
-                    return new AddInstruction(label, rName, Register.valueOf(s));
+                    String r = scan();
+                    String s = scan();
+                    return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
                 }
 
                 case SubInstruction.OP_CODE -> {
-                    return new SubInstruction(label, rName, Register.valueOf(s));
+                    String r = scan();
+                    String s = scan();
+                    return new SubInstruction(label, Register.valueOf(r), Register.valueOf(s));
                 }
 
                 case MulInstruction.OP_CODE -> {
-                    return new MulInstruction(label, rName, Register.valueOf(s));
+                    String r = scan();
+                    String s = scan();
+                    return new MulInstruction(label, Register.valueOf(r), Register.valueOf(s));
                 }
 
                 case DivInstruction.OP_CODE -> {
-                    return new DivInstruction(label, rName, Register.valueOf(s));
+                    String r = scan();
+                    String s = scan();
+                    return new DivInstruction(label, Register.valueOf(r), Register.valueOf(s));
                 }
 
                 case MovInstruction.OP_CODE -> {
-                    return new MovInstruction(label, rName, Integer.parseInt(s));
+                    String r = scan();
+                    String s = scan();
+                    return new MovInstruction(label, Register.valueOf(r), Integer.parseInt(s));
                 }
 
                 case OutInstruction.OP_CODE -> {
-                    return new OutInstruction(label, rName);
+                    String r = scan();
+                    return new OutInstruction(label, Register.valueOf(r));
                 }
 
                 case JnzInstruction.OP_CODE -> {
-                    return new JnzInstruction(label, rName, s);
+                    String r = scan();
+                    String s = scan();
+                    return new JnzInstruction(label, Register.valueOf(r), s);
                 }
 
 
@@ -135,16 +149,16 @@ public final class Translator {
                 }
             }
         } catch (NumberFormatException e) {
-            System.out.println("Error with instruction: " +
-                    opcode + " "  + r + " " + s +
-                    "\n" +
-                    opcode +
-                    " instruction requires an integer.");
+//            System.out.println("Error with instruction: " +
+//                    opcode + " "  + r + " " + s +
+//                    "\n" +
+//                    opcode +
+//                    " instruction requires an integer.");
         } catch (IllegalArgumentException e) {
-            System.out.println("Error with instruction: " +
-                    opcode + " "  + r + " " + s +
-                    "\n" +
-                    "One or more registers not found in machine.");
+//            System.out.println("Error with instruction: " +
+//                    opcode + " "  + r + " " + s +
+//                    "\n" +
+//                    "One or more registers not found in machine.");
         }
         return null;
     }
