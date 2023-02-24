@@ -61,7 +61,7 @@ public class TranslatorTest {
     }
 
     @Test
-    void testNoSuchRegister() {
+    void testNoSuchLabel() {
         translator = new Translator(fileLocation + "test9.sml");
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
