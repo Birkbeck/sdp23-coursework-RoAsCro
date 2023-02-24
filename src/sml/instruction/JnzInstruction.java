@@ -61,8 +61,14 @@ public class JnzInstruction extends Instruction {
     public int execute(Machine m) {
         int programCounterUpdate = m.getLabels().getAddress(targetLabel);
 
-        if (programCounterUpdate == NORMAL_PROGRAM_COUNTER_UPDATE)
+        if (programCounterUpdate == NORMAL_PROGRAM_COUNTER_UPDATE) {
+            System.out.println("Error with instruction: " +
+                    this +
+                    "\nInstruction with label " +
+                    targetLabel +
+                    " not found. Ending program execution.");
             return m.getProgram().size();
+        }
 
         if (m.getRegisters().get(source) == 0)
             programCounterUpdate = NORMAL_PROGRAM_COUNTER_UPDATE;

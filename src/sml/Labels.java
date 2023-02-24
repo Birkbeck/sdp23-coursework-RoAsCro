@@ -58,9 +58,6 @@ public final class Labels {
 		//A null pointer exception can be thrown if the label does not correspond to a key in the HashMap.
 		//       Add code to deal with non-existent labels.
 		if (!labels.containsKey(label)) {
-			System.out.println("Error: Label " +
-					label +
-					" is not assigned. Program counter moving onto the next address.");
 			return NORMAL_PROGRAM_COUNTER_UPDATE;
 		}
 		return labels.get(label);
