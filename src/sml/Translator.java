@@ -5,7 +5,6 @@ import sml.instruction.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -89,15 +88,14 @@ public final class Translator {
             return null;
 
         String opcode = scan();
-        List<String> params = new ArrayList<>();
-
-
-        int length;
-        do  {
-            length = line.length();
-            params.add(scan());
-        } while (length != line.length());
-        params.remove(params.size()-1);
+        
+        List<String> params;
+        int[] l = {-1};
+        params = Stream.generate(this::scan).takeWhile(x -> {
+            boolean y = line.length() != l[0];
+            l[0] = line.length();
+            return y;})
+                .toList();
 
         try {
             switch (opcode) {
