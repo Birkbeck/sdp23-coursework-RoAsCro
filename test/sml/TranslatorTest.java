@@ -1,5 +1,6 @@
 package sml;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,18 +25,14 @@ public class TranslatorTest {
 
     @Test
     void testValidGetInstruction() {
-
         translator = new Translator("./cw/src/test3.sml");
-        try {
-            translator.readAndTranslate(new Labels(), list);
-            assertEquals("mov", list.get(0).getOpcode());
-            assertEquals("out", list.get(3).getOpcode());
-            assertEquals("sub", list.get(4).getOpcode());
-            assertEquals("mul", list.get(6).getOpcode());
-            assertEquals("div", list.get(7).getOpcode());
-        } catch (IOException e) {
-            System.out.println("Test failed.");
-        }
+        assertDoesNotThrow(() -> translator.readAndTranslate(new Labels(), list));
+        assertEquals("mov", list.get(0).getOpcode());
+        assertEquals("out", list.get(3).getOpcode());
+        assertEquals("sub", list.get(4).getOpcode());
+        assertEquals("mul", list.get(6).getOpcode());
+        assertEquals("div", list.get(7).getOpcode());
+
     }
 
 
