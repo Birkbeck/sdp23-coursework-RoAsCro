@@ -131,6 +131,7 @@ public final class Translator {
 
                 default -> {
                     System.out.println("Unknown instruction: " + opcode);
+                    throw new IOException();
                 }
             }
         } catch (NumberFormatException e) {
