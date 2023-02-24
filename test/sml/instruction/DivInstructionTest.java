@@ -3,6 +3,9 @@ package sml.instruction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sml.Instruction;
+import sml.Translator;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static sml.Registers.Register.*;
@@ -54,11 +57,10 @@ public class DivInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void executeDivideByZero() {
-        registers.set(EAX, 1);
-        registers.set(EBX, 0);
-        Instruction instruction = new DivInstruction(null, EAX, EBX);
-        instruction.execute(machine);
+    void executeDivideByZero() throws IOException {
+        Translator translator = new Translator("./cw/test/test12.sml");
+        translator.readAndTranslate(machine.getLabels(), machine.getProgram());
+        machine.execute();
         assertEquals(1, machine.getRegisters().get(EAX));
     }
 
