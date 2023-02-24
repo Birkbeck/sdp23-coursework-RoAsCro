@@ -66,4 +66,10 @@ public class TranslatorTest {
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
 
+    @Test
+    void testUnknownInstruction() {
+        translator = new Translator(fileLocation + "test10.sml");
+        assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
+    }
+
 }
