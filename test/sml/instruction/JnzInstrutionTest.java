@@ -14,12 +14,20 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
 
     @Test
     void executeValid() throws IOException {
-        Translator translator = new Translator("./cw/src/test4.sml");
+        Translator translator = new Translator("./cw/test/test4.sml");
         translator.readAndTranslate(machine.getLabels(), machine.getProgram());
         machine.execute();
         assertEquals(0, machine.getRegisters().get(EAX));
         assertEquals(0, machine.getRegisters().get(EBX));
 
+    }
+
+    @Test
+    void executeLabelDoesNotExist() throws IOException {
+        Translator translator = new Translator("./cw/test/test11.sml");
+        translator.readAndTranslate(machine.getLabels(), machine.getProgram());
+        machine.execute();
+        assertEquals(1, machine.getRegisters().get(EAX));
     }
 
     @Test
