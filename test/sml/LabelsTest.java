@@ -15,8 +15,8 @@ public class LabelsTest {
 
     @Test
     void testAddLabel() {
-        labels.addLabel("a", 0);
-        labels.addLabel("a", 1);
+        Assertions.assertTrue(labels.addLabel("a", 0));
+        Assertions.assertFalse(labels.addLabel("a", 1));
         Assertions.assertEquals(0, labels.getAddress("a"));
     }
 
