@@ -42,7 +42,7 @@ public class DivInstruction extends BiRegisterInstruction {
      * <p></p>
      * The program counter in m will then move onto the next instruction sequentially.
      * <p></p>
-     * If the value of divisor is 0, the values stored in both registers will remain unchanged,and an error message will
+     * If the value of divisor is 0, the registers are all reset to 0, and an error message will
      * be printed. The program will then end.
      *
      * @param m the machine the instruction runs on, where the values will be retrieved from and where the result will
@@ -54,10 +54,10 @@ public class DivInstruction extends BiRegisterInstruction {
     @Override
     public int execute(Machine m) {
         if (m.getRegisters().get(source) == 0) {
-            System.out.println("Error"+
-                    " with instruction "
+            System.out.println("Error with instruction: "
                     + this
-                    + ": Cannot divide by zero. Ending program execution.");
+                    + "\nCannot divide by zero. Program failed to execute.");
+            m.getRegisters().clear();
             return m.getProgram().size();
         }
         return super.execute(m, (one, two) -> one/two);
