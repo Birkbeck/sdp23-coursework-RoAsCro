@@ -48,7 +48,8 @@ public final class Translator {
      *
      * @param labels an instance of Labels where the labels of the instructions in the program will be stored
      * @param program a list of Instructions where the translated Instructions will be stored
-     * @throws IOException if something goes wrong in the process of reading the file
+     * @throws IOException if something goes wrong in the process of reading the file, including finding errors in the
+     * formatting of the SML file
      */
     public void readAndTranslate(Labels labels, List<Instruction> program) throws IOException {
         try (var sc = new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
@@ -63,7 +64,8 @@ public final class Translator {
                 Instruction instruction = getInstruction(label);
                 if (instruction != null) {
                     if (label != null)
-                        labels.addLabel(label, program.size());
+                        if (!labels.addLabel(label, program.size()))
+                            throw new IOException();
                     program.add(instruction);
                 }
             }

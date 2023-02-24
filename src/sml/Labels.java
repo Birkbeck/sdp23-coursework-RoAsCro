@@ -27,17 +27,21 @@ public final class Labels {
 	 *
 	 * @param label the label
 	 * @param address the address the label refers to
+	 * @return false if the label is not already in use. True otherwise
 	 */
-	public void addLabel(String label, int address) {
+	public boolean addLabel(String label, int address) {
 		Objects.requireNonNull(label);
 		if (labels.containsKey(label)) {
 			System.out.println("Error at line " +
 					address +
 					" of program. Label "
 					+ label
-					+ " is already in use. Label not assigned.");
-		} else
+					+ " is already in use.");
+			return false;
+		} else {
 			labels.put(label, address);
+			return true;
+		}
 	}
 
 	/**
