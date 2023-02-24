@@ -48,14 +48,17 @@ public class JnzInstruction extends Instruction {
 
     /**
      * If the value stored in the register corresponding to RegisterName source specified at construction is not equal
-     * to 0, the instruction will tell the program counter in Machine m to jump to the instruction with the label given
-     * at construction. Otherwise, the program continues to the instruction with the next address.
+     * to 0, the instruction will tell the program counter in Machine m to jump to the instruction with the targetLabel
+     * given at construction. Otherwise, the program continues to the instruction with the next address.
+     * <p></p>
+     * If the targetLabel does not correspond to the label of any instruction in the program, the registers will be
+     * cleared, an error message displayed, and the program terminated.
      *
      * @param m the machine the instruction runs on
      * @return the integer corresponding to the place in the program of the instruction to be jumped to if the value of
      * the register is not 0, otherwise returns the normal program counter update indicating the program counter should
      * move onto the instruction with the next address. If the program doesn't contain the given label, returns the size
-     * of the program, causing the program counter to jump to the end of the program.
+     * of the program, causing the program to stop execution
      */
     @Override
     public int execute(Machine m) {
@@ -66,7 +69,8 @@ public class JnzInstruction extends Instruction {
                     this +
                     "\nInstruction with label " +
                     targetLabel +
-                    " not found. Ending program execution.");
+                    " not found. Program failed to execute.");
+            m.getRegisters().clear();
             return m.getProgram().size();
         }
 

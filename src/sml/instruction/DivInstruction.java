@@ -42,7 +42,7 @@ public class DivInstruction extends BiRegisterInstruction {
      * <p></p>
      * The program counter in m will then move onto the next instruction sequentially.
      * <p></p>
-     * If the value of divisor is 0, the registers are all reset to 0, and an error message will
+     * If the value of divisor is 0, the registers are all cleared, and an error message will
      * be printed. The program will then end.
      *
      * @param m the machine the instruction runs on, where the values will be retrieved from and where the result will
