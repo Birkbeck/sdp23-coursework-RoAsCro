@@ -136,13 +136,13 @@ public final class Translator {
             }
         } catch (NumberFormatException e) {
             System.out.println("Error with instruction: " +
-                    label + " : " + opcode + " "  + r + " " + s +
+                    opcode + " "  + r + " " + s +
                     "\n" +
                     opcode +
                     " instruction requires an integer.");
         } catch (IllegalArgumentException e) {
             System.out.println("Error with instruction: " +
-                    label + " : " + opcode + " "  + r + " " + s +
+                    opcode + " "  + r + " " + s +
                     "\n" +
                     "One or more registers not found in machine.");
         }
