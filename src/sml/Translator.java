@@ -133,9 +133,18 @@ public final class Translator {
                     System.out.println("Unknown instruction: " + opcode);
                 }
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Error with instruction: " +
+                    label + " : " + opcode + " "  + r + " " + s +
+                    "\n" +
+                    opcode +
+                    " instruction requires an integer.");
+            throw new IOException();
         } catch (IllegalArgumentException e) {
-            System.out.println("No such register: " +
-                    r);
+            System.out.println("Error with instruction: " +
+                    label + " : " + opcode + " "  + r + " " + s +
+                    "\n" +
+                    "One or more registers not found in machine.");
             throw new IOException();
         }
         return null;
