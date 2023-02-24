@@ -54,15 +54,19 @@ public class JnzInstruction extends Instruction {
      * @param m the machine the instruction runs on
      * @return the integer corresponding to the place in the program of the instruction to be jumped to if the value of
      * the register is not 0, otherwise returns the normal program counter update indicating the program counter should
-     * move onto the instruction with the next address
+     * move onto the instruction with the next address. If the program doesn't contain the given label, returns the size
+     * of the program, causing the program counter to jump to the end of the program.
      */
     @Override
     public int execute(Machine m) {
-        int programCounterUpdate;
+        int programCounterUpdate = m.getLabels().getAddress(targetLabel);
+
+        if (programCounterUpdate == NORMAL_PROGRAM_COUNTER_UPDATE)
+            return m.getProgram().size();
+
         if (m.getRegisters().get(source) == 0)
             programCounterUpdate = NORMAL_PROGRAM_COUNTER_UPDATE;
-        else
-            programCounterUpdate = m.getLabels().getAddress(targetLabel);
+
         return programCounterUpdate;
     }
 
