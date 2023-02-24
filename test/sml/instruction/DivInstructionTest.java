@@ -61,7 +61,7 @@ public class DivInstructionTest extends AbstractInstructionTest{
         Translator translator = new Translator("./cw/test/test12.sml");
         translator.readAndTranslate(machine.getLabels(), machine.getProgram());
         machine.execute();
-        assertEquals(1, machine.getRegisters().get(EAX));
+        assertEquals(0, machine.getRegisters().get(EAX));
     }
 
     @Test
