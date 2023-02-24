@@ -66,4 +66,16 @@ public class TranslatorTest {
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
 
+    @Test
+    void tooFewArguments() {
+        translator = new Translator(fileLocation + "test9.sml");
+        assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
+    }
+
+    @Test
+    void tooManyArguments() {
+        translator = new Translator(fileLocation + "test13.sml");
+        assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
+    }
+
 }

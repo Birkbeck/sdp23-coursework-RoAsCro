@@ -1,2 +1,1 @@
-mov EAX 1
-jnz EAX a
+mov EAX
