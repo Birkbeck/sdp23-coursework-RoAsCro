@@ -86,38 +86,39 @@ public final class Translator {
             return null;
 
         String opcode = scan();
-        
+        String r = scan();
+        String s = scan();
+
         try {
-            RegisterName r = Register.valueOf(scan());
-            String s = scan();
+            RegisterName rName = Register.valueOf(r);
             switch (opcode) {
                 case AddInstruction.OP_CODE -> {
 
-                    return new AddInstruction(label, r, Register.valueOf(s));
+                    return new AddInstruction(label, rName, Register.valueOf(s));
                 }
 
                 case SubInstruction.OP_CODE -> {
-                    return new SubInstruction(label, r, Register.valueOf(s));
+                    return new SubInstruction(label, rName, Register.valueOf(s));
                 }
 
                 case MulInstruction.OP_CODE -> {
-                    return new MulInstruction(label, r, Register.valueOf(s));
+                    return new MulInstruction(label, rName, Register.valueOf(s));
                 }
 
                 case DivInstruction.OP_CODE -> {
-                    return new DivInstruction(label, r, Register.valueOf(s));
+                    return new DivInstruction(label, rName, Register.valueOf(s));
                 }
 
                 case MovInstruction.OP_CODE -> {
-                    return new MovInstruction(label, r, Integer.parseInt(s));
+                    return new MovInstruction(label, rName, Integer.parseInt(s));
                 }
 
                 case OutInstruction.OP_CODE -> {
-                    return new OutInstruction(label, r);
+                    return new OutInstruction(label, rName);
                 }
 
                 case JnzInstruction.OP_CODE -> {
-                    return new JnzInstruction(label, r, s);
+                    return new JnzInstruction(label, rName, s);
                 }
 
 
@@ -133,7 +134,8 @@ public final class Translator {
                 }
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("x");
+            System.out.println("No such register: " +
+                    r);
             throw new IOException();
         }
         return null;
