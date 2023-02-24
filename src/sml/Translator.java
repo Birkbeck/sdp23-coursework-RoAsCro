@@ -67,7 +67,8 @@ public final class Translator {
                         if (!labels.addLabel(label, program.size()))
                             throw new IOException();
                     program.add(instruction);
-                }
+                } else
+                    throw new IOException();
             }
         }
     }
@@ -76,12 +77,12 @@ public final class Translator {
      * Translates the current line into an instruction with the given label
      *
      * @param label the instruction label
-     * @return the new instruction
+     * @return the new instruction. Null if the instruction isn't valid for any  reason.
      * <p>
      * The input line should consist of a single SML instruction,
      * with its label already removed.
      */
-    private Instruction getInstruction(String label) throws IOException {
+    private Instruction getInstruction(String label) {
         if (line.isEmpty())
             return null;
 
@@ -131,7 +132,6 @@ public final class Translator {
 
                 default -> {
                     System.out.println("Unknown instruction: " + opcode);
-                    throw new IOException();
                 }
             }
         } catch (NumberFormatException e) {
@@ -140,13 +140,11 @@ public final class Translator {
                     "\n" +
                     opcode +
                     " instruction requires an integer.");
-            throw new IOException();
         } catch (IllegalArgumentException e) {
             System.out.println("Error with instruction: " +
                     label + " : " + opcode + " "  + r + " " + s +
                     "\n" +
                     "One or more registers not found in machine.");
-            throw new IOException();
         }
         return null;
     }
