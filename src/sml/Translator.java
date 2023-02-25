@@ -112,7 +112,7 @@ public final class Translator {
             //TODO: Account for instructions named differently
             //TODO: See about converting that for loop into a stream
             //TODO: Come up with better exception handling
-            Class<?> instructionClass = Class.forName("sml.instruction."+classOpCode+"Instruction");
+            Class<? extends Instruction> instructionClass = Class.forName("sml.instruction."+classOpCode+"Instruction").asSubclass(Instruction.class);
             constructors = instructionClass.getConstructors();
             List<Constructor<?>> constructorList = Arrays.stream(constructors).filter(c -> (c.getParameterCount() == params.size()+1)).toList();
             int noOfConstructors = constructorList.size();
@@ -161,13 +161,14 @@ public final class Translator {
                             list.add(parameter);
                         }
                     }
+                    if (list.size() != 0)
+                        return (Instruction) c.newInstance(list.toArray());
+                    else {
+                        //TODO: display error message
+                    }
 
                 }
-                if (list.size() != 0)
-                    return (Instruction) constructors[0].newInstance(list.toArray());
-                else {
-                    //TODO: display error message
-                }
+
             }
 
 //                // TODO: add code for all other types of instructions
