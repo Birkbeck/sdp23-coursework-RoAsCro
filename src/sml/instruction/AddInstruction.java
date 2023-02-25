@@ -13,6 +13,7 @@ import java.util.Objects;
  * When executed will add the values stored at the two registers, storing the resulting value in result.
  *
  * @author ...
+ * @author Roland Crompton
  */
 
 public class AddInstruction extends Instruction {
