@@ -58,7 +58,7 @@ public class DivInstructionTest extends AbstractInstructionTest{
 
     @Test
     void executeDivideByZero() throws IOException {
-        Translator translator = new Translator("./cw/test/test12.sml");
+        Translator translator = new Translator(fileLocation + "test12.sml");
         translator.readAndTranslate(machine.getLabels(), machine.getProgram());
         machine.execute();
         assertEquals(0, machine.getRegisters().get(EAX));

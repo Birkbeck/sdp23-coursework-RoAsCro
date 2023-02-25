@@ -7,6 +7,7 @@ import sml.Registers;
 
 public abstract class AbstractInstructionTest {
 
+    public final String fileLocation = "./testResources/";
     protected Machine machine;
     protected Registers registers;
 
