@@ -98,6 +98,11 @@ public final class Translator {
                 .toList();
 
         int correctParamNumber = 0;
+        String errorMessage = "Error with instruction: " +
+                opcode + " "  +
+                String.join(" ", params)
+                +
+                "\n";
         try {
             switch (opcode) {
                 case AddInstruction.OP_CODE -> {
@@ -163,24 +168,11 @@ public final class Translator {
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Error with instruction: " +
-                    opcode + " "  +
-                    String.join(" ", params)
-                    +
-                    "\n" +
-                    opcode +
-                    " instruction requires an integer.");
+            System.out.println(errorMessage + opcode + " instruction requires an integer.");
         } catch (IllegalArgumentException e) {
-            System.out.println("Error with instruction: " +
-                    opcode + " "  +
-                    String.join(" ", params) +
-                    "\n" +
-                    "One or more registers not found in machine.");
+            System.out.println(errorMessage + "One or more registers not found in machine.");
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Error with instruction: " +
-                    opcode + " "  +
-                    String.join(" ", params) +
-                    "\n" +"Expected " + correctParamNumber + " parameters. Got " + params.size());
+            System.out.println(errorMessage + "Expected " + correctParamNumber + " parameters. Got " + params.size());
         }
         return null;
     }
