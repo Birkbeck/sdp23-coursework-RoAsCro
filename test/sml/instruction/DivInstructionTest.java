@@ -2,13 +2,13 @@ package sml.instruction;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import sml.Instruction;
 import sml.Translator;
+import static sml.Registers.Register.*;
 
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static sml.Registers.Register.*;
 
 public class DivInstructionTest extends AbstractInstructionTest{
     @Test
