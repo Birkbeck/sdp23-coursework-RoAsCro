@@ -108,22 +108,24 @@ public final class Translator {
         String classOpCode = opcode.substring(0, 1).toUpperCase() + opcode.replace(opcode.substring(0,1), "");
         Constructor<?>[] constructors = new Constructor<?>[0];
         try {
-            // TODO: Account for multiple or no constructors
             //TODO: Account for instructions named differently
             //TODO: See about converting that for loop into a stream
             //TODO: Come up with better exception handling
             Class<?> instructionClass = Class.forName("sml.instruction."+classOpCode+"Instruction");
             constructors = instructionClass.getConstructors();
-            Stream<Constructor<?>> constructorStream = Arrays.stream(constructors).filter(c -> (c.getParameterCount() == params.size()+1));
-            int noOfConstructors = constructorStream.toList().size();
+            List<Constructor<?>> constructorList = Arrays.stream(constructors).filter(c -> (c.getParameterCount() == params.size()+1)).toList();
+            int noOfConstructors = constructorList.size();
 
             if (noOfConstructors == 0) {
                 throw new IndexOutOfBoundsException();
             }
-            if (constructors.length >= 1) {
+            else {
                 List<Object> list = new LinkedList<>();
-                for (Constructor<?> c : Arrays.stream(constructors).filter(c -> (c.getParameterCount() == params.size()+1)).toList()) {
+
+
+                for (Constructor<?> c : constructorList) {
                     Class<?>[] types = c.getParameterTypes();
+                    list.clear();
                     list.add(label);
                     for (int i = 1; i < params.size() + 1; i++) {
                         Class<?> clss = types[i];
@@ -132,17 +134,20 @@ public final class Translator {
                                 list.add(Register.valueOf(params.get(i - 1)));
                             } catch (IllegalArgumentException e) {
                                 list.clear();
+                                break;
                             }
                         } else if (clss == int.class) {
                             try {
                                 list.add(Integer.parseInt(params.get(i - 1)));
                             } catch (NumberFormatException e) {
                                 list.clear();
+                                break;
                             }
                         } else if (clss == String.class) {
                             list.add(params.get(i - 1));
                         }
                     }
+
                 }
                 if (list.size() != 0)
                     return (Instruction) constructors[0].newInstance(list.toArray());
@@ -155,10 +160,10 @@ public final class Translator {
 //                // TODO: Next, use dependency injection to allow this machine class
 //                //       to work with different sets of opcodes (different CPUs)
 
-        } catch (NumberFormatException e) {
-            System.out.println(errorMessage + opcode + " instruction requires an integer.");
-        } catch (IllegalArgumentException e) {
-            System.out.println(errorMessage + "One or more registers not found in machine.");
+//        } catch (NumberFormatException e) {
+//            System.out.println(errorMessage + opcode + " instruction requires an integer.");
+//        } catch (IllegalArgumentException e) {
+//            System.out.println(errorMessage + "One or more registers not found in machine.");
         } catch (IndexOutOfBoundsException e) {
             System.out.println(errorMessage);
             System.out.println("Expected possible valid parameters: ");
