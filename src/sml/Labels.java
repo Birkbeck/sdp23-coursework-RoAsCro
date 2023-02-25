@@ -61,7 +61,9 @@ public final class Labels {
 	public int getAddress(String label) {
 		// TODO: Where can NullPointerException be thrown here?
 		//       (Write an explanation.)
-		//A null pointer exception can be thrown if the label does not correspond to a key in the HashMap.
+		// A null pointer exception can be thrown if the label does not correspond to a key in the HashMap, as the
+		// program will be trying to use the value of a reference that has not been assigned.
+		
 		//       Add code to deal with non-existent labels.
 		if (!labels.containsKey(label)) {
 			return NORMAL_PROGRAM_COUNTER_UPDATE;
