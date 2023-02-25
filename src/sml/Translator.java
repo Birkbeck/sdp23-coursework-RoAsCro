@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static sml.Registers.Register;
@@ -108,29 +106,46 @@ public final class Translator {
                 +
                 "\n";
         String classOpCode = opcode.substring(0, 1).toUpperCase() + opcode.replace(opcode.substring(0,1), "");
-
+        Constructor<?>[] constructors = new Constructor<?>[0];
         try {
             // TODO: Account for multiple or no constructors
             //TODO: Account for instructions named differently
             //TODO: See about converting that for loop into a stream
             //TODO: Come up with better exception handling
             Class<?> instructionClass = Class.forName("sml.instruction."+classOpCode+"Instruction");
-            Constructor<?>[] constructors = instructionClass.getConstructors();
-            if (constructors.length == 1) {
-                Class<?>[] types = constructors[0].getParameterTypes();
+            constructors = instructionClass.getConstructors();
+            Stream<Constructor<?>> constructorStream = Arrays.stream(constructors).filter(c -> (c.getParameterCount() == params.size()+1));
+            int noOfConstructors = constructorStream.toList().size();
+
+            if (noOfConstructors == 0) {
+                throw new IndexOutOfBoundsException();
+            }
+            if (constructors.length >= 1) {
                 List<Object> list = new LinkedList<>();
-                list.add(label);
-                for (int i = 1 ; i < params.size() + 1 ; i++) {
-                    Class<?> clss = types[i];
-                    if (clss == RegisterName.class) {
-                        list.add(Register.valueOf(params.get(i-1)));
-                    }else if (clss == int.class) {
-                        list.add(Integer.parseInt(params.get(i-1)));
-                    } else if (clss == String.class) {
-                        list.add(params.get(i-1));
+                for (Constructor<?> c : Arrays.stream(constructors).filter(c -> (c.getParameterCount() == params.size()+1)).toList()) {
+                    Class<?>[] types = c.getParameterTypes();
+                    list.add(label);
+                    for (int i = 1; i < params.size() + 1; i++) {
+                        Class<?> clss = types[i];
+                        if (clss == RegisterName.class) {
+                            try {
+                                list.add(Register.valueOf(params.get(i - 1)));
+                            } catch (IllegalArgumentException e) {
+                                list.clear();
+                            }
+                        } else if (clss == int.class) {
+                            try {
+                                list.add(Integer.parseInt(params.get(i - 1)));
+                            } catch (NumberFormatException e) {
+                                list.clear();
+                            }
+                        } else if (clss == String.class) {
+                            list.add(params.get(i - 1));
+                        }
                     }
                 }
-                return (Instruction) constructors[0].newInstance(list.toArray());
+                if (list.size() != 0)
+                    return (Instruction) constructors[0].newInstance(list.toArray());
             }
 
 //                // TODO: add code for all other types of instructions
@@ -145,7 +160,19 @@ public final class Translator {
         } catch (IllegalArgumentException e) {
             System.out.println(errorMessage + "One or more registers not found in machine.");
         } catch (IndexOutOfBoundsException e) {
-            System.out.println(errorMessage + "Expected " + correctParamNumber + " parameters. Got " + params.size());
+            System.out.println(errorMessage);
+            System.out.println("Expected possible valid parameters: ");
+            for (Constructor<?> c : constructors) {
+                System.out.println(
+                        (c.getParameterCount() - 1) + " parameters: " +
+                Arrays.stream(c.getParameterTypes())
+                        .skip(1)
+                        .map(Class::toString)
+                        .collect(Collectors.joining(", ")));
+                }
+                System.out.println();
+            System.out.println("Got: " + params.size() + " parameters: " + params);
+//            System.out.println(errorMessage + "Expected " + correctParamNumber + " parameters. Got " + params.size());
         } catch (ClassNotFoundException e) {
             System.out.println("Unknown instruction: " + opcode);
         } catch (InvocationTargetException e) {
