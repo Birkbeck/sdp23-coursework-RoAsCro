@@ -4,7 +4,11 @@ import sml.instruction.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -103,69 +107,38 @@ public final class Translator {
                 String.join(" ", params)
                 +
                 "\n";
+        String classOpCode = opcode.substring(0, 1).toUpperCase() + opcode.replace(opcode.substring(0,1), "");
+
         try {
-            switch (opcode) {
-                case AddInstruction.OP_CODE -> {
-                    correctParamNumber = 2;
-                    if (correctParamNumber != params.size())
-                        throw new IndexOutOfBoundsException();
-                    return new AddInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
+            // TODO: Account for multiple or no constructors
+            //TODO: Account for instructions named differently
+            //TODO: See about converting that for loop into a stream
+            //TODO: Come up with better exception handling
+            Class<?> instructionClass = Class.forName("sml.instruction."+classOpCode+"Instruction");
+            Constructor<?>[] constructors = instructionClass.getConstructors();
+            if (constructors.length == 1) {
+                Class<?>[] types = constructors[0].getParameterTypes();
+                List<Object> list = new LinkedList<>();
+                list.add(label);
+                for (int i = 1 ; i < params.size() + 1 ; i++) {
+                    Class<?> clss = types[i];
+                    if (clss == RegisterName.class) {
+                        list.add(Register.valueOf(params.get(i-1)));
+                    }else if (clss == int.class) {
+                        list.add(Integer.parseInt(params.get(i-1)));
+                    } else if (clss == String.class) {
+                        list.add(params.get(i-1));
+                    }
                 }
-
-                case SubInstruction.OP_CODE -> {
-                    correctParamNumber = 2;
-                    if (correctParamNumber != params.size())
-                        throw new IndexOutOfBoundsException();
-                    return new SubInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
-                }
-
-                case MulInstruction.OP_CODE -> {
-                    correctParamNumber = 2;
-                    if (correctParamNumber != params.size())
-                        throw new IndexOutOfBoundsException();
-                    return new MulInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
-                }
-
-                case DivInstruction.OP_CODE -> {
-                    correctParamNumber = 2;
-                    if (correctParamNumber != params.size())
-                        throw new IndexOutOfBoundsException();
-                    return new DivInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
-                }
-
-                case MovInstruction.OP_CODE -> {
-                    correctParamNumber = 2;
-                    if (correctParamNumber != params.size())
-                        throw new IndexOutOfBoundsException();
-                    return new MovInstruction(label, Register.valueOf(params.get(0)), Integer.parseInt(params.get(1)));
-                }
-
-                case OutInstruction.OP_CODE -> {
-                    correctParamNumber = 1;
-                    if (correctParamNumber != params.size())
-                        throw new IndexOutOfBoundsException();
-                    return new OutInstruction(label, Register.valueOf(params.get(0)));
-                }
-
-                case JnzInstruction.OP_CODE -> {
-                    correctParamNumber = 2;
-                    if (correctParamNumber != params.size())
-                        throw new IndexOutOfBoundsException();
-                    return new JnzInstruction(label, Register.valueOf(params.get(0)), params.get(1));
-                }
-
-
-                // TODO: add code for all other types of instructions
-
-                // TODO: Then, replace the switch by using the Reflection API
-
-                // TODO: Next, use dependency injection to allow this machine class
-                //       to work with different sets of opcodes (different CPUs)
-
-                default -> {
-                    System.out.println("Unknown instruction: " + opcode);
-                }
+                return (Instruction) constructors[0].newInstance(list.toArray());
             }
+
+//                // TODO: add code for all other types of instructions
+//
+//                // TODO: Then, replace the switch by using the Reflection API
+//
+//                // TODO: Next, use dependency injection to allow this machine class
+//                //       to work with different sets of opcodes (different CPUs)
 
         } catch (NumberFormatException e) {
             System.out.println(errorMessage + opcode + " instruction requires an integer.");
@@ -173,7 +146,16 @@ public final class Translator {
             System.out.println(errorMessage + "One or more registers not found in machine.");
         } catch (IndexOutOfBoundsException e) {
             System.out.println(errorMessage + "Expected " + correctParamNumber + " parameters. Got " + params.size());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Unknown instruction: " + opcode);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
+
         return null;
     }
 
