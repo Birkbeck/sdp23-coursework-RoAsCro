@@ -28,7 +28,7 @@
     <bean id="mov" class="sml.instruction.MovInstruction">
         <constructor-arg index="0"> <null /> </constructor-arg>
         <constructor-arg index="1"> <null /> </constructor-arg>
-        <constructor-arg index="2"> <null /> </constructor-arg>
+        <constructor-arg index="2" value="0"/>
     </bean>
     <bean id="out" class="sml.instruction.OutInstruction">
         <constructor-arg index="0"> <null /> </constructor-arg>
