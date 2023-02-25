@@ -101,15 +101,13 @@ public final class Translator {
             return y;})
                 .toList();
 
-        int correctParamNumber = 0;
         String errorMessage = "Error with instruction: " +
                 ((label != null) ? label + " : " : "") +
                 opcode + " "  +
                 String.join(" ", params)
                 +
                 "\n";
-        String classOpCode = opcode.substring(0, 1).toUpperCase() + opcode.replace(opcode.substring(0,1), "");
-        Constructor<?>[] constructors = new Constructor<?>[0];
+        Constructor<?>[] constructors;
         try {
             //TODO: Account for instructions named differently
             //TODO: See about converting that for loop into a stream
