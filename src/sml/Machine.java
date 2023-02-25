@@ -74,6 +74,14 @@ public final class Machine {
 
 	// TODO: use pattern matching for instanceof
 	// https://docs.oracle.com/en/java/javase/14/language/pattern-matching-instanceof-operator.html
+
+	/**
+	 * Checks if two Machines are equal. Two machines are equal if: Their labels are the same; their program is the same
+	 * ;the values of their registers are the same; their program counters are at the same point in the program.
+	 *
+	 * @param o another object against which this Machine will be tested
+	 * @return false if o is not a Machine or is not equal to this Machine. True otherwise
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Machine other) {
@@ -86,6 +94,12 @@ public final class Machine {
 		return false;
 	}
 
+	/**
+	 * Returns a hash code for this Machine. The hashcode is based on the Machine's labels, program, the values of its
+	 * registers, and the position of its programCounter.
+	 *
+	 * @return a hash code for this machine
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(labels, program, registers, programCounter);
