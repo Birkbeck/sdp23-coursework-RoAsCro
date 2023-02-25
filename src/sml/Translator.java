@@ -88,7 +88,7 @@ public final class Translator {
             return null;
 
         String opcode = scan();
-        
+
         List<String> params;
         int[] l = {-1};
         params = Stream.generate(this::scan).takeWhile(x -> {
@@ -97,33 +97,55 @@ public final class Translator {
             return y;})
                 .toList();
 
+        int correctParamNumber = 0;
         try {
             switch (opcode) {
                 case AddInstruction.OP_CODE -> {
+                    correctParamNumber = 2;
+                    if (correctParamNumber != params.size())
+                        throw new IndexOutOfBoundsException();
                     return new AddInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
                 }
 
                 case SubInstruction.OP_CODE -> {
+                    correctParamNumber = 2;
+                    if (correctParamNumber != params.size())
+                        throw new IndexOutOfBoundsException();
                     return new SubInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
                 }
 
                 case MulInstruction.OP_CODE -> {
+                    correctParamNumber = 2;
+                    if (correctParamNumber != params.size())
+                        throw new IndexOutOfBoundsException();
                     return new MulInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
                 }
 
                 case DivInstruction.OP_CODE -> {
+                    correctParamNumber = 2;
+                    if (correctParamNumber != params.size())
+                        throw new IndexOutOfBoundsException();
                     return new DivInstruction(label, Register.valueOf(params.get(0)), Register.valueOf(params.get(1)));
                 }
 
                 case MovInstruction.OP_CODE -> {
+                    correctParamNumber = 2;
+                    if (correctParamNumber != params.size())
+                        throw new IndexOutOfBoundsException();
                     return new MovInstruction(label, Register.valueOf(params.get(0)), Integer.parseInt(params.get(1)));
                 }
 
                 case OutInstruction.OP_CODE -> {
+                    correctParamNumber = 1;
+                    if (correctParamNumber != params.size())
+                        throw new IndexOutOfBoundsException();
                     return new OutInstruction(label, Register.valueOf(params.get(0)));
                 }
 
                 case JnzInstruction.OP_CODE -> {
+                    correctParamNumber = 2;
+                    if (correctParamNumber != params.size())
+                        throw new IndexOutOfBoundsException();
                     return new JnzInstruction(label, Register.valueOf(params.get(0)), params.get(1));
                 }
 
@@ -139,6 +161,7 @@ public final class Translator {
                     System.out.println("Unknown instruction: " + opcode);
                 }
             }
+
         } catch (NumberFormatException e) {
             System.out.println("Error with instruction: " +
                     opcode + " "  +
@@ -153,6 +176,11 @@ public final class Translator {
                     String.join(" ", params) +
                     "\n" +
                     "One or more registers not found in machine.");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Error with instruction: " +
+                    opcode + " "  +
+                    String.join(" ", params) +
+                    "\n" +"Expected " + correctParamNumber + " parameters. Got " + params.size());
         }
         return null;
     }
