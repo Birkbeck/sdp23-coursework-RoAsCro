@@ -117,7 +117,18 @@ public final class Translator {
             int noOfConstructors = constructorList.size();
 
             if (noOfConstructors == 0) {
-                throw new IndexOutOfBoundsException();
+                System.out.println(errorMessage);
+                System.out.println("Expected possible valid parameters: ");
+                for (Constructor<?> c : constructors) {
+                    System.out.println(
+                            (c.getParameterCount() - 1) + " parameters: " +
+                                    Arrays.stream(c.getParameterTypes())
+                                            .skip(1)
+                                            .map(Class::toString)
+                                            .collect(Collectors.joining(", ")));
+                }
+                System.out.println();
+                System.out.println("Got: " + params.size() + " parameters: " + params);
             }
             else {
                 List<Object> list = new LinkedList<>();
@@ -164,19 +175,8 @@ public final class Translator {
 //            System.out.println(errorMessage + opcode + " instruction requires an integer.");
 //        } catch (IllegalArgumentException e) {
 //            System.out.println(errorMessage + "One or more registers not found in machine.");
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(errorMessage);
-            System.out.println("Expected possible valid parameters: ");
-            for (Constructor<?> c : constructors) {
-                System.out.println(
-                        (c.getParameterCount() - 1) + " parameters: " +
-                Arrays.stream(c.getParameterTypes())
-                        .skip(1)
-                        .map(Class::toString)
-                        .collect(Collectors.joining(", ")));
-                }
-                System.out.println();
-            System.out.println("Got: " + params.size() + " parameters: " + params);
+//        } catch (IndexOutOfBoundsException e) {
+            
 //            System.out.println(errorMessage + "Expected " + correctParamNumber + " parameters. Got " + params.size());
         } catch (ClassNotFoundException e) {
             System.out.println("Unknown instruction: " + opcode);
