@@ -12,7 +12,7 @@ public class TranslatorTest {
     private Translator translator;
     private LinkedList<Instruction> list;
 
-    private String fileLocation = "./cw/test/";
+    private final String fileLocation = "./cw/test/";
 
     @BeforeEach
     void setUp(){
