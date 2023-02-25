@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="add" class="sml.instruction.AddInstruction">
+        <constructor-arg index="0"> <null /> </constructor-arg>
+        <constructor-arg index="1"> <null /> </constructor-arg>
+        <constructor-arg index="2"> <null /> </constructor-arg>
+    </bean>
+
+</beans>
