@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static sml.Instruction.NORMAL_PROGRAM_COUNTER_UPDATE;
+
 // TODO: write a JavaDoc for the class
 
 /**
@@ -15,9 +17,12 @@ import java.util.stream.Collectors;
  * @author Roland Crompton
  */
 public final class Labels {
-	private final Map<String, Integer> labels = new HashMap<>();
 
-	private static final int NORMAL_PROGRAM_COUNTER_UPDATE = -1;
+	/**
+	 * The hashmap in which is stored a String representing an Instruction's label, and an integer representing the Instruction's
+	 * location in the program.
+	 */
+	private final Map<String, Integer> labels = new HashMap<>();
 
 	/**
 	 * Adds a label with the associated address to the map.
@@ -47,8 +52,9 @@ public final class Labels {
 	/**
 	 * Returns the address associated with the label.
 	 * <p></p>
-	 * If the label does not exist, displays an error message and returns the normal program counter update, indicating
-	 * the program counter should move onto the instruction with the next address.
+	 * If the label does not exist, displays an error message and returns the normal program counter update imported
+	 * from class Instruction.
+	 *
 	 * @param label the label
 	 * @return the address the label refers to if the label exists. Otherwise, the normal program counter update
 	 */
