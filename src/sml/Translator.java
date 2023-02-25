@@ -101,6 +101,7 @@ public final class Translator {
 
         int correctParamNumber = 0;
         String errorMessage = "Error with instruction: " +
+                ((label != null) ? label + " : " : "") +
                 opcode + " "  +
                 String.join(" ", params)
                 +
@@ -138,30 +139,35 @@ public final class Translator {
                     Class<?>[] types = c.getParameterTypes();
                     list.clear();
                     list.add(label);
-                    for (int i = 1; i < params.size() + 1; i++) {
+                    for (int i = 1; i < types.length; i++) {
                         Class<?> clss = types[i];
+                        String parameter = params.get(i - 1);
+
                         if (clss == RegisterName.class) {
                             try {
-                                list.add(Register.valueOf(params.get(i - 1)));
+                                list.add(Register.valueOf(parameter));
                             } catch (IllegalArgumentException e) {
                                 list.clear();
                                 break;
                             }
                         } else if (clss == int.class) {
                             try {
-                                list.add(Integer.parseInt(params.get(i - 1)));
+                                list.add(Integer.parseInt(parameter));
                             } catch (NumberFormatException e) {
                                 list.clear();
                                 break;
                             }
                         } else if (clss == String.class) {
-                            list.add(params.get(i - 1));
+                            list.add(parameter);
                         }
                     }
 
                 }
                 if (list.size() != 0)
                     return (Instruction) constructors[0].newInstance(list.toArray());
+                else {
+                    //TODO: display error message
+                }
             }
 
 //                // TODO: add code for all other types of instructions
@@ -176,7 +182,7 @@ public final class Translator {
 //        } catch (IllegalArgumentException e) {
 //            System.out.println(errorMessage + "One or more registers not found in machine.");
 //        } catch (IndexOutOfBoundsException e) {
-            
+
 //            System.out.println(errorMessage + "Expected " + correctParamNumber + " parameters. Got " + params.size());
         } catch (ClassNotFoundException e) {
             System.out.println("Unknown instruction: " + opcode);
