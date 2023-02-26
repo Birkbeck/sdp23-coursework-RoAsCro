@@ -121,9 +121,7 @@ public class InstructionFactory {
 
     public static InstructionFactory getInstructionFactory() {
         InstructionFactory factory = (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml").getBean("insFactory");
-        for (Instruction i : factory.instructions) {
-            factory.classMap.put(i.opcode, i.getClass());
-        }
+        factory.instructions.forEach(i -> factory.classMap.put(i.opcode, i.getClass()));
         return factory;
     }
 
