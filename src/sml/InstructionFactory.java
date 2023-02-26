@@ -40,7 +40,7 @@ public class InstructionFactory {
 
     }
 
-    public Class<? extends Instruction> getInstructionClass(String opcode) {
+    private Class<? extends Instruction> getInstructionClass(String opcode) {
         if (!classMap.containsKey(opcode))
             return null;
         return classMap.get(opcode);
@@ -95,14 +95,6 @@ public class InstructionFactory {
 
                 //The first parameter is skipped as that's the label
                 Iterator<Class<?>> typeIter = Arrays.stream(types).skip(1).iterator();
-//                list = params.stream().map(p -> {
-//                    try {
-//                        return (Object) paramTypes.get(typeIter.next()).apply(p);
-//                    } catch (IllegalArgumentException e) {
-//                        return null;
-//                    }
-//                }).filter(Objects::nonNull)
-//                        .toList();
                 for (String p : params) {
                     try {
                         list.add(paramTypes.get(typeIter.next()).apply(p));

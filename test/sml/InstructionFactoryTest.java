@@ -27,11 +27,6 @@ public class InstructionFactoryTest {
     }
 
     @Test
-    void testMap() {
-        Assertions.assertEquals(AddInstruction.class, fact.getInstructionClass("add"));
-    }
-
-    @Test
     void testInstruction() {
         List<String> list = new LinkedList<String>();
         list.add("EAX");
