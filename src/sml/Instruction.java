@@ -5,6 +5,9 @@ package sml;
 /**
  * Represents an abstract instruction. An Instruction forms part of an SML program, executing an operation on a machine
  * and indicating which instruction in the program should be read next.
+ * <p></p>
+ * When implementing an Instruction, it must only take integers, labels, and RegisterNames as its construction
+ * parameters.
  *
  * @author ...
  */
