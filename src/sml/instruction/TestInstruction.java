@@ -43,12 +43,14 @@ public class TestInstruction extends Instruction {
         this.targetLabel = targetLabel;
     }
 
+
     public TestInstruction(String label, RegisterName source) {
         super(label, OP_CODE);
         this.x = DEFAULT_X;
         this.source = source;
         this.targetLabel = DEFAULT_TARGET_LABEL;
     }
+
 
     public TestInstruction(String label, int x) {
         super(label, OP_CODE);
@@ -57,10 +59,18 @@ public class TestInstruction extends Instruction {
         this.targetLabel = DEFAULT_TARGET_LABEL;
     }
 
+    public TestInstruction(String label, String targetLabel) {
+        super(label, OP_CODE);
+        this.x = DEFAULT_X;
+        this.source = DEFAULT_SOURCE;
+        this.targetLabel = targetLabel;
+    }
+
     @Override
     public int execute(Machine m) {
         targetLabel.length();
         source.name();
+        System.out.println(this);
         return NORMAL_PROGRAM_COUNTER_UPDATE;
     }
 
