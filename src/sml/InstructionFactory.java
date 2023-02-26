@@ -1,5 +1,7 @@
 package sml;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,7 @@ public class InstructionFactory {
     private InstructionFactory() {}
 
     public static InstructionFactory getInstructionFactory() {
-        return null;
+        return (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml").getBean("insFactory");
     }
 
 
