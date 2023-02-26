@@ -126,16 +126,10 @@ public class InstructionFactory {
             candidateInstructions =
                     constructorList.stream()
                             .map(c -> {
-                                Class<?>[] types = c.getParameterTypes();
                                 //The first parameter is skipped as that is the label
-                                Iterator<Class<?>> typeIter = Arrays.stream(types).skip(1).iterator();
-                                LinkedList<Object> typedParams = new LinkedList<>(params.stream().map(p -> {
-                                    try {
-                                        return PARAM_TYPES.get(typeIter.next()).apply(p);
-                                    } catch (IllegalArgumentException e) {
-                                        return null;
-                                    }
-                                }).toList());
+                                Iterator<Class<?>> typeIter = Arrays.stream(c.getParameterTypes()).skip(1).iterator();
+                                LinkedList<Object> typedParams = new LinkedList<>(params.stream()
+                                        .map(p -> castString(p, typeIter.next())).toList());
                                 if (!typedParams.contains(null)) {
                                     try {
                                         typedParams.push(label);
@@ -155,6 +149,20 @@ public class InstructionFactory {
         }
         System.err.println(buildErrorMessage(errorMessage, constructors, params));
         return null;
+    }
+
+    /**
+     * Attempts to convert the given String into the given type. Type should only be String, RegisterName, or int.
+     * @param input the string to be converted
+     * @param type the type the input is to be converted to. Must be String, RegisterName, or int
+     * @return the converted input if it's possible to convert it, null otherwise
+     */
+    private Object castString(String input, Class<?> type) {
+        try {
+            return PARAM_TYPES.get(type).apply(input);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     /**
