@@ -42,34 +42,22 @@ public class InstructionFactory {
     public Instruction getInstruction(String label, String opcode, List<String> params) {
         Class<? extends Instruction> classus = getInstructionClass(opcode);
 
-        String errorMessage = "Error with instruction: " +
-                ((label != null) ? label + " : " : "") +
-                opcode + " "  +
-                String.join(" ", params)
-                +
-                "\n";
+        String errorMessage = "Error with instruction: " + ((label != null) ? label + " : " : "") + opcode + " "  +
+                String.join(" ", params) + "\n";
 
         if (classus == null) {
-            System.err.println(errorMessage + "No such instruction found.");
+            System.err.println(errorMessage + "No such instruction found. Available instructions:\n" + this);
             return null;
         }
 
         //Get constructors
         Constructor<?>[] constructors = classus.getConstructors();
-        String paramsErrorMessage = buildErrorMessage(errorMessage, opcode, constructors, params);
-
         //Find only constructors that match the given number of parameters
         List<Constructor<?>> constructorList = Arrays.stream(constructors)
                 .filter(c -> (c.getParameterCount() == params.size()+1))
                 .toList();
-        int noOfConstructors = constructorList.size();
 
-        //If there are no constructors that fit the given number of parameters, display an error message
-        if (noOfConstructors == 0) {
-            System.err.println(paramsErrorMessage);
-            System.err.println("Invalid number of parameters.");
-        }
-        else if (!params.contains(null)) {
+        if (constructorList.size() != 0 && !params.contains(null)) {
             //Attempt to match the given parameters with the types of the parameters of the remaining constructors
             List<Object> typedParams = new LinkedList<>();
 
@@ -93,24 +81,22 @@ public class InstructionFactory {
                     } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
                         typedParams.clear();
                     }
-
             }
         }
-        System.err.println(paramsErrorMessage);
-        System.err.println("Invalid parameter types.");
+        System.err.println(buildErrorMessage(errorMessage, constructors, params));
         return null;
     }
 
-    private String buildErrorMessage(String errorMessage, String opcode, Constructor<?>[] constructors, List<String> params) {
+    private String buildErrorMessage(String errorMessage, Constructor<?>[] constructors, List<String> params) {
         StringBuilder paramsErrorMessage = new StringBuilder(errorMessage +
-                "Possible sets of valid parameters for instruction type " + opcode + ":");
+                "Possible sets of valid parameters for this instruction type :");
         Arrays.stream(constructors).forEach( constructor ->
                 paramsErrorMessage.append("\n").append(constructor.getParameterCount() - 1).append(" parameters: ")
                         .append(Arrays.stream(constructor.getParameterTypes())
                         .skip(1)
                         .map(Class::getName)
                         .collect(Collectors.joining(", "))));
-        paramsErrorMessage.append("\nGot: ").append(params.size()).append(" parameters: ").append(params);
+        paramsErrorMessage.append("\nGot: ").append(params.size()).append(" parameters: ").append(String.join(", ", params));
         return paramsErrorMessage.toString();
     }
 
@@ -121,6 +107,11 @@ public class InstructionFactory {
         InstructionFactory factory = (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml").getBean("insFactory");
         factory.instructions.forEach(i -> factory.classMap.put(i.opcode, i.getClass()));
         return factory;
+    }
+
+    @Override
+    public String toString() {
+        return String.join(", ", classMap.keySet());
     }
 
 
