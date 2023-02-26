@@ -82,11 +82,13 @@ public final class Translator {
     private Instruction getInstruction(String label) {
         if (line.isEmpty())
             return null;
-
         String opcode = scan();
+        int[] l = {line.length()};
 
+
+        //Create a list of parameters
         List<String> params;
-        int[] l = {-1};
+
         params = Stream.generate(this::scan).takeWhile(x -> {
             boolean y = line.length() != l[0];
             l[0] = line.length();
@@ -106,7 +108,9 @@ public final class Translator {
             return word.substring(0, word.length() - 1);
 
         // undo scanning the word
-        line = word + " " + line;
+        line = word + ((!line.equals(word))
+                ? " " + line
+                :"");
         return null;
     }
 
