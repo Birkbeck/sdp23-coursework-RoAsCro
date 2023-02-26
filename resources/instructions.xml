@@ -1,53 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="
-		http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+<!--    Instructions go here: -->
+    <bean id="add" class="sml.instruction.AddInstruction" autowire="constructor"/>
+    <bean id="sub" class="sml.instruction.SubInstruction" autowire="constructor"/>
+    <bean id="mul" class="sml.instruction.MulInstruction" autowire="constructor"/>
+    <bean id="div" class="sml.instruction.DivInstruction" autowire="constructor"/>
+    <bean id="mov" class="sml.instruction.MovInstruction" autowire="constructor"/>
+    <bean id="out" class="sml.instruction.OutInstruction" autowire="constructor"/>
+    <bean id="jnz" class="sml.instruction.JnzInstruction" autowire="constructor"/>
 
-    <bean id="add" class="sml.instruction.AddInstruction">
-        <constructor-arg index="0"> <null /> </constructor-arg>
-        <constructor-arg index="1"> <null /> </constructor-arg>
-        <constructor-arg index="2"> <null /> </constructor-arg>
-    </bean>
-    <bean id="sub" class="sml.instruction.SubInstruction">
-        <constructor-arg index="0"> <null /> </constructor-arg>
-        <constructor-arg index="1"> <null /> </constructor-arg>
-        <constructor-arg index="2"> <null /> </constructor-arg>
-    </bean>
-    <bean id="mul" class="sml.instruction.MulInstruction">
-        <constructor-arg index="0"> <null /> </constructor-arg>
-        <constructor-arg index="1"> <null /> </constructor-arg>
-        <constructor-arg index="2"> <null /> </constructor-arg>
-    </bean>
-    <bean id="div" class="sml.instruction.DivInstruction">
-        <constructor-arg index="0"> <null /> </constructor-arg>
-        <constructor-arg index="1"> <null /> </constructor-arg>
-        <constructor-arg index="2"> <null /> </constructor-arg>
-    </bean>
-    <bean id="mov" class="sml.instruction.MovInstruction">
-        <constructor-arg index="0"> <null /> </constructor-arg>
-        <constructor-arg index="1"> <null /> </constructor-arg>
-        <constructor-arg index="2" value="0"/>
-    </bean>
-    <bean id="out" class="sml.instruction.OutInstruction">
-        <constructor-arg index="0"> <null /> </constructor-arg>
-        <constructor-arg index="1"> <null /> </constructor-arg>
-    </bean>
-    <bean id="jnz" class="sml.instruction.JnzInstruction">
-        <constructor-arg index="0"> <null /> </constructor-arg>
-        <constructor-arg index="1"> <null /> </constructor-arg>
-        <constructor-arg index="2"> <null /> </constructor-arg>
-    </bean>
-    <bean id="runtime" class="org.springframework.beans.factory.config.RuntimeBeanReference">
-        <constructor-arg value="AddInstruction"/>
+<!--    Dependencies for autowiring the Instructions constructors-->
+    <bean id="nullString" class="java.lang.String"/>
+    <bean id="nullRegName" class="sml.InstructionFactory.NullRegisterName"/>
+    <bean id="nullInt" class="java.lang.Integer" factory-method="valueOf">
+        <constructor-arg type="java.lang.String" value="0"/>
     </bean>
 
-<!--    <bean id="add1" class="sml.instruction.AddInstruction" factory-method="factoryGetClass"/>-->
-
-<!--    <bean id="factory" class="sml.InstructionsFactory" autowire="byType"/>-->
-
-    <bean id="insFactory" class="sml.InstructionFactory" autowire="byType"/>
+<!--    InstructionFactory-->
+    <bean id="insFactory" class="sml.InstructionFactory" autowire="byType" scope="singleton"/>
 
 
 </beans>
