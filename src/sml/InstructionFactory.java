@@ -1,18 +1,22 @@
 package sml;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class InstructionFactory {
 
     private List<Instruction> instructions;
 
-    private Map<String, Instruction> classMap;
+    private Map<String, Class<? extends Instruction>> classMap = new HashMap<>();
 
-    private void setInstructions(List<Instruction> list) {
-
+    @Autowired
+    public void setInstructions(List<Instruction> instructions) {
+        this.instructions = instructions;
     }
 
     private void setClassMap() {
@@ -20,17 +24,21 @@ public class InstructionFactory {
     }
 
     public Class<? extends Instruction> getInstructionClass(String opcode) {
-        return null;
+        return classMap.get(opcode);
     }
 
     public Instruction getInstruction(List<String> params) {
         return null;
     }
 
-    private InstructionFactory() {}
+    public InstructionFactory() {}
 
     public static InstructionFactory getInstructionFactory() {
-        return (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml").getBean("insFactory");
+        InstructionFactory factory = (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml").getBean("insFactory");
+        for (Instruction i : factory.instructions) {
+            factory.classMap.put(i.opcode, i.getClass());
+        }
+        return factory;
     }
 
 

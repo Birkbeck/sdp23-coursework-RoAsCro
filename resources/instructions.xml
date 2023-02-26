@@ -46,7 +46,8 @@
 <!--    <bean id="add1" class="sml.instruction.AddInstruction" factory-method="factoryGetClass"/>-->
 
 <!--    <bean id="factory" class="sml.InstructionsFactory" autowire="byType"/>-->
-    <bean id="insFactory" class="sml.InstructionFactory"/>
+
+    <bean id="insFactory" class="sml.InstructionFactory" autowire="byType"/>
 
 
 </beans>
