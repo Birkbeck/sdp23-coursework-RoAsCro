@@ -40,7 +40,6 @@ public class InstructionFactory {
     }
 
     public Instruction getInstruction(String label, String opcode, List<String> params) {
-        //TODO Handle null inputs
         Class<? extends Instruction> classus = getInstructionClass(opcode);
 
         String errorMessage = "Error with instruction: " +
@@ -57,15 +56,7 @@ public class InstructionFactory {
 
         //Get constructors
         Constructor<?>[] constructors = classus.getConstructors();
-
-        StringBuilder paramsErrorMessage = new StringBuilder(errorMessage +
-                "Possible sets of valid parameters for instruction type " + opcode + ":");
-        Arrays.stream(constructors).forEach( constructor ->
-                paramsErrorMessage.append("\n").append(constructor.getParameterCount() - 1).append(" parameters: ").append(Arrays.stream(constructor.getParameterTypes())
-                        .skip(1)
-                        .map(Class::getName)
-                        .collect(Collectors.joining(", "))));
-        paramsErrorMessage.append("\nGot: ").append(params.size()).append(" parameters: ").append(params);
+        String paramsErrorMessage = buildErrorMessage(errorMessage, opcode, constructors, params);
 
         //Find only constructors that match the given number of parameters
         List<Constructor<?>> constructorList = Arrays.stream(constructors)
@@ -78,7 +69,7 @@ public class InstructionFactory {
             System.err.println(paramsErrorMessage);
             System.err.println("Invalid number of parameters.");
         }
-        else {
+        else if (!params.contains(null)) {
             //Attempt to match the given parameters with the types of the parameters of the remaining constructors
             List<Object> typedParams = new LinkedList<>();
 
@@ -110,9 +101,23 @@ public class InstructionFactory {
         return null;
     }
 
+    private String buildErrorMessage(String errorMessage, String opcode, Constructor<?>[] constructors, List<String> params) {
+        StringBuilder paramsErrorMessage = new StringBuilder(errorMessage +
+                "Possible sets of valid parameters for instruction type " + opcode + ":");
+        Arrays.stream(constructors).forEach( constructor ->
+                paramsErrorMessage.append("\n").append(constructor.getParameterCount() - 1).append(" parameters: ")
+                        .append(Arrays.stream(constructor.getParameterTypes())
+                        .skip(1)
+                        .map(Class::getName)
+                        .collect(Collectors.joining(", "))));
+        paramsErrorMessage.append("\nGot: ").append(params.size()).append(" parameters: ").append(params);
+        return paramsErrorMessage.toString();
+    }
+
+
     private InstructionFactory() {}
 
-    public static InstructionFactory getInstructionFactory() {
+    public static InstructionFactory getInstance() {
         InstructionFactory factory = (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml").getBean("insFactory");
         factory.instructions.forEach(i -> factory.classMap.put(i.opcode, i.getClass()));
         return factory;

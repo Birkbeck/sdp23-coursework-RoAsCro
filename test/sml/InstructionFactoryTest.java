@@ -18,7 +18,7 @@ public class InstructionFactoryTest {
 
     @BeforeEach
     void setUp() {
-        fact = InstructionFactory.getInstructionFactory();
+        fact = InstructionFactory.getInstance();
         list = new LinkedList<>();
     }
 
