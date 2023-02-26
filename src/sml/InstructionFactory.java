@@ -20,10 +20,13 @@ public class InstructionFactory {
     private List<Instruction> instructions;
 
     private final Map<String, Class<? extends Instruction>> classMap = new HashMap<>();
-//    public class UnaryOperatorExample implements UnaryOperator<String>{
-//        public String apply(String text) {
-//            return text+".txt";
-//        }
+
+    public static class nullRegisterName implements RegisterName {
+        @Override
+        public String name() {
+            return " ";
+        }
+    }
 
     private final Map<Class<?>, Function<String, ?>> paramTypes = Map.of(
             String.class, x -> x,
