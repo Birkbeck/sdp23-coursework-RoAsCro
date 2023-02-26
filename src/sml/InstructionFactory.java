@@ -47,13 +47,6 @@ public class InstructionFactory {
 
     public Instruction getInstruction(String label, String opcode, List<String> params) {
         Class<? extends Instruction> classus = getInstructionClass(opcode);
-        if (classus == null) {
-            //TODO print error message
-            return null;
-        }
-
-        //Get constructors
-        Constructor<?>[] constructors = classus.getConstructors();
 
         String errorMessage = "Error with instruction: " +
                 ((label != null) ? label + " : " : "") +
@@ -61,6 +54,15 @@ public class InstructionFactory {
                 String.join(" ", params)
                 +
                 "\n";
+
+        if (classus == null) {
+            System.err.println(errorMessage + "No such instruction found.");
+            return null;
+        }
+
+        //Get constructors
+        Constructor<?>[] constructors = classus.getConstructors();
+
         StringBuilder paramsErrorMessage = new StringBuilder(errorMessage +
                 "Possible sets of valid parameters for instruction type " + opcode + ":\n");
         Arrays.stream(constructors).forEach( constructor ->
@@ -69,8 +71,6 @@ public class InstructionFactory {
                         .map(Class::getName)
                         .collect(Collectors.joining(", "))));
         paramsErrorMessage.append("\nGot: ").append(params.size()).append(" parameters: ").append(params);
-
-
 
         //Find only constructors that match the given number of parameters
         List<Constructor<?>> constructorList = Arrays.stream(constructors)
