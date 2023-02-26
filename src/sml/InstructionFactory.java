@@ -121,9 +121,8 @@ public class InstructionFactory {
                 .toList();
 
         if (constructorList.size() != 0 && !params.contains(null)) {
-            List<Instruction> candidateInstructions;
             //Attempt to match the given parameters with the types of the parameters of the remaining constructors
-            candidateInstructions =
+            List<Instruction> candidateInstructions =
                     constructorList.stream()
                             .map(c -> {
                                 //The first parameter is skipped as that is the label
