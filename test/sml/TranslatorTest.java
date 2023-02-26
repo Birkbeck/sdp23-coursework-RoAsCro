@@ -79,7 +79,9 @@ public class TranslatorTest {
     @Test
     void testExtensibility() {
         translator = new Translator(fileLocation + "test14.sml");
-        assertDoesNotThrow(() -> translator.readAndTranslate(new Labels(), list));
+        Machine m = new Machine(new Registers());
+        assertDoesNotThrow(() -> translator.readAndTranslate(m.getLabels(), m.getProgram()));
+        m.execute();
 
     }
 

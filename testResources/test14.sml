@@ -1,5 +1,6 @@
-tes
-tes x EAX 3
-tes a EAX
-tes 2
-tes EAX
+tes: tes
+tes x EBX 3
+tes x EBX
+tes 3
+tes x
+tes EBX
