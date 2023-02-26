@@ -121,17 +121,15 @@ public class InstructionFactory {
                 .toList();
 
         if (constructorList.size() != 0 && !params.contains(null)) {
-            //Attempt to match the given parameters with the types of the parameters of the remaining constructors
             List<Instruction> candidateInstructions;
-            LinkedList<Object> typedParams = new LinkedList<>();
+            //Attempt to match the given parameters with the types of the parameters of the remaining constructors
             candidateInstructions =
                     constructorList.stream()
                             .map(c -> {
                                 Class<?>[] types = c.getParameterTypes();
                                 //The first parameter is skipped as that is the label
                                 Iterator<Class<?>> typeIter = Arrays.stream(types).skip(1).iterator();
-                                typedParams.clear();
-                                typedParams.addAll(params.stream().map(p -> {
+                                LinkedList<Object> typedParams = new LinkedList<>(params.stream().map(p -> {
                                     try {
                                         return PARAM_TYPES.get(typeIter.next()).apply(p);
                                     } catch (IllegalArgumentException e) {
