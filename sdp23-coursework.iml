@@ -5,6 +5,7 @@
       <configuration>
         <fileset id="fileset" name="Instructions" removed="false">
           <file>file://$MODULE_DIR$/src/instructions.xml</file>
+          <file>file://$MODULE_DIR$/resources/instructions.xml</file>
         </fileset>
       </configuration>
     </facet>
