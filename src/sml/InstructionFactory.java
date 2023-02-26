@@ -101,7 +101,6 @@ public class InstructionFactory {
             System.err.println(errorMessage + "No such instruction found. Available instructions:\n" + this);
             return null;
         }
-
         //Get constructors
         Constructor<?>[] constructors = classus.getConstructors();
         //Find only those constructors that match the given number of parameters
@@ -111,28 +110,37 @@ public class InstructionFactory {
 
         if (constructorList.size() != 0 && !params.contains(null)) {
             //Attempt to match the given parameters with the types of the parameters of the remaining constructors
-            List<Object> typedParams = new LinkedList<>();
+            List<Instruction> candidateInstructions;
+            LinkedList<Object> typedParams = new LinkedList<>();
+            candidateInstructions =
+                    constructorList.stream()
+                            .map(c -> {
+                                Class<?>[] types = c.getParameterTypes();
+                                //The first parameter is skipped as that is the label
+                                Iterator<Class<?>> typeIter = Arrays.stream(types).skip(1).iterator();
+                                typedParams.clear();
+                                typedParams.addAll(params.stream().map(p -> {
+                                    try {
+                                        return PARAM_TYPES.get(typeIter.next()).apply(p);
+                                    } catch (IllegalArgumentException e) {
+                                        return null;
+                                    }
+                                }).toList());
+                                if (!typedParams.contains(null)) {
+                                    try {
+                                        typedParams.push(label);
+                                        return (Instruction) c.newInstance(typedParams.toArray());
 
-            for (Constructor<?> c : constructorList) {
-                Class<?>[] types = c.getParameterTypes();
-                typedParams.add(label);
+                                    } catch (InstantiationException | InvocationTargetException |
+                                             IllegalAccessException e) {
+                                        typedParams.clear();
+                                    }
+                                }
+                                return null;
+                            }).filter(Objects::nonNull).toList();
 
-                //The first parameter is skipped as that is the label
-                Iterator<Class<?>> typeIter = Arrays.stream(types).skip(1).iterator();
-                for (String p : params) {
-                    try {
-                        typedParams.add(PARAM_TYPES.get(typeIter.next()).apply(p));
-                    } catch (IllegalArgumentException e) {
-                        typedParams.clear();
-                        break;
-                    }
-                }
-                if (typedParams.size() != 0)
-                    try {
-                        return (Instruction) c.newInstance(typedParams.toArray());
-                    } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
-                        typedParams.clear();
-                    }
+            if (candidateInstructions.size() > 0) {
+                return candidateInstructions.get(0);
             }
         }
         System.err.println(buildErrorMessage(errorMessage, constructors, params));
