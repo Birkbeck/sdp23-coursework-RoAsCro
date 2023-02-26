@@ -6,8 +6,13 @@ package sml;
  * Represents an abstract instruction. An Instruction forms part of an SML program, executing an operation on a machine
  * and indicating which instruction in the program should be read next.
  * <p></p>
- * When implementing an Instruction, it must only take integers, labels, and RegisterNames as its construction
- * parameters.
+ * When implementing a concrete Instruction, it must only take integers, labels, and RegisterNames as its construction
+ * parameters. In addition, it's opcode must not be null.
+ * <p></>
+ * An Instruction may have multiple constructors, but as they are typically instantiated using an input from an SML
+ * file, i.e. using Strings, this may result in ambiguity if, say, an Instruction had a constructor that takes a label
+ * and a RegisterName, and a second constructor that takes a label and a String. The second constructor may end up being
+ * called used when the first constructor was intended.
  *
  * @author ...
  */
@@ -92,5 +97,4 @@ public abstract class Instruction {
 	@Override
 	public abstract String toString();
 
-	// TODO: Make sure that subclasses also implement equals and hashCode (needed in class Machine).
 }
