@@ -6,26 +6,40 @@ import static org.junit.jupiter.api.Assertions.*;
 import static sml.Registers.Register.*;
 
 import sml.Instruction;
-import sml.Translator;
-
-import java.io.IOException;
 
 public class JnzInstrutionTest extends AbstractInstructionTest{
 
     @Test
-    void executeValid() throws IOException {
-        Translator translator = new Translator(fileLocation + "test4.sml");
-        translator.readAndTranslate(machine.getLabels(), machine.getProgram());
+    void executeValid() {
+        machine.getProgram().add(new MovInstruction(null, EAX, 3));
+        machine.getProgram().add(new MovInstruction(null, EBX, 1));
+        machine.getProgram().add(new MovInstruction(null, ESI, 1));
+        machine.getProgram().add(new OutInstruction(null, ESI));
+        machine.getProgram().add(new MovInstruction(null, ECX, 1));
+        machine.getProgram().add(new SubInstruction("a", EAX, EBX));
+        machine.getLabels().addLabel("a", 5);
+        machine.getProgram().add(new OutInstruction(null, EAX));
+        machine.getProgram().add(new JnzInstruction(null, EAX, "a"));
+        machine.getProgram().add(new OutInstruction(null, EBX));
+        machine.getProgram().add(new JnzInstruction(null, EBX, "b"));
+        machine.getProgram().add(new AddInstruction(null, EBX, ECX));
+        machine.getProgram().add(new SubInstruction("b", EBX, ECX));
+        machine.getLabels().addLabel("b", 11);
+        machine.getProgram().add(new OutInstruction(null, EBX));
         machine.execute();
         assertEquals(0, machine.getRegisters().get(EAX));
         assertEquals(0, machine.getRegisters().get(EBX));
+        assertEquals(1, machine.getRegisters().get(ESI));
 
     }
 
     @Test
-    void executeLabelDoesNotExist() throws IOException {
-        Translator translator = new Translator(fileLocation + "test11.sml");
-        translator.readAndTranslate(machine.getLabels(), machine.getProgram());
+    void executeLabelDoesNotExist() {
+        machine.getProgram().add(new MovInstruction(null, EAX, 2));
+        machine.getProgram().add(new MovInstruction(null, EBX, 1));
+        machine.getProgram().add(new SubInstruction(null, EAX, EBX));
+        machine.getProgram().add(new JnzInstruction(null, EAX, "a"));
+        machine.getProgram().add(new MovInstruction(null, EAX, 1));
         machine.execute();
         assertEquals(0, machine.getRegisters().get(EAX));
     }
