@@ -1,19 +1,13 @@
 package sml;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.*;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.util.Map.entry;
-
 
 public class InstructionFactory {
 
@@ -21,7 +15,7 @@ public class InstructionFactory {
 
     private final Map<String, Class<? extends Instruction>> classMap = new HashMap<>();
 
-    public static class nullRegisterName implements RegisterName {
+    public static class  NullRegisterName implements RegisterName {
         @Override
         public String name() {
             return " ";
@@ -34,14 +28,10 @@ public class InstructionFactory {
             int.class, Integer::parseInt
             );
 
-    @Autowired
     public void setInstructions(List<Instruction> instructions) {
         this.instructions = instructions;
     }
 
-    private void setClassMap() {
-
-    }
 
     private Class<? extends Instruction> getInstructionClass(String opcode) {
         if (!classMap.containsKey(opcode))
