@@ -6,7 +6,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+
+import static java.util.Map.entry;
 
 
 public class InstructionFactory {
@@ -14,6 +19,16 @@ public class InstructionFactory {
     private List<Instruction> instructions;
 
     private final Map<String, Class<? extends Instruction>> classMap = new HashMap<>();
+//    public class UnaryOperatorExample implements UnaryOperator<String>{
+//        public String apply(String text) {
+//            return text+".txt";
+//        }
+
+    private final Map<Class<?>, Function<String, ?>> paramTypes = Map.of(
+            String.class, x -> x,
+            RegisterName.class, Registers.Register::valueOf,
+            int.class, Integer::parseInt
+            );
 
     @Autowired
     public void setInstructions(List<Instruction> instructions) {
@@ -47,7 +62,7 @@ public class InstructionFactory {
                 +
                 "\n";
         StringBuilder paramsErrorMessage = new StringBuilder(errorMessage +
-                "Expected possible valid parameters: \n");
+                "Possible sets of valid parameters for instruction type " + opcode + ":\n");
         Arrays.stream(constructors).forEach( constructor ->
                 paramsErrorMessage.append(constructor.getParameterCount() - 1).append(" parameters: ").append(Arrays.stream(constructor.getParameterTypes())
                         .skip(1)
@@ -66,6 +81,7 @@ public class InstructionFactory {
         //If there are no constructors that fit the given number of parameters, display an error message
         if (noOfConstructors == 0) {
             System.err.println(paramsErrorMessage);
+            System.err.println("Invalid number of parameters.");
         }
         else {
             //Attempt to match the given parameters with the types of the parameters of the remaining constructors
@@ -76,25 +92,13 @@ public class InstructionFactory {
                 list.add(label);
                 //The first parameter is skipped as that's the label
                 for (int i = 1; i < types.length; i++) {
-                    Class<?> clss = types[i];
+                    Class<?> paramType = types[i];
                     String parameter = params.get(i - 1);
-
-                    if (clss == RegisterName.class) {
-                        try {
-                            list.add(Registers.Register.valueOf(parameter));
-                        } catch (IllegalArgumentException e) {
-                            list.clear();
-                            break;
-                        }
-                    } else if (clss == int.class) {
-                        try {
-                            list.add(Integer.parseInt(parameter));
-                        } catch (NumberFormatException e) {
-                            list.clear();
-                            break;
-                        }
-                    } else if (clss == String.class) {
-                        list.add(parameter);
+                    try {
+                        list.add(paramTypes.get(paramType).apply(parameter));
+                    } catch (IllegalArgumentException e) {
+                        list.clear();
+                        break;
                     }
                 }
                 if (list.size() != 0)
@@ -109,6 +113,7 @@ public class InstructionFactory {
                     }
                 else {
                     System.err.println(paramsErrorMessage);
+                    System.err.println("Invalid parameter types.");
                 }
 
             }
