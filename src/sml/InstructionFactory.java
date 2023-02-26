@@ -10,6 +10,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Map.entry;
 
@@ -91,12 +92,20 @@ public class InstructionFactory {
             for (Constructor<?> c : constructorList) {
                 Class<?>[] types = c.getParameterTypes();
                 list.add(label);
+
                 //The first parameter is skipped as that's the label
-                for (int i = 1; i < types.length; i++) {
-                    Class<?> paramType = types[i];
-                    String parameter = params.get(i - 1);
+                Iterator<Class<?>> typeIter = Arrays.stream(types).skip(1).iterator();
+//                list = params.stream().map(p -> {
+//                    try {
+//                        return (Object) paramTypes.get(typeIter.next()).apply(p);
+//                    } catch (IllegalArgumentException e) {
+//                        return null;
+//                    }
+//                }).filter(Objects::nonNull)
+//                        .toList();
+                for (String p : params) {
                     try {
-                        list.add(paramTypes.get(paramType).apply(parameter));
+                        list.add(paramTypes.get(typeIter.next()).apply(p));
                     } catch (IllegalArgumentException e) {
                         list.clear();
                         break;
