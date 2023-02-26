@@ -30,9 +30,7 @@ public class InstructionFactory {
         return classMap.get(opcode);
     }
 
-    String label = " ";
-
-    public Instruction getInstruction(String opcode, List<String> params) {
+    public Instruction getInstruction(String label, String opcode, List<String> params) {
         Class<? extends Instruction> classus = getInstructionClass(opcode);
         if (classus == null) {
             //TODO print error message

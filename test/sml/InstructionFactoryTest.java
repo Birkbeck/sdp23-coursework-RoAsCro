@@ -36,8 +36,8 @@ public class InstructionFactoryTest {
         List<String> list = new LinkedList<String>();
         list.add("EAX");
         list.add("1");
-        Instruction i = fact.getInstruction("mov", list);
-        
+        Instruction i = fact.getInstruction(null, "mov", list);
+
         Assertions.assertInstanceOf(MovInstruction.class, i);
 
         Machine m = new Machine(new Registers());

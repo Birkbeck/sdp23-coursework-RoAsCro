@@ -107,8 +107,7 @@ public final class Translator {
                 String.join(" ", params)
                 +
                 "\n";
-        Instruction output;
-        return output = InstructionFactory.getInstructionFactory().getInstruction(opcode, params);
+        return InstructionFactory.getInstructionFactory().getInstruction(label, opcode, params);
 //        Constructor<?>[] constructors;
 //        try {
 //            //TODO: Account for instructions named differently
