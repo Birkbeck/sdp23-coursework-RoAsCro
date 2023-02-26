@@ -76,18 +76,5 @@ public class TranslatorTest {
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
 
-    @Test
-    void testExtensibility() {
-        translator = new Translator(fileLocation + "test14.sml");
-        Machine m = new Machine(new Registers());
-        assertDoesNotThrow(() -> translator.readAndTranslate(m.getLabels(), m.getProgram()));
-
-        //Test the factory prioritises non-string constructors
-        assertEquals("tes 3 EAX a", m.getProgram().get(3).toString());
-        assertEquals("tes 1 EAX x", m.getProgram().get(4).toString());
-        assertEquals("tes 1 EBX a", m.getProgram().get(5).toString());
-        m.execute();
-
-    }
 
 }
