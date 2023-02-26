@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import static sml.Instruction.NORMAL_PROGRAM_COUNTER_UPDATE;
 
-// TODO: write a JavaDoc for the class
 
 /**
  * Stores a Map containing the labels of instructions in a program and the addresses of those instructions.

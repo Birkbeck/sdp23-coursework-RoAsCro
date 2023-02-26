@@ -3,8 +3,6 @@ package sml;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// TODO: write a JavaDoc for the class
-
 /**
  * The Registers of a Machine, storing their RegisterNames and the corresponding integer values.
  * <p></p>
