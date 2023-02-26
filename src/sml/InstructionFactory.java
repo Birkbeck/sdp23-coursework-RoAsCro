@@ -59,9 +59,9 @@ public class InstructionFactory {
         Constructor<?>[] constructors = classus.getConstructors();
 
         StringBuilder paramsErrorMessage = new StringBuilder(errorMessage +
-                "Possible sets of valid parameters for instruction type " + opcode + ":\n");
+                "Possible sets of valid parameters for instruction type " + opcode + ":");
         Arrays.stream(constructors).forEach( constructor ->
-                paramsErrorMessage.append(constructor.getParameterCount() - 1).append(" parameters: ").append(Arrays.stream(constructor.getParameterTypes())
+                paramsErrorMessage.append("\n").append(constructor.getParameterCount() - 1).append(" parameters: ").append(Arrays.stream(constructor.getParameterTypes())
                         .skip(1)
                         .map(Class::getName)
                         .collect(Collectors.joining(", "))));
