@@ -29,7 +29,7 @@ public class InstructionFactory {
         return classMap.get(opcode);
     }
 
-    public Instruction getInstruction(List<String> params) {
+    public Instruction getInstruction(String opcode, List<String> params) {
         return null;
     }
 

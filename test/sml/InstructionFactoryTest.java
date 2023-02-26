@@ -32,10 +32,9 @@ public class InstructionFactoryTest {
     void testInstruction() {
         List<String> list = new LinkedList<String>();
         list.add(null);
-        list.add("add");
         list.add("EAX");
         list.add("EBX");
-        Assertions.assertInstanceOf(AddInstruction.class, fact.getInstruction(list));
+        Assertions.assertInstanceOf(AddInstruction.class, fact.getInstruction("add", list));
     }
 
 
