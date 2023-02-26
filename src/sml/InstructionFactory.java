@@ -39,6 +39,24 @@ public class InstructionFactory {
 
         //Get constructors
         Constructor<?>[] constructors = classus.getConstructors();
+
+        String errorMessage = "Error with instruction: " +
+                ((label != null) ? label + " : " : "") +
+                opcode + " "  +
+                String.join(" ", params)
+                +
+                "\n";
+        StringBuilder paramsErrorMessage = new StringBuilder(errorMessage +
+                "Expected possible valid parameters: \n");
+        Arrays.stream(constructors).forEach( constructor ->
+                paramsErrorMessage.append(constructor.getParameterCount() - 1).append(" parameters: ").append(Arrays.stream(constructor.getParameterTypes())
+                        .skip(1)
+                        .map(Class::getName)
+                        .collect(Collectors.joining(", "))));
+        paramsErrorMessage.append("\nGot: ").append(params.size()).append(" parameters: ").append(params);
+
+
+
         //Find only constructors that match the given number of parameters
         List<Constructor<?>> constructorList = Arrays.stream(constructors)
                 .filter(c -> (c.getParameterCount() == params.size()+1))
@@ -47,18 +65,7 @@ public class InstructionFactory {
 
         //If there are no constructors that fit the given number of parameters, display an error message
         if (noOfConstructors == 0) {
-//            System.out.println(errorMessage);
-//            System.out.println("Expected possible valid parameters: ");
-//            for (Constructor<?> c : constructors) {
-//                System.out.println(
-//                        (c.getParameterCount() - 1) + " parameters: " +
-//                                Arrays.stream(c.getParameterTypes())
-//                                        .skip(1)
-//                                        .map(Class::toString)
-//                                        .collect(Collectors.joining(", ")));
-//            }
-//            System.out.println();
-//            System.out.println("Got: " + params.size() + " parameters: " + params);
+            System.err.println(paramsErrorMessage);
         }
         else {
             //Attempt to match the given parameters with the types of the parameters of the remaining constructors
@@ -101,7 +108,7 @@ public class InstructionFactory {
                         throw new RuntimeException(e);
                     }
                 else {
-                    //TODO: display error message
+                    System.err.println(paramsErrorMessage);
                 }
 
             }
