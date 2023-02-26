@@ -102,12 +102,11 @@ public class InstructionFactory {
                     } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
-                else {
-                    System.err.println(paramsErrorMessage);
-                    System.err.println("Invalid parameter types.");
-                }
+
             }
         }
+        System.err.println(paramsErrorMessage);
+        System.err.println("Invalid parameter types.");
         return null;
     }
 
