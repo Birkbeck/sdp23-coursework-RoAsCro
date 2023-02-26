@@ -1,7 +1,5 @@
 package sml;
 
-// TODO: write a JavaDoc for the class
-
 /**
  * Represents an abstract instruction. An Instruction forms part of an SML program, executing an operation on a machine
  * and indicating which instruction in the program should be read next.

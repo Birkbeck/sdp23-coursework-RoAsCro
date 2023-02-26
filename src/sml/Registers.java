@@ -61,10 +61,6 @@ public final class Registers {
         return registers.get((Register)register);
     }
 
-
-    // TODO: use pattern matching for instanceof
-    // https://docs.oracle.com/en/java/javase/14/language/pattern-matching-instanceof-operator.html
-
     /**
      *Compares two instances of Registers. Two instances of Registers are equal if their Registers are all set to the
      * same values.

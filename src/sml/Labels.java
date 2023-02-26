@@ -112,7 +112,6 @@ public final class Labels {
 	public int hashCode() {
 		return labels.hashCode();
 	}
-	// TODO: Implement equals and hashCode (needed in class Machine).
 
 	/**
 	 * Removes the labels
