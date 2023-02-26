@@ -54,7 +54,7 @@ public class DivInstruction extends BiRegisterInstruction {
     @Override
     public int execute(Machine m) {
         if (m.getRegisters().get(source) == 0) {
-            System.out.println("Error with instruction: "
+            System.err.println("Error with instruction: "
                     + this
                     + "\nCannot divide by zero. Program failed to execute.");
             m.getRegisters().clear();

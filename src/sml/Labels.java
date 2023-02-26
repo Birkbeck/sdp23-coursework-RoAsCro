@@ -37,7 +37,7 @@ public final class Labels {
 	public boolean addLabel(String label, int address) {
 		Objects.requireNonNull(label);
 		if (labels.containsKey(label)) {
-			System.out.println("Error at line " +
+			System.err.println("Error at line " +
 					address +
 					" of program. Label "
 					+ label

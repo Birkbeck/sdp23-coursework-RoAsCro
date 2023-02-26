@@ -85,7 +85,6 @@ public final class Translator {
         String opcode = scan();
         int[] l = {line.length()};
 
-
         //Create a list of parameters
         List<String> params;
 

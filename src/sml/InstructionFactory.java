@@ -80,27 +80,27 @@ public class InstructionFactory {
         }
         else {
             //Attempt to match the given parameters with the types of the parameters of the remaining constructors
-            List<Object> list = new LinkedList<>();
+            List<Object> typedParams = new LinkedList<>();
 
             for (Constructor<?> c : constructorList) {
                 Class<?>[] types = c.getParameterTypes();
-                list.add(label);
+                typedParams.add(label);
 
                 //The first parameter is skipped as that's the label
                 Iterator<Class<?>> typeIter = Arrays.stream(types).skip(1).iterator();
                 for (String p : params) {
                     try {
-                        list.add(paramTypes.get(typeIter.next()).apply(p));
+                        typedParams.add(paramTypes.get(typeIter.next()).apply(p));
                     } catch (IllegalArgumentException e) {
-                        list.clear();
+                        typedParams.clear();
                         break;
                     }
                 }
-                if (list.size() != 0)
+                if (typedParams.size() != 0)
                     try {
-                        return (Instruction) c.newInstance(list.toArray());
+                        return (Instruction) c.newInstance(typedParams.toArray());
                     } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
-                        throw new RuntimeException(e);
+                        typedParams.clear();
                     }
 
             }

@@ -65,7 +65,7 @@ public class JnzInstruction extends Instruction {
         int programCounterUpdate = m.getLabels().getAddress(targetLabel);
 
         if (programCounterUpdate == NORMAL_PROGRAM_COUNTER_UPDATE) {
-            System.out.println("Error with instruction: " +
+            System.err.println("Error with instruction: " +
                     this +
                     "\nInstruction with label " +
                     targetLabel +
