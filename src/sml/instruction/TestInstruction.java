@@ -6,6 +6,11 @@ import sml.RegisterName;
 
 import static sml.Registers.Register.EAX;
 
+/**
+ * A concrete implementation of Instruction designed to test the functionality of the SML machine and its components.
+ *
+ * @author Roland Crompton
+ */
 public class TestInstruction extends Instruction {
 
     private final RegisterName source;
@@ -65,6 +70,14 @@ public class TestInstruction extends Instruction {
         this.source = DEFAULT_SOURCE;
         this.targetLabel = targetLabel;
     }
+
+    public TestInstruction(String label, String targetLabel, int x) {
+        super(label, OP_CODE);
+        this.x = x;
+        this.source = DEFAULT_SOURCE;
+        this.targetLabel = targetLabel;
+    }
+
 
     @Override
     public int execute(Machine m) {

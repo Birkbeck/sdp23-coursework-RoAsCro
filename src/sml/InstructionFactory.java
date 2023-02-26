@@ -55,6 +55,16 @@ public class InstructionFactory {
             );
 
     /**
+     * A comparator used to compare Instruction comparators. Constructors are ordered according to the number of String
+     * parameters they have. This is to reduce the ambiguity of which constructor is intended to be called by the
+     * program.
+     */
+    private static final Comparator<Constructor<?>> CONSTRUCTOR_COMPARATOR = (x, y) -> {
+        int xValue = (int) Arrays.stream(x.getParameterTypes()).filter(x1 -> x1 == String.class).count();
+        int yValue = (int) Arrays.stream(y.getParameterTypes()).filter(y1 -> y1 == String.class).count();
+        return xValue - yValue;};
+
+    /**
      * Sets the instructions. Should be only used once when first instantiating the InstructionFactory using autowiring.
      * @param instructions a list containing an instance of every Instruction in the XML file
      */
@@ -103,9 +113,11 @@ public class InstructionFactory {
         }
         //Get constructors
         Constructor<?>[] constructors = classus.getConstructors();
-        //Find only those constructors that match the given number of parameters
+        //Find only those constructors that match the given number of parameters and order the constructors such that
+        // those with fewer String constructors will be checked first
         List<Constructor<?>> constructorList = Arrays.stream(constructors)
                 .filter(c -> (c.getParameterCount() == params.size()+1))
+                .sorted(CONSTRUCTOR_COMPARATOR)
                 .toList();
 
         if (constructorList.size() != 0 && !params.contains(null)) {
