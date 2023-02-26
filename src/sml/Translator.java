@@ -86,15 +86,13 @@ public final class Translator {
         int[] l = {line.length()};
 
         //Create a list of parameters
-        List<String> params;
-
-        params = Stream.generate(this::scan).takeWhile(x -> {
+        List<String> params = Stream.generate(this::scan).takeWhile(x -> {
             boolean y = line.length() != l[0];
             l[0] = line.length();
             return y;})
                 .toList();
 
-        return InstructionFactory.getInstructionFactory().getInstruction(label, opcode, params);
+        return InstructionFactory.getInstance().getInstruction(label, opcode, params);
     }
 
     /**
