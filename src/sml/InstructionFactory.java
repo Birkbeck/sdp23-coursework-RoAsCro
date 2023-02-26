@@ -12,7 +12,7 @@ public class InstructionFactory {
 
     private List<Instruction> instructions;
 
-    private Map<String, Class<? extends Instruction>> classMap = new HashMap<>();
+    private final Map<String, Class<? extends Instruction>> classMap = new HashMap<>();
 
     @Autowired
     public void setInstructions(List<Instruction> instructions) {
@@ -31,7 +31,7 @@ public class InstructionFactory {
         return null;
     }
 
-    public InstructionFactory() {}
+    private InstructionFactory() {}
 
     public static InstructionFactory getInstructionFactory() {
         InstructionFactory factory = (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml").getBean("insFactory");
