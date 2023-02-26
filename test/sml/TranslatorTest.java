@@ -76,4 +76,11 @@ public class TranslatorTest {
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
 
+    @Test
+    void testExtensibility() {
+        translator = new Translator(fileLocation + "test14.sml");
+        assertDoesNotThrow(() -> translator.readAndTranslate(new Labels(), list));
+
+    }
+
 }
