@@ -46,6 +46,7 @@ public class InstructionFactory {
     }
 
     public Instruction getInstruction(String label, String opcode, List<String> params) {
+        //TODO Handle null inputs
         Class<? extends Instruction> classus = getInstructionClass(opcode);
 
         String errorMessage = "Error with instruction: " +
@@ -104,18 +105,13 @@ public class InstructionFactory {
                 if (list.size() != 0)
                     try {
                         return (Instruction) c.newInstance(list.toArray());
-                    } catch (InstantiationException e) {
-                        throw new RuntimeException(e);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvocationTargetException e) {
+                    } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
                 else {
                     System.err.println(paramsErrorMessage);
                     System.err.println("Invalid parameter types.");
                 }
-
             }
         }
         return null;
