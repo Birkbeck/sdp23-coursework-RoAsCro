@@ -2,7 +2,8 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
 <!--    Instructions go here: -->
     <bean id="add" class="sml.instruction.AddInstruction" autowire="constructor"/>
     <bean id="sub" class="sml.instruction.SubInstruction" autowire="constructor"/>
@@ -11,15 +12,17 @@
     <bean id="mov" class="sml.instruction.MovInstruction" autowire="constructor"/>
     <bean id="out" class="sml.instruction.OutInstruction" autowire="constructor"/>
     <bean id="jnz" class="sml.instruction.JnzInstruction" autowire="constructor"/>
+    <bean id="tes" class="sml.instruction.TestInstruction" autowire="constructor"/>
 
-<!--    Dependencies for autowiring the Instructions constructors-->
+<!--    Dependencies for autowiring the Instructions constructors: -->
     <bean id="nullString" class="java.lang.String"/>
     <bean id="nullRegName" class="sml.InstructionFactory.NullRegisterName"/>
     <bean id="nullInt" class="java.lang.Integer" factory-method="valueOf">
         <constructor-arg type="java.lang.String" value="0"/>
     </bean>
 
-<!--    InstructionFactory-->
+    <!--    <bean id="factory" class="sml.InstructionsFactory" autowire="byType"/>-->
+    <!--    InstructionFactory-->
     <bean id="insFactory" class="sml.InstructionFactory" autowire="byType" scope="singleton"/>
 
 
