@@ -107,109 +107,111 @@ public final class Translator {
                 String.join(" ", params)
                 +
                 "\n";
-        Constructor<?>[] constructors;
-        try {
-            //TODO: Account for instructions named differently
-            //TODO: See about converting that for loop into a stream
-            //TODO: Come up with better exception handling
-            //TODO: Change error messages to System.err.println
-
-            //Load from beans
-            var insFactor = new ClassPathXmlApplicationContext("instructions.xml");
-            Class<? extends Instruction> instructionClass = insFactor.getBean(opcode).getClass().asSubclass(Instruction.class);
-
-            //Get constructors
-            constructors = instructionClass.getConstructors();
-            //Find only constructors that match the given number of parameters
-            List<Constructor<?>> constructorList = Arrays.stream(constructors)
-                    .filter(c -> (c.getParameterCount() == params.size()+1))
-                    .toList();
-            int noOfConstructors = constructorList.size();
-
-            //If there are no constructors that fit the given number of parameters, display an error message
-            if (noOfConstructors == 0) {
-                System.out.println(errorMessage);
-                System.out.println("Expected possible valid parameters: ");
-                for (Constructor<?> c : constructors) {
-                    System.out.println(
-                            (c.getParameterCount() - 1) + " parameters: " +
-                                    Arrays.stream(c.getParameterTypes())
-                                            .skip(1)
-                                            .map(Class::toString)
-                                            .collect(Collectors.joining(", ")));
-                }
-                System.out.println();
-                System.out.println("Got: " + params.size() + " parameters: " + params);
-            }
-            else {
-                //Attempt to match the given parameters with the types of the parameters of the remaining constructors
-                List<Object> list = new LinkedList<>();
-
-                for (Constructor<?> c : constructorList) {
-                    Class<?>[] types = c.getParameterTypes();
-                    list.add(label);
-                    //The first parameter is skipped as that's the label
-                    for (int i = 1; i < types.length; i++) {
-                        Class<?> clss = types[i];
-                        String parameter = params.get(i - 1);
-
-                        if (clss == RegisterName.class) {
-                            try {
-                                list.add(Register.valueOf(parameter));
-                            } catch (IllegalArgumentException e) {
-                                list.clear();
-                                break;
-                            }
-                        } else if (clss == int.class) {
-                            try {
-                                list.add(Integer.parseInt(parameter));
-                            } catch (NumberFormatException e) {
-                                list.clear();
-                                break;
-                            }
-                        } else if (clss == String.class) {
-                            list.add(parameter);
-                        }
-                    }
-                    if (list.size() != 0)
-                        return (Instruction) c.newInstance(list.toArray());
-                    else {
-                        //TODO: display error message
-                    }
-
-                }
-
-            }
-
-//                // TODO: add code for all other types of instructions
+        Instruction output;
+        return output = InstructionFactory.getInstructionFactory().getInstruction(opcode, params);
+//        Constructor<?>[] constructors;
+//        try {
+//            //TODO: Account for instructions named differently
+//            //TODO: See about converting that for loop into a stream
+//            //TODO: Come up with better exception handling
+//            //TODO: Change error messages to System.err.println
 //
-//                // TODO: Then, replace the switch by using the Reflection API
+//            //Load from beans
+//            var insFactor = new ClassPathXmlApplicationContext("instructions.xml");
+//            Class<? extends Instruction> instructionClass = insFactor.getBean(opcode).getClass().asSubclass(Instruction.class);
 //
-//                // TODO: Next, use dependency injection to allow this machine class
-//                //       to work with different sets of opcodes (different CPUs)
-
-//        } catch (NumberFormatException e) {
-//            System.out.println(errorMessage + opcode + " instruction requires an integer.");
-//        } catch (IllegalArgumentException e) {
-//            System.out.println(errorMessage + "One or more registers not found in machine.");
-//        } catch (IndexOutOfBoundsException e) {
-
-//            System.out.println(errorMessage + "Expected " + correctParamNumber + " parameters. Got " + params.size());
-//        } catch (ClassNotFoundException e) {
+//            //Get constructors
+//            constructors = instructionClass.getConstructors();
+//            //Find only constructors that match the given number of parameters
+//            List<Constructor<?>> constructorList = Arrays.stream(constructors)
+//                    .filter(c -> (c.getParameterCount() == params.size()+1))
+//                    .toList();
+//            int noOfConstructors = constructorList.size();
+//
+//            //If there are no constructors that fit the given number of parameters, display an error message
+//            if (noOfConstructors == 0) {
+//                System.out.println(errorMessage);
+//                System.out.println("Expected possible valid parameters: ");
+//                for (Constructor<?> c : constructors) {
+//                    System.out.println(
+//                            (c.getParameterCount() - 1) + " parameters: " +
+//                                    Arrays.stream(c.getParameterTypes())
+//                                            .skip(1)
+//                                            .map(Class::toString)
+//                                            .collect(Collectors.joining(", ")));
+//                }
+//                System.out.println();
+//                System.out.println("Got: " + params.size() + " parameters: " + params);
+//            }
+//            else {
+//                //Attempt to match the given parameters with the types of the parameters of the remaining constructors
+//                List<Object> list = new LinkedList<>();
+//
+//                for (Constructor<?> c : constructorList) {
+//                    Class<?>[] types = c.getParameterTypes();
+//                    list.add(label);
+//                    //The first parameter is skipped as that's the label
+//                    for (int i = 1; i < types.length; i++) {
+//                        Class<?> clss = types[i];
+//                        String parameter = params.get(i - 1);
+//
+//                        if (clss == RegisterName.class) {
+//                            try {
+//                                list.add(Register.valueOf(parameter));
+//                            } catch (IllegalArgumentException e) {
+//                                list.clear();
+//                                break;
+//                            }
+//                        } else if (clss == int.class) {
+//                            try {
+//                                list.add(Integer.parseInt(parameter));
+//                            } catch (NumberFormatException e) {
+//                                list.clear();
+//                                break;
+//                            }
+//                        } else if (clss == String.class) {
+//                            list.add(parameter);
+//                        }
+//                    }
+//                    if (list.size() != 0)
+//                        return (Instruction) c.newInstance(list.toArray());
+//                    else {
+//                        //TODO: display error message
+//                    }
+//
+//                }
+//
+//            }
+//
+////                // TODO: add code for all other types of instructions
+////
+////                // TODO: Then, replace the switch by using the Reflection API
+////
+////                // TODO: Next, use dependency injection to allow this machine class
+////                //       to work with different sets of opcodes (different CPUs)
+//
+////        } catch (NumberFormatException e) {
+////            System.out.println(errorMessage + opcode + " instruction requires an integer.");
+////        } catch (IllegalArgumentException e) {
+////            System.out.println(errorMessage + "One or more registers not found in machine.");
+////        } catch (IndexOutOfBoundsException e) {
+//
+////            System.out.println(errorMessage + "Expected " + correctParamNumber + " parameters. Got " + params.size());
+////        } catch (ClassNotFoundException e) {
+////            System.out.println("Unknown instruction: " + opcode);
+//        } catch (InvocationTargetException e) {
+//            throw new RuntimeException(e);
+//        } catch (InstantiationException e) {
+//            throw new RuntimeException(e);
+//        } catch (IllegalAccessException e) {
+//            throw new RuntimeException(e);
+//        } catch (NoSuchBeanDefinitionException e) {
 //            System.out.println("Unknown instruction: " + opcode);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchBeanDefinitionException e) {
-            System.out.println("Unknown instruction: " + opcode);
-        } catch (BeanDefinitionStoreException e) {
+//        } catch (BeanDefinitionStoreException e) {
+//
+//        }
 
-        }
-
-        return null;
+//        return null;
     }
 
     /**
