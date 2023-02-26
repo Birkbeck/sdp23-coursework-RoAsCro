@@ -24,6 +24,8 @@ public class InstructionFactory {
     }
 
     public Class<? extends Instruction> getInstructionClass(String opcode) {
+        if (!classMap.containsKey(opcode))
+            return null;
         return classMap.get(opcode);
     }
 
