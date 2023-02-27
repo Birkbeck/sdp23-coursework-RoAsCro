@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 
 public class InstructionFactory {
 
-    static boolean correctFormatting;
+    private static InstructionFactory instance;
+    private static boolean correctFormatting;
 
     private static final LinkedList<String> PARAMETERS = new LinkedList<>();
 
@@ -47,9 +48,8 @@ public class InstructionFactory {
             int.class, Integer::parseInt
             );
 
-    
-    private static Object getObject(Class<?> targetClass) {
 
+    private static Object getObject(Class<?> targetClass) {
         if (!PARAMETERS.isEmpty()) {
             try {
                 return PARAM_TYPES.get(targetClass).apply(PARAMETERS.pop());
@@ -103,6 +103,7 @@ public class InstructionFactory {
      * construct the Instruction for any reason
      */
     public Instruction getInstruction(String label, String opcode, List<String> params) {
+        PARAMETERS.clear();
         String errorMessage = "Error with instruction: " + ((label != null) ? label + " : " : "") + opcode + " "  +
                 String.join(" ", params) + "\n";
         if (opcode == null || params.contains(null)) {
@@ -162,11 +163,9 @@ public class InstructionFactory {
      * there
      */
     public static InstructionFactory getInstance() {
-        PARAMETERS.clear();
-        InstructionFactory factory =
-                (InstructionFactory) BEAN_FACTORY
-                        .getBean("insFactory");
-        return factory;
+        if (instance == null)
+            return new InstructionFactory();
+        return instance;
     }
 
     /**
