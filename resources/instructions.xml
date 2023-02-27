@@ -6,35 +6,17 @@
 
 <!--    Instructions go here: -->
     <bean id="add" class="sml.instruction.AddInstruction" autowire="constructor" scope="prototype"/>
-
     <bean id="sub" class="sml.instruction.SubInstruction" autowire="constructor" scope="prototype"/>
     <bean id="mul" class="sml.instruction.MulInstruction" autowire="constructor" scope="prototype"/>
     <bean id="div" class="sml.instruction.DivInstruction" autowire="constructor" scope="prototype"/>
-    <bean id="mov" class="sml.instruction.MovInstruction" autowire="constructor" scope="prototype">
-<!--        <constructor-arg index="2" ref="nullInt"/>-->
-    </bean>
+    <bean id="mov" class="sml.instruction.MovInstruction" autowire="constructor" scope="prototype"/>
     <bean id="out" class="sml.instruction.OutInstruction" autowire="constructor" scope="prototype"/>
     <bean id="jnz" class="sml.instruction.JnzInstruction" autowire="constructor" scope="prototype"/>
     <bean id="tes" class="sml.instruction.TestInstruction" autowire="constructor" scope="prototype"/>
 
 <!--    Dependencies for autowiring the Instructions constructors: -->
     <bean id="nullString" class="sml.InstructionFactory" factory-method="getString" scope="prototype"/>
-<!--    <bean id="nullRegName2" class="sml.InstructionFactory" factory-method="getRegisterName"/>-->
-
     <bean id="nullRegName" class="sml.InstructionFactory" factory-method="getRegisterName" scope="prototype"/>
     <bean id="nullInt" class="sml.InstructionFactory" factory-method="getInt" scope="prototype"/>
-<!--        <constructor-arg type="java.lang.String" value="0"/>-->
-<!--    </bean>-->
-<!--    <bean id="nullRegName2" class="sml.InstructionFactory.NullRegisterName"/>-->
-
-
-
-
-    <!--    <bean id="thing" class="sml.Thing" factory-method="getNumber"/>-->
-    <!--    InstructionFactory-->
-    <bean id="insFactory" class="sml.InstructionFactory" autowire="byType" scope="singleton"/>
-<!--    <bean id="generic" class="sml.InstructionFactory" factory-method="getObject"/>-->
-
-
 
 </beans>
