@@ -23,9 +23,9 @@ public class InstructionFactory {
 
     static boolean correctFormatting;
 
-    private static LinkedList<String> objects = new LinkedList<>();
+    private static final LinkedList<String> PARAMETERS = new LinkedList<>();
 
-    private static ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("instructions.xml");
+    private static final ClassPathXmlApplicationContext BEAN_FACTORY = new ClassPathXmlApplicationContext("instructions.xml");
 
 
     /**
@@ -92,10 +92,10 @@ public class InstructionFactory {
 //    }
 
     private static Object getObject(Class<?> targetClass) {
-        if (!objects.isEmpty()) {
+        if (!PARAMETERS.isEmpty()) {
             System.out.println("Yes");
             System.out.println();
-            Object returnObject = castString(objects.pop(), targetClass);
+            Object returnObject = castString(PARAMETERS.pop(), targetClass);
             return returnObject;
         }
         System.out.println("OOPS");
@@ -154,13 +154,13 @@ public class InstructionFactory {
             return null;
         }
         try {
-            objects.add(Objects.requireNonNullElse(label, ""));
-            objects.addAll(params);
+            PARAMETERS.add(Objects.requireNonNullElse(label, ""));
+            PARAMETERS.addAll(params);
             correctFormatting = true;
-            Instruction returnInstruction = (Instruction) beanFactory.getBean(opcode);
+            Instruction returnInstruction = (Instruction) BEAN_FACTORY.getBean(opcode);
             System.out.println(returnInstruction);
 
-            if (correctFormatting && objects.isEmpty()) {
+            if (correctFormatting && PARAMETERS.isEmpty()) {
                     System.out.println(returnInstruction);
                     return returnInstruction;
                 }
@@ -227,9 +227,9 @@ public class InstructionFactory {
      * there
      */
     public static InstructionFactory getInstance() {
-        objects.clear();
+        PARAMETERS.clear();
         InstructionFactory factory =
-                (InstructionFactory) beanFactory
+                (InstructionFactory) BEAN_FACTORY
                         .getBean("insFactory");
 //        factory.instructions.forEach(i -> factory.classMap.put(i.getOpcode(), i.getClass()));
         System.out.println(factory);
@@ -244,7 +244,7 @@ public class InstructionFactory {
      */
     @Override
     public String toString() {
-        return String.join(", ", Arrays.stream(beanFactory.getBeanNamesForType(Instruction.class))
+        return String.join(", ", Arrays.stream(BEAN_FACTORY.getBeanNamesForType(Instruction.class))
                 .sorted().toList());
     }
 
