@@ -106,26 +106,31 @@ public class InstructionFactory {
         PARAMETERS.clear();
         String errorMessage = "Error with instruction: " + ((label != null) ? label + " : " : "") + opcode + " "  +
                 String.join(" ", params) + "\n";
-        if (opcode == null || params.contains(null)) {
+        if (params.contains(null)) {
+            System.err.println(errorMessage + "Instruction parameters other than label cannot be null.");
             return null;
         }
-        try {
-            PARAMETERS.add(Objects.requireNonNullElse(label, ""));
-            PARAMETERS.addAll(params);
-            correctFormatting = true;
-            Instruction returnInstruction = (Instruction) BEAN_FACTORY.getBean(opcode);
+        if (opcode != null ) {
+            try {
 
-            if (correctFormatting && PARAMETERS.isEmpty()) {
+                PARAMETERS.add(Objects.requireNonNullElse(label, ""));
+                PARAMETERS.addAll(params);
+                correctFormatting = true;
+                Instruction returnInstruction = (Instruction) BEAN_FACTORY.getBean(opcode);
+
+                if (correctFormatting && PARAMETERS.isEmpty()) {
                     System.out.println(returnInstruction);
                     return returnInstruction;
                 }
-            System.err.println(errorMessage
-                    + buildErrorMessage(returnInstruction.getClass().getConstructors(), params));
-            return null;
-        } catch (NoSuchBeanDefinitionException e) {
-            System.err.println(errorMessage + "No instruction of that name found.");
-            return null;
+                System.err.println(errorMessage
+                        + buildErrorMessage(returnInstruction.getClass().getConstructors(), params));
+                return null;
+            } catch (NoSuchBeanDefinitionException ignored) {
+
+            }
         }
+        System.err.println(errorMessage + "No instruction of that name found.");
+        return null;
     }
 
 
