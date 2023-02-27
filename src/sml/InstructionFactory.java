@@ -27,20 +27,6 @@ public class InstructionFactory {
 
     private static final ClassPathXmlApplicationContext BEAN_FACTORY = new ClassPathXmlApplicationContext("instructions.xml");
 
-
-    /**
-     * The list containing instances possible instructions constructed with default null values. These should not be
-     * used for anything except registering Instructions in the classMap. Automatically loaded via Spring autowiring
-     * when getInstance is called for the first time when running a program via autowiring.
-     */
-//    private List<Instruction> instructions;
-
-    /**
-     * A map storing Instruction opcodes and the classes to which they correspond. Used for instantiating Instructions
-     * from their opcodes.
-     */
-//    private final Map<String, Class<? extends Instruction>> classMap = new HashMap<>();
-
     /**
      * A Null implementation of RegisterName for use in autowiring Instructions.
       */
@@ -61,49 +47,14 @@ public class InstructionFactory {
             int.class, Integer::parseInt
             );
 
-    /**
-     * A comparator used to compare Instruction comparators. Constructors are ordered according to the number of String
-     * parameters they have. This is to reduce the ambiguity of which constructor is intended to be called by the
-     * program.
-     */
-    private static final Comparator<Constructor<?>> CONSTRUCTOR_COMPARATOR = (x, y) -> {
-        int xValue = (int) Arrays.stream(x.getParameterTypes()).filter(x1 -> x1 == String.class).count();
-        int yValue = (int) Arrays.stream(y.getParameterTypes()).filter(y1 -> y1 == String.class).count();
-        return xValue - yValue;};
-
-    /**
-     * Sets the instructions. Should be only used once when first instantiating the InstructionFactory using autowiring.
-     * @param instructions a list containing an instance of every Instruction in the XML file
-     */
-//    public void setInstructions(List<Instruction> instructions) {
-//        this.instructions = instructions;
-//    }
-
-    /**
-     * Safely gets the Class of the instruction corresponding to the given opcode.
-//     * @param opcode the opcode of the Instruction Class to be returned
-     * @return the class of the Instruction corresponding to the opcode. Null if the opcode does not belong to a valid
-     * instruction
-     */
-//    private Class<? extends Instruction> getInstructionClass(String opcode) {
-//        if (!classMap.containsKey(opcode))
-//            return null;
-//        return classMap.get(opcode);
-//    }
-
     private static Object getObject(Class<?> targetClass) {
         if (!PARAMETERS.isEmpty()) {
-            System.out.println("Yes");
-            System.out.println();
-            Object returnObject = castString(PARAMETERS.pop(), targetClass);
-            return returnObject;
+            return castString(PARAMETERS.pop(), targetClass);
         }
-        System.out.println("OOPS");
         return null;
     }
 
     public static String getString() {
-        System.out.println("String");
         Object o = getObject(String.class);
         if (o instanceof String s)
             return s;
@@ -112,7 +63,6 @@ public class InstructionFactory {
     }
 
     public static RegisterName getRegisterName() {
-        System.out.println("RegName");
         Object o = getObject(RegisterName.class);
         if (o instanceof RegisterName r)
             return r;
@@ -121,7 +71,6 @@ public class InstructionFactory {
     }
 
     public static int getInt() {
-        System.out.println("Int");
         Object o = getObject(int.class);
         if (o instanceof Integer i)
             return i;
@@ -158,12 +107,13 @@ public class InstructionFactory {
             PARAMETERS.addAll(params);
             correctFormatting = true;
             Instruction returnInstruction = (Instruction) BEAN_FACTORY.getBean(opcode);
-            System.out.println(returnInstruction);
 
             if (correctFormatting && PARAMETERS.isEmpty()) {
                     System.out.println(returnInstruction);
                     return returnInstruction;
                 }
+            System.err.println(errorMessage
+                    + buildErrorMessage(returnInstruction.getClass().getConstructors(), params));
             return null;
         } catch (NoSuchBeanDefinitionException e) {
             System.err.println(errorMessage + "No instruction of that name found.");
@@ -197,14 +147,13 @@ public class InstructionFactory {
      * <p></p>
      * Got: a list of the parameters given.
      * "
-     * @param errorMessage a string containing the line in the program the instruction came from
      * @param constructors a set of constructors for the requested Instruction
      * @param params the set of parameters given
      * @return the error message
      */
-    private String buildErrorMessage(String errorMessage, Constructor<?>[] constructors, List<String> params) {
-        StringBuilder paramsErrorMessage = new StringBuilder(errorMessage +
-                "Possible sets of valid parameters for this instruction type:");
+    private String buildErrorMessage(Constructor<?>[] constructors, List<String> params) {
+        StringBuilder paramsErrorMessage = new StringBuilder(
+                "Valid parameters for this instruction type:");
         Arrays.stream(constructors).forEach( constructor ->
                 paramsErrorMessage.append("\n").append(constructor.getParameterCount() - 1).append(" parameters: ")
                         .append(Arrays.stream(constructor.getParameterTypes())
@@ -231,9 +180,6 @@ public class InstructionFactory {
         InstructionFactory factory =
                 (InstructionFactory) BEAN_FACTORY
                         .getBean("insFactory");
-//        factory.instructions.forEach(i -> factory.classMap.put(i.getOpcode(), i.getClass()));
-        System.out.println(factory);
-
         return factory;
     }
 
