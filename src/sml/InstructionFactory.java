@@ -1,6 +1,7 @@
 package sml;
 
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.lang.reflect.Constructor;
@@ -34,13 +35,13 @@ public class InstructionFactory {
      * used for anything except registering Instructions in the classMap. Automatically loaded via Spring autowiring
      * when getInstance is called for the first time when running a program via autowiring.
      */
-    private List<Instruction> instructions;
+//    private List<Instruction> instructions;
 
     /**
      * A map storing Instruction opcodes and the classes to which they correspond. Used for instantiating Instructions
      * from their opcodes.
      */
-    private final Map<String, Class<? extends Instruction>> classMap = new HashMap<>();
+//    private final Map<String, Class<? extends Instruction>> classMap = new HashMap<>();
 
     /**
      * A Null implementation of RegisterName for use in autowiring Instructions.
@@ -76,21 +77,21 @@ public class InstructionFactory {
      * Sets the instructions. Should be only used once when first instantiating the InstructionFactory using autowiring.
      * @param instructions a list containing an instance of every Instruction in the XML file
      */
-    public void setInstructions(List<Instruction> instructions) {
-        this.instructions = instructions;
-    }
+//    public void setInstructions(List<Instruction> instructions) {
+//        this.instructions = instructions;
+//    }
 
     /**
      * Safely gets the Class of the instruction corresponding to the given opcode.
-     * @param opcode the opcode of the Instruction Class to be returned
+//     * @param opcode the opcode of the Instruction Class to be returned
      * @return the class of the Instruction corresponding to the opcode. Null if the opcode does not belong to a valid
      * instruction
      */
-    private Class<? extends Instruction> getInstructionClass(String opcode) {
-        if (!classMap.containsKey(opcode))
-            return null;
-        return classMap.get(opcode);
-    }
+//    private Class<? extends Instruction> getInstructionClass(String opcode) {
+//        if (!classMap.containsKey(opcode))
+//            return null;
+//        return classMap.get(opcode);
+//    }
 
     private static Object getObject(Class<?> targetClass) {
         if (!objects.isEmpty()) {
@@ -149,75 +150,27 @@ public class InstructionFactory {
      * construct the Instruction for any reason
      */
     public Instruction getInstruction(String label, String opcode, List<String> params) {
-        Class<? extends Instruction> classus = getInstructionClass(opcode);
-
         String errorMessage = "Error with instruction: " + ((label != null) ? label + " : " : "") + opcode + " "  +
                 String.join(" ", params) + "\n";
-
-        if (classus == null) {
-            System.err.println(errorMessage + "No such instruction found. Available instructions:\n" + this);
+        if (opcode == null || params.contains(null)) {
             return null;
         }
-        //Get constructors
-        Constructor<?>[] constructors = classus.getConstructors();
-        //Find only those constructors that match the given number of parameters and order the constructors such that
-        // those with fewer String constructors will be checked first
-        List<Constructor<?>> constructorList = Arrays.stream(constructors)
-                .filter(c -> (c.getParameterCount() == params.size()+1))
-                .sorted(CONSTRUCTOR_COMPARATOR)
-                .toList();
-
-        if (constructorList.size() != 0 && !params.contains(null)) {
-            if (label == null)
-                label = "";
-            objects.add(label);
+        try {
+            objects.add(Objects.requireNonNullElse(label, ""));
             objects.addAll(params);
             correctFormatting = true;
             Instruction returnInstruction = (Instruction) beanFactory.getBean(opcode);
-            if (correctFormatting)
-                return returnInstruction;
-//            System.out.println(returnInstruction);
+            System.out.println(returnInstruction);
 
-//            return returnInstruction;
-            //Attempt to match the given parameters with the types of the parameters of the remaining constructors
-//            List<Instruction> candidateInstructions =
-//                    constructorList.stream()
-//                            .map(c -> {
-//                                //The first parameter is skipped as that is the label
-//                                Iterator<Class<?>> typeIter = Arrays.stream(c.getParameterTypes()).skip(1).iterator();
-//                                //typedParams is a list of the parameters that have been attempted to be converted to the relevant types
-//                                LinkedList<Object> typedParams = new LinkedList<>(params.stream()
-//                                        .map(p -> castString(p, typeIter.next())).toList());
-//                                //If none of the strings failed to be converted to their relevant types
-//                                if (!typedParams.contains(null)) {
-////                                    System.out.println(opcode);
-////                                    typedParams.push(label);
-////                                    objects = typedParams;
-////                                    System.out.println("t");
-////
-////                                    Instruction returnInstruction = (Instruction) beanFactory.getBean(opcode);
-//////                                    objectCounter = 0;
-////                                    System.out.println("B");
-////                                    System.out.println(returnInstruction);
-////                                    return returnInstruction;
-//                                    try {
-//                                        typedParams.push(label);
-//                                        return (Instruction) c.newInstance(typedParams.toArray());
-//
-//                                    } catch (InstantiationException | InvocationTargetException |
-//                                             IllegalAccessException e) {
-//                                        typedParams.clear();
-//                                    }
-//                                }
-//                                return null;
-//                            }).filter(Objects::nonNull).toList();
-//
-//            if (candidateInstructions.size() > 0) {
-//                return candidateInstructions.get(0);
-//            }
+            if (correctFormatting && objects.isEmpty()) {
+                    System.out.println(returnInstruction);
+                    return returnInstruction;
+                }
+            return null;
+        } catch (NoSuchBeanDefinitionException e) {
+            System.err.println(errorMessage + "No instruction of that name found.");
+            return null;
         }
-        System.err.println(buildErrorMessage(errorMessage, constructors, params));
-        return null;
     }
 
     /**
@@ -276,10 +229,11 @@ public class InstructionFactory {
      * there
      */
     public static InstructionFactory getInstance() {
+        objects.clear();
         InstructionFactory factory =
                 (InstructionFactory) beanFactory
                         .getBean("insFactory");
-        factory.instructions.forEach(i -> factory.classMap.put(i.getOpcode(), i.getClass()));
+//        factory.instructions.forEach(i -> factory.classMap.put(i.getOpcode(), i.getClass()));
         System.out.println(factory);
 
         return factory;
@@ -292,7 +246,8 @@ public class InstructionFactory {
      */
     @Override
     public String toString() {
-        return String.join(", ", classMap.keySet().stream().sorted().toList());
+//        return String.join(", ", classMap.keySet().stream().sorted().toList());
+        return "";
     }
 
 
