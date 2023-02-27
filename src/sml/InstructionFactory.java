@@ -22,8 +22,9 @@ import java.util.stream.Collectors;
 
 public class InstructionFactory {
 
-    private static int objectCounter = 0;
-    private static List<Object> objects = new ArrayList<>();
+    static boolean correctFormatting;
+
+    private static LinkedList<String> objects = new LinkedList<>();
 
     private static ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("instructions.xml");
 
@@ -91,20 +92,11 @@ public class InstructionFactory {
         return classMap.get(opcode);
     }
 
-    private static Object getObject() {
+    private static Object getObject(Class<?> targetClass) {
         if (!objects.isEmpty()) {
             System.out.println("Yes");
-            System.out.println(objects.get(objectCounter));
-//            System.out.println(objects.size());
-
-            Object returnObject = objects.get(objectCounter);
-
-            objectCounter++;
-            if (objectCounter == objects.size()) {
-                objectCounter = 0;
-                objects.clear();
-                System.out.println("Cleared");
-            }
+            System.out.println();
+            Object returnObject = castString(objects.pop(), targetClass);
             return returnObject;
         }
         System.out.println("OOPS");
@@ -113,27 +105,29 @@ public class InstructionFactory {
 
     public static String getString() {
         System.out.println("String");
-        Object o = getObject();
+        Object o = getObject(String.class);
         if (o instanceof String s)
             return s;
+        correctFormatting = false;
         return "";
     }
 
     public static RegisterName getRegisterName() {
         System.out.println("RegName");
-        Object o = getObject();
+        Object o = getObject(RegisterName.class);
         if (o instanceof RegisterName r)
             return r;
+        correctFormatting = false;
         return new NullRegisterName();
     }
 
     public static int getInt() {
         System.out.println("Int");
-
-        Object o = getObject();
-        if (!(o instanceof Integer))
-            return 0;
-        return (int) o;
+        Object o = getObject(int.class);
+        if (o instanceof Integer i)
+            return i;
+        correctFormatting = false;
+        return 0;
     }
 
 
@@ -174,27 +168,38 @@ public class InstructionFactory {
                 .toList();
 
         if (constructorList.size() != 0 && !params.contains(null)) {
-            //Attempt to match the given parameters with the types of the parameters of the remaining constructors
-            List<Instruction> candidateInstructions =
-                    constructorList.stream()
-                            .map(c -> {
-                                //The first parameter is skipped as that is the label
-                                Iterator<Class<?>> typeIter = Arrays.stream(c.getParameterTypes()).skip(1).iterator();
-                                //typedParams is a list of the parameters that have been attempted to be converted to the relevant types
-                                LinkedList<Object> typedParams = new LinkedList<>(params.stream()
-                                        .map(p -> castString(p, typeIter.next())).toList());
-                                //If none of the strings failed to be converted to their relevant types
-                                if (!typedParams.contains(null)) {
-                                    System.out.println(opcode);
-                                    typedParams.push(label);
-                                    objects = typedParams;
-                                    System.out.println("t");
+            if (label == null)
+                label = "";
+            objects.add(label);
+            objects.addAll(params);
+            correctFormatting = true;
+            Instruction returnInstruction = (Instruction) beanFactory.getBean(opcode);
+            if (correctFormatting)
+                return returnInstruction;
+//            System.out.println(returnInstruction);
 
-                                    Instruction returnInstruction = (Instruction) beanFactory.getBean(opcode);
-//                                    objectCounter = 0;
-                                    System.out.println("B");
-                                    System.out.println(returnInstruction);
-                                    return returnInstruction;
+//            return returnInstruction;
+            //Attempt to match the given parameters with the types of the parameters of the remaining constructors
+//            List<Instruction> candidateInstructions =
+//                    constructorList.stream()
+//                            .map(c -> {
+//                                //The first parameter is skipped as that is the label
+//                                Iterator<Class<?>> typeIter = Arrays.stream(c.getParameterTypes()).skip(1).iterator();
+//                                //typedParams is a list of the parameters that have been attempted to be converted to the relevant types
+//                                LinkedList<Object> typedParams = new LinkedList<>(params.stream()
+//                                        .map(p -> castString(p, typeIter.next())).toList());
+//                                //If none of the strings failed to be converted to their relevant types
+//                                if (!typedParams.contains(null)) {
+////                                    System.out.println(opcode);
+////                                    typedParams.push(label);
+////                                    objects = typedParams;
+////                                    System.out.println("t");
+////
+////                                    Instruction returnInstruction = (Instruction) beanFactory.getBean(opcode);
+//////                                    objectCounter = 0;
+////                                    System.out.println("B");
+////                                    System.out.println(returnInstruction);
+////                                    return returnInstruction;
 //                                    try {
 //                                        typedParams.push(label);
 //                                        return (Instruction) c.newInstance(typedParams.toArray());
@@ -203,13 +208,13 @@ public class InstructionFactory {
 //                                             IllegalAccessException e) {
 //                                        typedParams.clear();
 //                                    }
-                                }
-                                return null;
-                            }).filter(Objects::nonNull).toList();
-
-            if (candidateInstructions.size() > 0) {
-                return candidateInstructions.get(0);
-            }
+//                                }
+//                                return null;
+//                            }).filter(Objects::nonNull).toList();
+//
+//            if (candidateInstructions.size() > 0) {
+//                return candidateInstructions.get(0);
+//            }
         }
         System.err.println(buildErrorMessage(errorMessage, constructors, params));
         return null;
@@ -221,7 +226,7 @@ public class InstructionFactory {
      * @param type the type the input is to be converted to. Must be String, RegisterName, or int
      * @return the converted input if it's possible to convert it, null otherwise
      */
-    private Object castString(String input, Class<?> type) {
+    private static Object castString(String input, Class<?> type) {
         try {
             return PARAM_TYPES.get(type).apply(input);
         } catch (IllegalArgumentException e) {
