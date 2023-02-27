@@ -145,13 +145,17 @@ public class InstructionFactory {
      */
     private String buildErrorMessage(Constructor<?>[] constructors, List<String> params) {
         StringBuilder paramsErrorMessage = new StringBuilder(
-                "Valid parameters for this instruction type:");
-        Arrays.stream(constructors).forEach( constructor ->
-                paramsErrorMessage.append("\n").append(constructor.getParameterCount() - 1).append(" parameters: ")
-                        .append(Arrays.stream(constructor.getParameterTypes())
-                        .skip(1)
-                        .map(Class::getName)
-                        .collect(Collectors.joining(", "))));
+                "Valid parameters for this instruction type:\n");
+        if (constructors.length != 0) {
+            Constructor<?> constructor = constructors[0];
+            paramsErrorMessage.append(constructor.getParameterCount()-1);
+            paramsErrorMessage.append(" parameters: ");
+            paramsErrorMessage.append(Arrays.stream(constructor
+                    .getParameterTypes())
+                    .skip(1)
+                    .map(Class::getName)
+                    .collect(Collectors.joining(", ")));
+        }
         paramsErrorMessage.append("\nGot: ").append(params.size()).append(" parameters: ").append(String.join(", ", params));
         return paramsErrorMessage.toString();
     }
