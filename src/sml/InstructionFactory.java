@@ -112,7 +112,6 @@ public class InstructionFactory {
         }
         if (opcode != null ) {
             try {
-
                 PARAMETERS.add(Objects.requireNonNullElse(label, ""));
                 PARAMETERS.addAll(params);
                 correctFormatting = true;
@@ -173,7 +172,7 @@ public class InstructionFactory {
      */
     public static InstructionFactory getInstance() {
         if (instance == null)
-            return new InstructionFactory();
+            instance = new InstructionFactory();
         return instance;
     }
 
