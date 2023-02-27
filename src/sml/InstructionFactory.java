@@ -1,5 +1,6 @@
 package sml;
 
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.lang.reflect.Constructor;
@@ -23,6 +24,9 @@ public class InstructionFactory {
 
     private static int objectCounter = 0;
     private static List<Object> objects = new ArrayList<>();
+
+    private static ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("instructions.xml");
+
 
     /**
      * The list containing instances possible instructions constructed with default null values. These should not be
@@ -185,14 +189,20 @@ public class InstructionFactory {
                                     typedParams.push(label);
                                     objects = typedParams;
                                     System.out.println("t");
-                                    try {
-                                        typedParams.push(label);
-                                        return (Instruction) c.newInstance(typedParams.toArray());
 
-                                    } catch (InstantiationException | InvocationTargetException |
-                                             IllegalAccessException e) {
-                                        typedParams.clear();
-                                    }
+                                    Instruction returnInstruction = (Instruction) beanFactory.getBean(opcode);
+//                                    objectCounter = 0;
+                                    System.out.println("B");
+                                    System.out.println(returnInstruction);
+                                    return returnInstruction;
+//                                    try {
+//                                        typedParams.push(label);
+//                                        return (Instruction) c.newInstance(typedParams.toArray());
+//
+//                                    } catch (InstantiationException | InvocationTargetException |
+//                                             IllegalAccessException e) {
+//                                        typedParams.clear();
+//                                    }
                                 }
                                 return null;
                             }).filter(Objects::nonNull).toList();
@@ -262,7 +272,7 @@ public class InstructionFactory {
      */
     public static InstructionFactory getInstance() {
         InstructionFactory factory =
-                (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml")
+                (InstructionFactory) beanFactory
                         .getBean("insFactory");
         factory.instructions.forEach(i -> factory.classMap.put(i.getOpcode(), i.getClass()));
         System.out.println(factory);
