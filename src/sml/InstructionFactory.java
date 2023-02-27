@@ -47,9 +47,15 @@ public class InstructionFactory {
             int.class, Integer::parseInt
             );
 
+    
     private static Object getObject(Class<?> targetClass) {
+
         if (!PARAMETERS.isEmpty()) {
-            return castString(PARAMETERS.pop(), targetClass);
+            try {
+                return PARAM_TYPES.get(targetClass).apply(PARAMETERS.pop());
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
         }
         return null;
     }
@@ -121,32 +127,12 @@ public class InstructionFactory {
         }
     }
 
-    /**
-     * Attempts to convert the given String into the given type. Type should only be String, RegisterName, or int.
-     * @param input the string to be converted
-     * @param type the type the input is to be converted to. Must be String, RegisterName, or int
-     * @return the converted input if it's possible to convert it, null otherwise
-     */
-    private static Object castString(String input, Class<?> type) {
-        try {
-            return PARAM_TYPES.get(type).apply(input);
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-    }
+
 
     /**
      * A method for creating an error message for when the parameters are do not match any constructor for a requested
-     * Instruction. This will be in the format:
-     * <p></p>
-     * "Error with instruction: label: opcode parameters
-     * <p></p>
-     * Possible sets of valid parameters for this instruction type:
-     * <p></p>
-     * A list detailing the possible constructors
-     * <p></p>
-     * Got: a list of the parameters given.
-     * "
+     * Instruction.
+     *
      * @param constructors a set of constructors for the requested Instruction
      * @param params the set of parameters given
      * @return the error message
