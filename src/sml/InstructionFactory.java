@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
 
 public class InstructionFactory {
 
+    private static int objectCounter = 0;
+    private static List<Object> objects = new ArrayList<>();
+
     /**
      * The list containing instances possible instructions constructed with default null values. These should not be
      * used for anything except registering Instructions in the classMap. Automatically loaded via Spring autowiring
@@ -84,6 +87,52 @@ public class InstructionFactory {
         return classMap.get(opcode);
     }
 
+    private static Object getObject() {
+        if (!objects.isEmpty()) {
+            System.out.println("Yes");
+            System.out.println(objects.get(objectCounter));
+//            System.out.println(objects.size());
+
+            Object returnObject = objects.get(objectCounter);
+
+            objectCounter++;
+            if (objectCounter == objects.size()) {
+                objectCounter = 0;
+                objects.clear();
+                System.out.println("Cleared");
+            }
+            return returnObject;
+        }
+        System.out.println("OOPS");
+        return null;
+    }
+
+    public static String getString() {
+        System.out.println("String");
+        Object o = getObject();
+        if (o instanceof String s)
+            return s;
+        return "";
+    }
+
+    public static RegisterName getRegisterName() {
+        System.out.println("RegName");
+        Object o = getObject();
+        if (o instanceof RegisterName r)
+            return r;
+        return new NullRegisterName();
+    }
+
+    public static int getInt() {
+        System.out.println("Int");
+
+        Object o = getObject();
+        if (!(o instanceof Integer))
+            return 0;
+        return (int) o;
+    }
+
+
     /**
      * Creates a new instance of the Instruction corresponding to the given opcode, constructed with the label and set
      * of parameters. Attempts to find a constructor for the given Instruction that matches the set of parameters.
@@ -127,9 +176,15 @@ public class InstructionFactory {
                             .map(c -> {
                                 //The first parameter is skipped as that is the label
                                 Iterator<Class<?>> typeIter = Arrays.stream(c.getParameterTypes()).skip(1).iterator();
+                                //typedParams is a list of the parameters that have been attempted to be converted to the relevant types
                                 LinkedList<Object> typedParams = new LinkedList<>(params.stream()
                                         .map(p -> castString(p, typeIter.next())).toList());
+                                //If none of the strings failed to be converted to their relevant types
                                 if (!typedParams.contains(null)) {
+                                    System.out.println(opcode);
+                                    typedParams.push(label);
+                                    objects = typedParams;
+                                    System.out.println("t");
                                     try {
                                         typedParams.push(label);
                                         return (Instruction) c.newInstance(typedParams.toArray());
@@ -206,8 +261,12 @@ public class InstructionFactory {
      * there
      */
     public static InstructionFactory getInstance() {
-        InstructionFactory factory = (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml").getBean("insFactory");
+        InstructionFactory factory =
+                (InstructionFactory) new ClassPathXmlApplicationContext("instructions.xml")
+                        .getBean("insFactory");
         factory.instructions.forEach(i -> factory.classMap.put(i.getOpcode(), i.getClass()));
+        System.out.println(factory);
+
         return factory;
     }
 
