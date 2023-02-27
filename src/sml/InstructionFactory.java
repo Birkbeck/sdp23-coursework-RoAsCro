@@ -1,11 +1,9 @@
 package sml;
 
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import java.util.*;
 import java.util.function.Function;
@@ -246,8 +244,8 @@ public class InstructionFactory {
      */
     @Override
     public String toString() {
-//        return String.join(", ", classMap.keySet().stream().sorted().toList());
-        return "";
+        return String.join(", ", Arrays.stream(beanFactory.getBeanNamesForType(Instruction.class))
+                .sorted().toList());
     }
 
 
