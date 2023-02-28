@@ -4,18 +4,23 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-<!--    Instructions go here: -->
-    <bean id="add" class="sml.instruction.AddInstruction" autowire="constructor" scope="prototype"/>
-    <bean id="sub" class="sml.instruction.SubInstruction" autowire="constructor" scope="prototype"/>
-    <bean id="mul" class="sml.instruction.MulInstruction" autowire="constructor" scope="prototype"/>
-    <bean id="div" class="sml.instruction.DivInstruction" autowire="constructor" scope="prototype"/>
-    <bean id="mov" class="sml.instruction.MovInstruction" autowire="constructor" scope="prototype"/>
-    <bean id="out" class="sml.instruction.OutInstruction" autowire="constructor" scope="prototype"/>
-    <bean id="jnz" class="sml.instruction.JnzInstruction" autowire="constructor" scope="prototype"/>
-    <bean id="tes" class="sml.instruction.TestInstruction" autowire="constructor" scope="prototype"/>
+    <!--    Abstract parent for all Instructions-->
+    <bean id="instruction" class="sml.Instruction" abstract="true" >
+        <constructor-arg name="label" ref="nullString#{null}"/>
+    </bean>
 
-<!--    Dependencies for autowiring the Instructions constructors: -->
-    <bean id="nullString" class="sml.InstructionFactory" factory-method="getString" scope="prototype"/>
+    <!--    Instructions go here: -->
+    <bean id="add" class="sml.instruction.AddInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
+    <bean id="sub" class="sml.instruction.SubInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
+    <bean id="mul" class="sml.instruction.MulInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
+    <bean id="div" class="sml.instruction.DivInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
+    <bean id="mov" class="sml.instruction.MovInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
+    <bean id="out" class="sml.instruction.OutInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
+    <bean id="jnz" class="sml.instruction.JnzInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
+    <bean id="tes" class="sml.instruction.TestInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
+
+    <!--    Dependencies for autowiring the Instructions' constructors: -->
+    <bean id="nullString" class="sml.InstructionFactory" factory-method="getString" scope="prototype" />
     <bean id="nullRegName" class="sml.InstructionFactory" factory-method="getRegisterName" scope="prototype"/>
     <bean id="nullInt" class="sml.InstructionFactory" factory-method="getInt" scope="prototype"/>
 

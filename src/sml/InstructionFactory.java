@@ -64,8 +64,7 @@ public class InstructionFactory {
         Object o = getObject(String.class);
         if (o instanceof String s)
             return s;
-        correctFormatting = false;
-        return "";
+        return null;
     }
 
     public static RegisterName getRegisterName() {
@@ -112,23 +111,22 @@ public class InstructionFactory {
         }
         if (opcode != null ) {
             try {
-                PARAMETERS.add(Objects.requireNonNullElse(label, ""));
+                PARAMETERS.add(label);
                 PARAMETERS.addAll(params);
                 correctFormatting = true;
                 Instruction returnInstruction = (Instruction) BEAN_FACTORY.getBean(opcode);
 
                 if (correctFormatting && PARAMETERS.isEmpty()) {
-                    System.out.println(returnInstruction);
                     return returnInstruction;
                 }
                 System.err.println(errorMessage
                         + buildErrorMessage(returnInstruction.getClass().getConstructors(), params));
                 return null;
-            } catch (NoSuchBeanDefinitionException ignored) {
-
+            } catch (NoSuchBeanDefinitionException e) {
+                System.err.println(errorMessage + "No instruction of that name found.");
             }
         }
-        System.err.println(errorMessage + "No instruction of that name found.");
+
         return null;
     }
 
