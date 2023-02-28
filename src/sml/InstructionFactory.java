@@ -21,15 +21,29 @@ import java.util.stream.Collectors;
 
 public class InstructionFactory {
 
+    /**
+     * The instance of InstructionFactory for use by getInstance
+     */
     private static InstructionFactory instance;
-    private static boolean correctFormatting;
-
-    private static final LinkedList<String> PARAMETERS = new LinkedList<>();
-
-    private static final ClassPathXmlApplicationContext BEAN_FACTORY = new ClassPathXmlApplicationContext("instructions.xml");
 
     /**
-     * A Null implementation of RegisterName for use in autowiring Instructions.
+     * A flag for checking an instruction's parameters have been formatted correctly when using getInstruction
+     */
+    private static boolean correctFormatting;
+
+    /**
+     * A linked list of parameters for the current attempt to construct an Instruction
+     */
+    private static final LinkedList<String> PARAMETERS = new LinkedList<>();
+
+    /**
+     * The factory for creating Instructions from beans
+     */
+    private static final ClassPathXmlApplicationContext BEAN_FACTORY =
+            new ClassPathXmlApplicationContext("instructions.xml");
+
+    /**
+     * A Null Object implementation of RegisterName for use in autowiring Instructions via getRegisterName
       */
     public static class NullRegisterName implements RegisterName {
         @Override
@@ -48,7 +62,29 @@ public class InstructionFactory {
             int.class, Integer::parseInt
             );
 
+    /**
+     * Private construction method allowing this class to be a singleton that can only be instantiated via getInstance
+     */
+    private InstructionFactory() {}
 
+    /**
+     * The proper method of instantiating this class. Returns the stored instance of InstructionFactory.
+     * If there isn't one, creates one and stores it in instance.
+     * @return an InstructionFactory
+     */
+    public static InstructionFactory getInstance() {
+        if (instance == null)
+            instance = new InstructionFactory();
+        return instance;
+    }
+    /**
+     * Returns an Object representing a String, int, or RegisterName after attempting to convert the head element of
+     * PARAMETERS into the targetClass. As PARAMETERS is a list of Strings, it will always succeed in converting to
+     * String. Should not be called directly, only through getString, getRegisterName, and getInt.
+     *
+     * @param targetClass must be String.class, int.class, or RegisterName.class
+     * @return an object that's been converted to targetClass. Null if PARAMETERS is empty or if the conversion failed
+     */
     private static Object getObject(Class<?> targetClass) {
         if (!PARAMETERS.isEmpty()) {
             try {
@@ -60,6 +96,10 @@ public class InstructionFactory {
         return null;
     }
 
+    /**
+     * Attempts to get a String from PARAMETERS. Will always succeed so long is PARAMETERS is not empty.
+     * @return the head of PARAMETERS if PARAMETERS is not empty. Null otherwise
+     */
     public static String getString() {
         Object o = getObject(String.class);
         if (o instanceof String s)
@@ -67,6 +107,10 @@ public class InstructionFactory {
         return null;
     }
 
+    /**
+     * Safely attempts to get a RegisterName from PARAMETERS.
+     * @return a RegisterName. If the head of PARAMETERS fails to be cast to a RegisterName, returns NullRegisterName
+     */
     public static RegisterName getRegisterName() {
         Object o = getObject(RegisterName.class);
         if (o instanceof RegisterName r)
@@ -75,6 +119,10 @@ public class InstructionFactory {
         return new NullRegisterName();
     }
 
+    /**
+     * Safely attempts to get an integer from PARAMETERS.
+     * @return an int. If the head of PARAMETERS fails to be cast to int, returns 0.
+     */
     public static int getInt() {
         Object o = getObject(int.class);
         if (o instanceof Integer i)
@@ -83,15 +131,14 @@ public class InstructionFactory {
         return 0;
     }
 
-
     /**
      * Creates a new instance of the Instruction corresponding to the given opcode, constructed with the label and set
-     * of parameters. Attempts to find a constructor for the given Instruction that matches the set of parameters.
+     * of parameters.
      * <p></p>
      * Will return null if: The opcode or any of the parameters are null; The opcode does not match the
-     * opcode of a valid Instruction; The number of parameters does not match a constructor of the given Instruction
+     * opcode of a valid Instruction; The number of parameters does not match the constructor of the given Instruction
      * type; One or more of the parameters cannot be cast to a set of
-     * types corresponding to the parameters of any constructor of the Instruction type.
+     * types corresponding to the parameters of the constructor of the Instruction type.
      * <p></p>
      * In these cases, an appropriate error message will be displayed.
      *
@@ -126,11 +173,9 @@ public class InstructionFactory {
                 System.err.println(errorMessage + "No instruction of that name found.");
             }
         }
-
+        System.err.println(errorMessage + "No instruction of that name found.");
         return null;
     }
-
-
 
     /**
      * A method for creating an error message for when the parameters are do not match any constructor for a requested
@@ -156,24 +201,7 @@ public class InstructionFactory {
         paramsErrorMessage.append("\nGot: ").append(params.size()).append(" parameters: ").append(String.join(", ", params));
         return paramsErrorMessage.toString();
     }
-
-
-    /**
-     * Private construction method allowing this class to be a singleton that can only be instantiated via getInstance
-     */
-    private InstructionFactory() {}
-
-    /**
-     * The proper method of instantiating this class.
-     * @return the instance of InstructionFactory listed in instructions.xml and autowired with the Instructions listed
-     * there
-     */
-    public static InstructionFactory getInstance() {
-        if (instance == null)
-            instance = new InstructionFactory();
-        return instance;
-    }
-
+    
     /**
      * Overridden toString method. Gives a list of the opcodes of all Instructions loaded into the factory at
      * construction in alphabetical order.
@@ -184,7 +212,4 @@ public class InstructionFactory {
         return String.join(", ", Arrays.stream(BEAN_FACTORY.getBeanNamesForType(Instruction.class))
                 .sorted().toList());
     }
-
-
-
 }

@@ -91,7 +91,6 @@ public final class Translator {
             l[0] = line.length();
             return y;})
                 .toList();
-
         return InstructionFactory.getInstance().getInstruction(label, opcode, params);
     }
 
