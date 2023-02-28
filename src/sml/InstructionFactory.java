@@ -43,7 +43,7 @@ public class InstructionFactory {
             new ClassPathXmlApplicationContext("instructions.xml");
 
     /**
-     * A Null Object implementation of RegisterName for use in autowiring Instructions via getRegisterName
+     * A Null Object implementation of RegisterName for use in autowiring Instructions via getRegisterName.
       */
     public static class NullRegisterName implements RegisterName {
         @Override
@@ -131,6 +131,7 @@ public class InstructionFactory {
         return 0;
     }
 
+
     /**
      * Creates a new instance of the Instruction corresponding to the given opcode, constructed with the label and set
      * of parameters.
@@ -152,7 +153,6 @@ public class InstructionFactory {
         PARAMETERS.clear();
         String errorMessage = "Error with instruction: " + ((label != null) ? label + " : " : "") + opcode + " "  +
                 String.join(" ", params) + "\n";
-        
         if (params.contains(null)) {
             System.err.println(errorMessage + "Instruction parameters other than label cannot be null.");
             return null;
@@ -162,12 +162,8 @@ public class InstructionFactory {
                 PARAMETERS.add(label);
                 PARAMETERS.addAll(params);
                 correctFormatting = true;
-                // Attempts to create an Instruction of the given opcode for the beans in beans.xml
                 Instruction returnInstruction = (Instruction) BEAN_FACTORY.getBean(opcode);
 
-                // Test for whether anything went wrong trying to case the parameter strings to the appropriate types
-                // for the instructions' constructor
-                // and whether the correct number of parameters were input
                 if (correctFormatting && PARAMETERS.isEmpty()) {
                     return returnInstruction;
                 }
@@ -181,6 +177,8 @@ public class InstructionFactory {
         System.err.println(errorMessage + "No instruction of that name found.");
         return null;
     }
+
+
 
     /**
      * A method for creating an error message for when the parameters are do not match any constructor for a requested
@@ -207,6 +205,9 @@ public class InstructionFactory {
         return paramsErrorMessage.toString();
     }
 
+
+
+
     /**
      * Overridden toString method. Gives a list of the opcodes of all Instructions loaded into the factory at
      * construction in alphabetical order.
@@ -217,4 +218,7 @@ public class InstructionFactory {
         return String.join(", ", Arrays.stream(BEAN_FACTORY.getBeanNamesForType(Instruction.class))
                 .sorted().toList());
     }
+
+
+
 }
