@@ -3,6 +3,7 @@ package sml;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import sml.instruction.AddInstruction;
 import sml.instruction.MovInstruction;
 
 import java.util.LinkedList;
@@ -40,6 +41,19 @@ public class InstructionFactoryTest {
         Machine m = new Machine(new Registers());
         i.execute(m);
         Assertions.assertEquals(1, m.getRegisters().get(EAX));
+    }
+
+    @Test
+    void testGetInstructionAdd() {
+        list.add("EAX");
+        list.add("EBX");
+        Instruction i = fact.getInstruction(null, "add", list);
+
+        Assertions.assertInstanceOf(AddInstruction.class, i);
+        Assertions.assertEquals("add EAX EBX", i.toString());
+        Machine m = new Machine(new Registers());
+        i.execute(m);
+
     }
 
     @Test

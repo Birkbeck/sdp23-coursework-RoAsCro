@@ -5,12 +5,10 @@ package sml;
  * and indicating which instruction in the program should be read next.
  * <p></p>
  * When implementing a concrete Instruction, it must only take integers, labels, and RegisterNames as its construction
- * parameters. In addition, it's opcode must not be null.
+ * parameters. In addition, its opcode must not be null.
  * <p></>
- * An Instruction may have multiple constructors, but as they are typically instantiated using an input from an SML
- * file, i.e. using Strings, this may result in ambiguity if, say, an Instruction had a constructor that takes a label
- * and a RegisterName, and a second constructor that takes a label and a String. The second constructor may end up being
- * called used when the first constructor was intended.
+ * An Instruction may only have one constructor. Constructors must be formatted with the label first,
+ * followed by the opcode, followed by any other parameters.
  *
  * @author ...
  */
