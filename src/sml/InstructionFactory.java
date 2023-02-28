@@ -157,26 +157,27 @@ public class InstructionFactory {
             System.err.println(errorMessage + "Instruction parameters other than label cannot be null.");
             return null;
         }
-        if (opcode != null ) {
-            try {
-                PARAMETERS.add(label);
-                PARAMETERS.addAll(params);
-                correctFormatting = true;
-                // Attempts to create an Instruction of the given opcode for the beans in beans.xml
-                Instruction returnInstruction = (Instruction) BEAN_FACTORY.getBean(opcode);
+        // Tests the Instruction exists
+        if (opcode != null &&
+                Arrays.stream(BEAN_FACTORY.getBeanNamesForType(Instruction.class))
+                        .toList().contains(opcode)) {
 
-                // Test for whether anything went wrong trying to case the parameter strings to the appropriate types
-                // for the instructions' constructor
-                // and whether the correct number of parameters were input
-                if (correctFormatting && PARAMETERS.isEmpty()) {
-                    return returnInstruction;
-                }
-                System.err.println(errorMessage
-                        + buildErrorMessage(returnInstruction.getClass().getConstructors(), params));
-                return null;
-            } catch (NoSuchBeanDefinitionException e) {
-                System.err.println(errorMessage + "No instruction of that name found.");
+            // Set up factory for Instruction construction
+            PARAMETERS.add(label);
+            PARAMETERS.addAll(params);
+            correctFormatting = true;
+
+            Instruction returnInstruction = (Instruction) BEAN_FACTORY.getBean(opcode);
+
+            // Test for whether anything went wrong trying to case the parameter strings to the appropriate types
+            // for the instructions' constructor
+            // and whether the correct number of parameters were input
+            if (correctFormatting && PARAMETERS.isEmpty()) {
+                return returnInstruction;
             }
+            System.err.println(errorMessage
+                    + buildErrorMessage(returnInstruction.getClass().getConstructors(), params));
+            return null;
         }
         System.err.println(errorMessage + "No instruction of that name found.");
         return null;
@@ -208,8 +209,7 @@ public class InstructionFactory {
     }
 
     /**
-     * Overridden toString method. Gives a list of the opcodes of all Instructions loaded into the factory at
-     * construction in alphabetical order.
+     * Overridden toString method. Gives a list of the opcodes of all Instructions this factory can create.
      * @return a String containing a list of Instructions this factory can create
      */
     @Override
