@@ -152,6 +152,7 @@ public class InstructionFactory {
         PARAMETERS.clear();
         String errorMessage = "Error with instruction: " + ((label != null) ? label + " : " : "") + opcode + " "  +
                 String.join(" ", params) + "\n";
+        
         if (params.contains(null)) {
             System.err.println(errorMessage + "Instruction parameters other than label cannot be null.");
             return null;
@@ -161,8 +162,12 @@ public class InstructionFactory {
                 PARAMETERS.add(label);
                 PARAMETERS.addAll(params);
                 correctFormatting = true;
+                // Attempts to create an Instruction of the given opcode for the beans in beans.xml
                 Instruction returnInstruction = (Instruction) BEAN_FACTORY.getBean(opcode);
 
+                // Test for whether anything went wrong trying to case the parameter strings to the appropriate types
+                // for the instructions' constructor
+                // and whether the correct number of parameters were input
                 if (correctFormatting && PARAMETERS.isEmpty()) {
                     return returnInstruction;
                 }
@@ -201,7 +206,7 @@ public class InstructionFactory {
         paramsErrorMessage.append("\nGot: ").append(params.size()).append(" parameters: ").append(String.join(", ", params));
         return paramsErrorMessage.toString();
     }
-    
+
     /**
      * Overridden toString method. Gives a list of the opcodes of all Instructions loaded into the factory at
      * construction in alphabetical order.
