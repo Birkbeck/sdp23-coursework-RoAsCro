@@ -6,7 +6,7 @@
 
     <!--    Abstract parent for all Instructions-->
     <bean id="instruction" class="sml.Instruction" abstract="true" >
-        <constructor-arg name="label" ref="nullString#{null}"/>
+        <constructor-arg name="label" ref="autowireString#{null}"/>
     </bean>
 
     <!--    Instructions go here: -->
@@ -20,8 +20,8 @@
     <bean id="tes" class="sml.instruction.TestInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
 
     <!--    Dependencies for autowiring the Instructions' constructors: -->
-    <bean id="nullString" class="sml.InstructionFactory" factory-method="getString" scope="prototype" />
-    <bean id="nullRegName" class="sml.InstructionFactory" factory-method="getRegisterName" scope="prototype"/>
-    <bean id="nullInt" class="sml.InstructionFactory" factory-method="getInt" scope="prototype"/>
+    <bean id="autowireString" class="sml.InstructionFactory" factory-method="getString" scope="prototype" />
+    <bean id="autowireRegName" class="sml.InstructionFactory" factory-method="getRegisterName" scope="prototype"/>
+    <bean id="autowireInt" class="sml.InstructionFactory" factory-method="getInt" scope="prototype"/>
 
 </beans>
