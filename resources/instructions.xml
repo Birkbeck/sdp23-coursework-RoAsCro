@@ -17,7 +17,6 @@
     <bean id="mov" class="sml.instruction.MovInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
     <bean id="out" class="sml.instruction.OutInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
     <bean id="jnz" class="sml.instruction.JnzInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
-    <bean id="tes" class="sml.instruction.TestInstruction" autowire="constructor" scope="prototype" parent="instruction"/>
 
     <!--    Dependencies for autowiring the Instructions' constructors: -->
     <bean id="autowireString" class="sml.InstructionFactory" factory-method="getString" scope="prototype" />
