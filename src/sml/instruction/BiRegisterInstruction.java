@@ -59,18 +59,6 @@ public abstract class BiRegisterInstruction extends Instruction {
     }
 
     /**
-     * Returns a String representation of this Instruction. This will be in the format "[label: ]opcode result source",
-     * where label, opcode, result, and source are the fields defined at construction, and the text enclosed in the
-     * square brackets is optional.
-     *
-     * @return a String representation of this Instruction readable by humans.
-     */
-    @Override
-    public String toString() {
-        return getLabelString() + getOpcode() + " " + result + " " + source;
-    }
-
-    /**
      * Returns a hash code for this Instruction. If two BiRegisterInstructions have the same opcode, label, result, and
      * source, they will have the same hash code.
      *
@@ -81,6 +69,16 @@ public abstract class BiRegisterInstruction extends Instruction {
         return Objects.hash(opcode, label, result, source);
     }
 
-
+    /**
+     * Returns a String representation of this Instruction. This will be in the format "[label: ]opcode result source",
+     * where label, opcode, result, and source are the fields defined at construction, and the text enclosed in the
+     * square brackets is optional.
+     *
+     * @return a String representation of this Instruction readable by humans.
+     */
+    @Override
+    public String toString() {
+        return getLabelString() + getOpcode() + " " + result + " " + source;
+    }
 
 }

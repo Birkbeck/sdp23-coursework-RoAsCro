@@ -9,7 +9,7 @@ import static sml.Registers.Register.*;
 
 public class MulInstructionTest extends AbstractInstructionTest{
     @Test
-    void executeValidBothPositive() {
+    public void executeValidBothPositive() {
         registers.set(EAX, 3);
         registers.set(EBX, 2);
         Instruction instruction = new MulInstruction(null, EAX, EBX);
@@ -18,7 +18,7 @@ public class MulInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void executeValidOneNegative() {
+    public void executeValidOneNegative() {
         registers.set(EAX, 3);
         registers.set(EBX, -1);
         Instruction instruction = new MulInstruction(null, EAX, EBX);
@@ -27,7 +27,7 @@ public class MulInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void executeValidBothNegative() {
+    public void executeValidBothNegative() {
         registers.set(EAX, -3);
         registers.set(EBX, -2);
         Instruction instruction = new MulInstruction(null, EAX, EBX);
@@ -36,20 +36,20 @@ public class MulInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void testToStringWithLabel() {
+    public void testToStringWithLabel() {
         Instruction instruction = new MulInstruction("x", EAX, EBX);
         assertEquals("x: mul EAX EBX", instruction.toString());
     }
 
 
     @Test
-    void testToStringNoLabel() {
+    public void testToStringNoLabel() {
         Instruction instruction = new MulInstruction(null, EAX, EBX);
         assertEquals("mul EAX EBX", instruction.toString());
     }
 
     @Test
-    void testEquals() {
+    public void testEquals() {
         Assertions.assertEquals(new MulInstruction("x", EAX, EBX), new MulInstruction("x", EAX, EBX));
         Assertions.assertEquals(new MulInstruction(null, EAX, EBX), new MulInstruction(null, EAX, EBX));
         Assertions.assertNotEquals(new MulInstruction(null, EAX, EBX), new MulInstruction("x", EAX, EBX));
@@ -57,7 +57,7 @@ public class MulInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void testHashCode() {
+    public void testHashCode() {
         Assertions.assertEquals(new MulInstruction("x", EAX, EBX).hashCode(), new MulInstruction("x", EAX, EBX).hashCode());
         Assertions.assertEquals(new MulInstruction(null, EAX, EBX).hashCode(), new MulInstruction(null, EAX, EBX).hashCode());
         Assertions.assertNotEquals(new MulInstruction(null, EAX, EBX).hashCode(), new MulInstruction("x", EAX, EBX).hashCode());

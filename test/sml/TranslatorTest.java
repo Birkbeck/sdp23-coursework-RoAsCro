@@ -15,12 +15,12 @@ public class TranslatorTest {
     private final String fileLocation = "./testResources/";
 
     @BeforeEach
-    void setUp(){
+    public void setUp(){
         list = new LinkedList<>();
     }
 
     @Test
-    void testValidGetInstruction() {
+    public void testValidGetInstruction() {
 
         translator = new Translator(fileLocation + "test3.sml");
         assertDoesNotThrow(() -> translator.readAndTranslate(new Labels(), list));
@@ -34,47 +34,46 @@ public class TranslatorTest {
 
 
     @Test
-    void testDuplicateLabels() {
+    public void testDuplicateLabels() {
 
         translator = new Translator(fileLocation + "test5.sml");
         assertThrows(IOException.class,() -> translator.readAndTranslate(new Labels(), list));
     }
 
     @Test
-    void testInvalidFirstRegister(){
+    public void testInvalidFirstRegister(){
         translator = new Translator(fileLocation + "test6.sml");
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
 
     @Test
-    void testInvalidSecondRegister() {
+    public void testInvalidSecondRegister() {
         translator = new Translator(fileLocation + "test7.sml");
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
 
     @Test
-    void testNotANumber() {
+    public void testNotANumber() {
         translator = new Translator(fileLocation + "test8.sml");
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
 
     @Test
-    void testUnknownInstruction() {
+    public void testUnknownInstruction() {
         translator = new Translator(fileLocation + "test10.sml");
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
 
     @Test
-    void tooFewArguments() {
+    public void tooFewArguments() {
         translator = new Translator(fileLocation + "test9.sml");
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
 
     @Test
-    void tooManyArguments() {
+    public void tooManyArguments() {
         translator = new Translator(fileLocation + "test13.sml");
         assertThrows(IOException.class, () -> translator.readAndTranslate(new Labels(), list));
     }
-
 
 }

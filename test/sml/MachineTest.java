@@ -8,7 +8,7 @@ import static sml.Registers.Register.*;
 
 public class MachineTest {
     @Test
-    void testEqualsAndHash() {
+    public void testEqualsAndHash() {
         Machine m = new Machine(new Registers());
         Machine n = new Machine(new Registers());
 

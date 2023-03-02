@@ -10,7 +10,7 @@ import sml.Instruction;
 public class JnzInstrutionTest extends AbstractInstructionTest{
 
     @Test
-    void executeValid() {
+    public void executeValid() {
         machine.getProgram().add(new MovInstruction(null, EAX, 3));
         machine.getProgram().add(new MovInstruction(null, EBX, 1));
         machine.getProgram().add(new MovInstruction(null, ESI, 1));
@@ -34,7 +34,7 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void executeLabelDoesNotExist() {
+    public void executeLabelDoesNotExist() {
         machine.getProgram().add(new MovInstruction(null, EAX, 2));
         machine.getProgram().add(new MovInstruction(null, EBX, 1));
         machine.getProgram().add(new SubInstruction(null, EAX, EBX));
@@ -45,20 +45,20 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void testToStringWithLabel() {
+    public void testToStringWithLabel() {
         Instruction instruction = new JnzInstruction("x", EAX, "y");
         assertEquals("x: jnz EAX y", instruction.toString());
     }
 
 
     @Test
-    void testToStringNoLabel() {
+    public void testToStringNoLabel() {
         Instruction instruction = new JnzInstruction(null, EAX, "y");
         assertEquals("jnz EAX y", instruction.toString());
     }
 
     @Test
-    void testEquals() {
+    public void testEquals() {
         Assertions.assertEquals(new JnzInstruction("x", EAX, "a"), new JnzInstruction("x", EAX, "a"));
         Assertions.assertEquals(new JnzInstruction(null, EAX, "a"), new JnzInstruction(null, EAX, "a"));
         Assertions.assertNotEquals(new JnzInstruction(null, EAX, "a"), new JnzInstruction("x", EAX, "a"));
@@ -67,7 +67,7 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void testHashCode() {
+    public void testHashCode() {
         Assertions.assertEquals(new JnzInstruction("x", EAX, "a").hashCode(), new JnzInstruction("x", EAX, "a").hashCode());
         Assertions.assertEquals(new JnzInstruction(null, EAX, "a").hashCode(), new JnzInstruction(null, EAX, "a").hashCode());
         Assertions.assertNotEquals(new JnzInstruction(null, EAX, "a").hashCode(), new JnzInstruction("x", EAX, "a").hashCode());

@@ -11,27 +11,27 @@ import static sml.Registers.Register.ECX;
 
 public class OutInstructionTest extends AbstractInstructionTest {
     @Test
-    void executeValid() {
+    public void executeValid() {
         registers.set(EAX, 1);
         Instruction instruction = new OutInstruction(null, EAX);
         instruction.execute(machine);
     }
 
     @Test
-    void testToStringWithLabel() {
+    public void testToStringWithLabel() {
         Instruction instruction = new OutInstruction("x", EAX);
         assertEquals("x: out EAX", instruction.toString());
     }
 
 
     @Test
-    void testToStringNoLabel() {
+    public void testToStringNoLabel() {
         Instruction instruction = new OutInstruction(null, EAX);
         assertEquals("out EAX", instruction.toString());
     }
 
     @Test
-    void testEquals() {
+    public void testEquals() {
         Assertions.assertEquals(new OutInstruction("x", EAX), new OutInstruction("x", EAX));
         Assertions.assertEquals(new OutInstruction(null, EAX), new OutInstruction(null, EAX));
         Assertions.assertNotEquals(new OutInstruction(null, EAX), new OutInstruction("x", EAX));
@@ -39,7 +39,7 @@ public class OutInstructionTest extends AbstractInstructionTest {
     }
 
     @Test
-    void testHashCode() {
+    public void testHashCode() {
         Assertions.assertEquals(new OutInstruction("x", EAX).hashCode(), new OutInstruction("x", EAX).hashCode());
         Assertions.assertEquals(new OutInstruction(null, EAX).hashCode(), new OutInstruction(null, EAX).hashCode());
         Assertions.assertNotEquals(new OutInstruction(null, EAX).hashCode(), new OutInstruction("x", EAX).hashCode());

@@ -19,7 +19,7 @@ public class MulInstruction extends BiRegisterInstruction {
     /**
      * The operation code for all MulInstructions. The name of the operation.
      */
-    public static final String OP_CODE = "mul";
+    private static final String OP_CODE = "mul";
 
     /**
      * Constructs a new MulInstruction with an optional label, a RegisterName result, and a RegisterName source.
@@ -32,6 +32,23 @@ public class MulInstruction extends BiRegisterInstruction {
      */
     public MulInstruction(String label, RegisterName result, RegisterName source) {
         super(label, OP_CODE, result, source);
+    }
+
+    /**
+     * Checks if two MulInstructions are equal. Two MulInstructions are equal if they have the same label, result, and
+     * source.
+     *
+     * @param o an object to be compared to this MulInstruction.
+     * @return false if o is not an MulInstruction or is not equal to this. True if o is equal to this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof MulInstruction instruction) {
+            return Objects.equals(this.label, instruction.label) &&
+                    this.result == instruction.result &&
+                    this.source == instruction.source;
+        }
+        return false;
     }
 
     /**
@@ -51,20 +68,4 @@ public class MulInstruction extends BiRegisterInstruction {
         return super.execute(m, (one, two) -> one * two);
     }
 
-    /**
-     * Checks if two MulInstructions are equal. Two MulInstructions are equal if they have the same label, result, and
-     * source.
-     *
-     * @param o an object to be compared to this MulInstruction.
-     * @return false if o is not an MulInstruction or is not equal to this. True if o is equal to this.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof MulInstruction instruction) {
-            return Objects.equals(this.label, instruction.label) &&
-                    this.result == instruction.result &&
-                    this.source == instruction.source;
-        }
-        return false;
-    }
 }

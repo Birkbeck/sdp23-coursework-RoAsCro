@@ -15,23 +15,23 @@ import static sml.Registers.Register.EAX;
 
 public class InstructionFactoryTest {
 
-    InstructionFactory fact;
+    private InstructionFactory fact;
 
-    List<String> list;
+    private List<String> list;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         fact = InstructionFactory.getInstance();
         list = new LinkedList<>();
     }
 
     @Test
-    void testGetInstructionFactory() {
+    public void testGetInstructionFactory() {
         Assertions.assertInstanceOf(InstructionFactory.class, fact);
     }
 
     @Test
-    void testGetInstruction() {
+    public void testGetInstruction() {
         list.add("EAX");
         list.add("1");
         Instruction i = fact.getInstruction(null, "mov", list);
@@ -44,7 +44,7 @@ public class InstructionFactoryTest {
     }
 
     @Test
-    void testGetInstructionAdd() {
+    public void testGetInstructionAdd() {
         list.add("EAX");
         list.add("EBX");
         Instruction i = fact.getInstruction(null, "add", list);
@@ -57,7 +57,7 @@ public class InstructionFactoryTest {
     }
 
     @Test
-    void testGetInstructionInvalidInt() {
+    public void testGetInstructionInvalidInt() {
         list.add("EAX");
         list.add(null);
         Instruction i = fact.getInstruction(null, "mov", list);
@@ -65,7 +65,7 @@ public class InstructionFactoryTest {
     }
 
     @Test
-    void testGetInstructionInvalidString() {
+    public void testGetInstructionInvalidString() {
         list.add("EAX");
         list.add(null);
         Instruction i = fact.getInstruction(null, "jnz", list);
@@ -74,7 +74,7 @@ public class InstructionFactoryTest {
     }
 
     @Test
-    void testGetInstructionInvalidRegName() {
+    public void testGetInstructionInvalidRegName() {
         list.add(null);
         list.add("a");
         Instruction i = fact.getInstruction(null, "jnz", list);
@@ -83,7 +83,7 @@ public class InstructionFactoryTest {
     }
 
     @Test
-    void testGetInstructionInvalidOpCode() {
+    public void testGetInstructionInvalidOpCode() {
         list.add("EAX");
         list.add("a");
         Instruction i = fact.getInstruction(null, null, list);
@@ -92,7 +92,7 @@ public class InstructionFactoryTest {
     }
 
     @Test
-    void testExtensibility() {
+    public void testExtensibility() {
         Machine m = new Machine(new Registers());
 
         Instruction i = fact.getInstruction("tes", "tes", list);

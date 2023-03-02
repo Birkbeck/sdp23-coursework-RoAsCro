@@ -8,7 +8,8 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * The translator of a <b>S</b><b>M</b>al<b>L</b> program. Takes a text file on construction containing an SML program
+ * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
+ * Takes a text file on construction containing an SML program
  * to be translated, converting it into Instructions executable by a Machine.
  *
  * @author ...
@@ -27,7 +28,8 @@ public final class Translator {
     private String line = "";
 
     /**
-     * Constructs a Translator taking the String fileName as the location of the source file of the SML program.
+     * Constructs a Translator taking the String fileName
+     * as the location of the source file of the SML program.
      * @param fileName the source file of the SML program.
      */
     public Translator(String fileName) {
@@ -40,13 +42,14 @@ public final class Translator {
 //     return "no errors were detected"
 
     /**
-     * Translates the SML program in the file into a series of Instructions executable by a Machine. Instructions are
-     * stored in program parameter, and Labels in the labels parameter.
+     * Translates the SML program in the file into a series of Instructions executable by
+     * a Machine. Instructions are stored in program parameter, and Labels in the labels parameter.
      *
-     * @param labels an instance of Labels where the labels of the instructions in the program will be stored
+     * @param labels an instance of Labels where the labels of
+     *               instructions in the program will be stored
      * @param program a list of Instructions where the translated Instructions will be stored
-     * @throws IOException if something goes wrong in the process of reading the file, including finding errors in the
-     * formatting of the SML file
+     * @throws IOException if something goes wrong in the process of reading the file,
+     * including finding errors in the formatting of the SML file
      */
     public void readAndTranslate(Labels labels, List<Instruction> program) throws IOException {
         try (var sc = new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
@@ -82,6 +85,7 @@ public final class Translator {
     private Instruction getInstruction(String label) {
         if (line.isEmpty())
             return null;
+
         String opcode = scan();
         int[] l = {line.length()};
 

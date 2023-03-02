@@ -20,8 +20,7 @@ public class DivInstruction extends BiRegisterInstruction {
     /**
      * The operation code for all DivInstructions. The name of the operation.
      */
-    public static final String OP_CODE = "div";
-
+    private static final String OP_CODE = "div";
 
     /**
      * Constructs a new DivInstruction with an optional label, a RegisterName result, and a RegisterName source.
@@ -34,6 +33,23 @@ public class DivInstruction extends BiRegisterInstruction {
      */
     public DivInstruction(String label, RegisterName result, RegisterName source) {
         super(label, OP_CODE, result, source);
+    }
+
+    /**
+     * Checks if two DivInstructions are equal. Two DivInstructions are equal if they have the same label, result, and
+     * source.
+     *
+     * @param o an object to be compared to this DivInstruction.
+     * @return false if o is not an DivInstruction or is not equal to this. True if o is equal to this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof DivInstruction instruction) {
+            return Objects.equals(this.label, instruction.label) &&
+                    this.result == instruction.result &&
+                    this.source == instruction.source;
+        }
+        return false;
     }
 
     /**
@@ -53,6 +69,7 @@ public class DivInstruction extends BiRegisterInstruction {
      */
     @Override
     public int execute(Machine m) {
+        // Test for division by zero
         if (m.getRegisters().get(source) == 0) {
             System.err.println("Error with instruction: "
                     + this
@@ -63,20 +80,4 @@ public class DivInstruction extends BiRegisterInstruction {
         return super.execute(m, (one, two) -> one/two);
     }
 
-    /**
-     * Checks if two DivInstructions are equal. Two DivInstructions are equal if they have the same label, result, and
-     * source.
-     *
-     * @param o an object to be compared to this DivInstruction.
-     * @return false if o is not an DivInstruction or is not equal to this. True if o is equal to this.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof DivInstruction instruction) {
-            return Objects.equals(this.label, instruction.label) &&
-                    this.result == instruction.result &&
-                    this.source == instruction.source;
-        }
-        return false;
-    }
 }

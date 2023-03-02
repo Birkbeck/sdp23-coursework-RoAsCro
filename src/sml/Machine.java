@@ -73,8 +73,10 @@ public final class Machine {
 	}
 
 	/**
-	 * Checks if two Machines are equal. Two machines are equal if: Their labels are the same; their program is the same
-	 * ;the values of their registers are the same; their program counters are at the same point in the program.
+	 * Checks if two Machines are equal. Two machines are equal if:
+	 * Their labels are the same; their program is the same;
+	 * the values of their registers are the same;
+	 * their program counters are at the same point in the program.
 	 *
 	 * @param o another object against which this Machine will be tested
 	 * @return false if o is not a Machine or is not equal to this Machine. True otherwise
@@ -91,7 +93,8 @@ public final class Machine {
 	}
 
 	/**
-	 * Returns a hash code for this Machine. The hashcode is based on the Machine's labels, program, the values of its
+	 * Returns a hash code for this Machine.
+	 * The hashcode is based on the Machine's labels, program, the values of its
 	 * registers, and the position of its programCounter.
 	 *
 	 * @return a hash code for this machine

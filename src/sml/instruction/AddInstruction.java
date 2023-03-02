@@ -67,17 +67,7 @@ public class AddInstruction extends Instruction {
 		return NORMAL_PROGRAM_COUNTER_UPDATE;
 	}
 
-	/**
-	 * Returns a String representation of this AdInstruction. This will be in the format "[label: ]add result source",
-	 * where label, result, and source are the fields defined at construction, and the text enclosed in the square
-	 * brackets is optional.
-	 *
-	 * @return a String representation of this AddInstruction readable by humans.
-	 */
-	@Override
-	public String toString() {
-		return getLabelString() + getOpcode() + " " + result + " " + source;
-	}
+
 
 	/**
 	 * Checks if two AddInstructions are equal. Two AddInstructions are equal if they have the same label, result, and
@@ -106,4 +96,17 @@ public class AddInstruction extends Instruction {
 	public int hashCode() {
 		return Objects.hash(opcode, label, result, source);
 	}
+
+	/**
+	 * Returns a String representation of this AdInstruction. This will be in the format "[label: ]add result source",
+	 * where label, result, and source are the fields defined at construction, and the text enclosed in the square
+	 * brackets is optional.
+	 *
+	 * @return a String representation of this AddInstruction readable by humans.
+	 */
+	@Override
+	public String toString() {
+		return getLabelString() + getOpcode() + " " + result + " " + source;
+	}
+
 }

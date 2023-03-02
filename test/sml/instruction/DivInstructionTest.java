@@ -10,7 +10,7 @@ import static sml.Registers.Register.*;
 
 public class DivInstructionTest extends AbstractInstructionTest{
     @Test
-    void executeValidBothPositive() {
+    public void executeValidBothPositive() {
         registers.set(EAX, 6);
         registers.set(EBX, 2);
         Instruction instruction = new DivInstruction(null, EAX, EBX);
@@ -19,7 +19,7 @@ public class DivInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void executeValidDivisorNegative() {
+    public void executeValidDivisorNegative() {
         registers.set(EAX, 6);
         registers.set(EBX, -2);
         Instruction instruction = new DivInstruction(null, EAX, EBX);
@@ -28,7 +28,7 @@ public class DivInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void executeValidDividendNegative() {
+    public void executeValidDividendNegative() {
         registers.set(EAX, -6);
         registers.set(EBX, 2);
         Instruction instruction = new DivInstruction(null, EAX, EBX);
@@ -37,7 +37,7 @@ public class DivInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void executeValidBothNegative() {
+    public void executeValidBothNegative() {
         registers.set(EAX, -6);
         registers.set(EBX, -2);
         Instruction instruction = new DivInstruction(null, EAX, EBX);
@@ -46,7 +46,7 @@ public class DivInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void executeValidNonIntegerResult() {
+    public void executeValidNonIntegerResult() {
         registers.set(EAX, 3);
         registers.set(EBX, 2);
         Instruction instruction = new DivInstruction(null, EAX, EBX);
@@ -55,7 +55,7 @@ public class DivInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void executeDivideByZero() {
+    public void executeDivideByZero() {
         registers.set(ECX, 1);
         Instruction instruction = new DivInstruction(null, EAX, EBX);
         instruction.execute(machine);
@@ -63,20 +63,20 @@ public class DivInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void testToStringWithLabel() {
+    public void testToStringWithLabel() {
         Instruction instruction = new DivInstruction("x", EAX, EBX);
         assertEquals("x: div EAX EBX", instruction.toString());
     }
 
 
     @Test
-    void testToStringNoLabel() {
+    public void testToStringNoLabel() {
         Instruction instruction = new DivInstruction(null, EAX, EBX);
         assertEquals("div EAX EBX", instruction.toString());
     }
 
     @Test
-    void testEquals() {
+    public void testEquals() {
         Assertions.assertEquals(new DivInstruction("x", EAX, EBX), new DivInstruction("x", EAX, EBX));
         Assertions.assertEquals(new DivInstruction(null, EAX, EBX), new DivInstruction(null, EAX, EBX));
         Assertions.assertNotEquals(new DivInstruction(null, EAX, EBX), new DivInstruction("x", EAX, EBX));
@@ -84,7 +84,7 @@ public class DivInstructionTest extends AbstractInstructionTest{
     }
 
     @Test
-    void testHashCode() {
+    public void testHashCode() {
         Assertions.assertEquals(new DivInstruction("x", EAX, EBX).hashCode(), new DivInstruction("x", EAX, EBX).hashCode());
         Assertions.assertEquals(new DivInstruction(null, EAX, EBX).hashCode(), new DivInstruction(null, EAX, EBX).hashCode());
         Assertions.assertNotEquals(new DivInstruction(null, EAX, EBX).hashCode(), new DivInstruction("x", EAX, EBX).hashCode());

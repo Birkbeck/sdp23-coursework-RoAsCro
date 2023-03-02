@@ -7,18 +7,17 @@ import sml.Registers;
 
 public abstract class AbstractInstructionTest {
 
-    public final String fileLocation = "./testResources/";
     protected Machine machine;
     protected Registers registers;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
         machine = new Machine(new Registers());
         registers = machine.getRegisters();
     }
 
     @AfterEach
-    void tearDown() {
+    protected void tearDown() {
         machine = null;
         registers = null;
     }

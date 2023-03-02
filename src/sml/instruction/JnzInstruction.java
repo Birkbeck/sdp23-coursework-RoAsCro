@@ -19,6 +19,11 @@ import java.util.Objects;
 public class JnzInstruction extends Instruction {
 
     /**
+     * The operation code for all JnzInstructions. The name of the operation.
+     */
+    private static final String OP_CODE = "jnz";
+
+    /**
      * The RegisterName for the register whose value will be checked in the execution. Should never be null.
      */
     private final RegisterName source;
@@ -27,11 +32,6 @@ public class JnzInstruction extends Instruction {
      * A String corresponding to the label of another instruction in the program.
      */
     private final String targetLabel;
-
-    /**
-     * The operation code for all JnzInstructions. The name of the operation.
-     */
-    public static final String OP_CODE = "jnz";
 
     /**
      * Constructs a new JnzInstruction with an optional label, a RegisterName source, and a String targetLabel.
@@ -44,6 +44,23 @@ public class JnzInstruction extends Instruction {
         super(label, OP_CODE);
         this.source = source;
         this.targetLabel = targetLabel;
+    }
+
+    /**
+     * Checks if two JnzInstructions are equal. Two JnzInstructions are equal if they have the same label,
+     * source, and targetLabel.
+     *
+     * @param o an object to be compared to this JnzInstruction.
+     * @return false if o is not an JnzInstruction or is not equal to this. True if o is equal to this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof JnzInstruction instruction) {
+            return Objects.equals(this.label, instruction.label) &&
+                    this.targetLabel.equals(instruction.targetLabel) &&
+                    this.source == instruction.source;
+        }
+        return false;
     }
 
     /**
@@ -80,6 +97,18 @@ public class JnzInstruction extends Instruction {
         return programCounterUpdate;
     }
 
+
+    /**
+     * Returns a hash code for this JnzInstruction. If two JnzInstructions have the same opcode, label, targetLabel, and
+     * source, they will have the same hash code.
+     *
+     * @return a hash code representing this JnzInstruction.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(opcode, label, targetLabel, source);
+    }
+
     /**
      * Returns a String representation of this JnzInstruction. This will be in the format "[label: ]jnz result source",
      * where label, result, and source are the fields defined at construction, and the text enclosed in the
@@ -92,31 +121,4 @@ public class JnzInstruction extends Instruction {
         return getLabelString() + OP_CODE + " " + source + " " + targetLabel;
     }
 
-    /**
-     * Checks if two JnzInstructions are equal. Two JnzInstructions are equal if they have the same label,
-     * source, and targetLabel.
-     *
-     * @param o an object to be compared to this JnzInstruction.
-     * @return false if o is not an JnzInstruction or is not equal to this. True if o is equal to this.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof JnzInstruction instruction) {
-            return Objects.equals(this.label, instruction.label) &&
-                    this.targetLabel.equals(instruction.targetLabel) &&
-                    this.source == instruction.source;
-        }
-        return false;
-    }
-
-    /**
-     * Returns a hash code for this JnzInstruction. If two JnzInstructions have the same opcode, label, targetLabel, and
-     * source, they will have the same hash code.
-     *
-     * @return a hash code representing this JnzInstruction.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(opcode, label, targetLabel, source);
-    }
 }

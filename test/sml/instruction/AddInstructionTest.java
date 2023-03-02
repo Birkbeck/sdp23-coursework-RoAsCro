@@ -47,7 +47,7 @@ class AddInstructionTest {
   }
 
   @Test
-  void testEquals() {
+  public void testEquals() {
     Assertions.assertEquals(new AddInstruction("x", EAX, EBX), new AddInstruction("x", EAX, EBX));
     Assertions.assertEquals(new AddInstruction(null, EAX, EBX), new AddInstruction(null, EAX, EBX));
     Assertions.assertNotEquals(new AddInstruction(null, EAX, EBX), new AddInstruction("x", EAX, EBX));
@@ -55,7 +55,7 @@ class AddInstructionTest {
   }
 
   @Test
-  void testHashCode() {
+  public void testHashCode() {
     Assertions.assertEquals(new AddInstruction("x", EAX, EBX).hashCode(), new AddInstruction("x", EAX, EBX).hashCode());
     Assertions.assertEquals(new AddInstruction(null, EAX, EBX).hashCode(), new AddInstruction(null, EAX, EBX).hashCode());
     Assertions.assertNotEquals(new AddInstruction(null, EAX, EBX).hashCode(), new AddInstruction("x", EAX, EBX).hashCode());

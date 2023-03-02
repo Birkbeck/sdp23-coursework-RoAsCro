@@ -9,24 +9,24 @@ public class LabelsTest {
     private Labels labels;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         labels = new Labels();
     }
 
     @Test
-    void testAddLabel() {
+    public void testAddLabel() {
         Assertions.assertTrue(labels.addLabel("a", 0));
         Assertions.assertFalse(labels.addLabel("a", 1));
         Assertions.assertEquals(0, labels.getAddress("a"));
     }
 
     @Test
-    void testGetAddress() {
+    public void testGetAddress() {
         Assertions.assertEquals(-1, labels.getAddress("a"));
     }
 
     @Test
-    void testToString() {
+    public void testToString() {
         labels.addLabel("a", 0);
         labels.addLabel("b", 3);
         Assertions.assertEquals("[a -> 0, b -> 3]", labels.toString());
@@ -34,7 +34,7 @@ public class LabelsTest {
     }
 
     @Test
-    void testEquals() {
+    public void testEquals() {
         Labels labels2 = new Labels();
         Assertions.assertEquals(labels, labels2);
         labels.addLabel("a", 0);
@@ -52,7 +52,7 @@ public class LabelsTest {
     }
 
     @Test
-    void testHashCode() {
+    public void testHashCode() {
         Labels labels2 = new Labels();
         Assertions.assertEquals(labels.hashCode(), labels2.hashCode());
         labels.addLabel("a", 0);

@@ -19,9 +19,9 @@ import java.util.Objects;
 public class MovInstruction extends Instruction {
 
     /**
-     * The RegisterName for the register where the given integer will be stored. Should never be null.
+     * The operation code for all MovInstructions. The name of the operation.
      */
-    private final RegisterName result;
+    private static final String OP_CODE = "mov";
 
     /**
      * An integer value to be stored in a register upon execution.
@@ -29,9 +29,9 @@ public class MovInstruction extends Instruction {
     private final int value;
 
     /**
-     * The operation code for all MovInstructions. The name of the operation.
+     * The RegisterName for the register where the given integer will be stored. Should never be null.
      */
-    public static final String OP_CODE = "mov";
+    private final RegisterName result;
 
     /**
      * Constructs a new AddInstruction with an optional label, a RegisterName result, and an integer value.
@@ -44,32 +44,6 @@ public class MovInstruction extends Instruction {
         super(label, OP_CODE);
         this.result = result;
         this.value = value;
-    }
-
-    /**
-     * Stores the integer value given at construction in the register in Machine m corresponding to the RegisterName
-     * result given at construction.
-     *
-     * @param m the machine the instruction runs on
-     * @return the normal program counter update indicating the program counter should move onto the instruction with
-     * the next address
-     */
-    @Override
-    public int execute(Machine m) {
-        m.getRegisters().set(result, value);
-        return NORMAL_PROGRAM_COUNTER_UPDATE;
-    }
-
-    /**
-     * Returns a String representation of this MovInstruction. This will be in the format "[label: ]mov result source",
-     * where label, result, and source are the fields defined at construction, and the text enclosed in the
-     * square brackets is optional.
-     *
-     * @return a String representation of this MovInstruction readable by humans.
-     */
-    @Override
-    public String toString() {
-        return getLabelString() + getOpcode() + " " + result.toString() + " " + value;
     }
 
     /**
@@ -90,6 +64,20 @@ public class MovInstruction extends Instruction {
     }
 
     /**
+     * Stores the integer value given at construction in the register in Machine m corresponding to the RegisterName
+     * result given at construction.
+     *
+     * @param m the machine the instruction runs on
+     * @return the normal program counter update indicating the program counter should move onto the instruction with
+     * the next address
+     */
+    @Override
+    public int execute(Machine m) {
+        m.getRegisters().set(result, value);
+        return NORMAL_PROGRAM_COUNTER_UPDATE;
+    }
+
+    /**
      * Returns a hash code for this MovInstruction. If two MovInstructions have the same opcode, label, result, and
      * value, they will have the same hash code.
      *
@@ -99,4 +87,17 @@ public class MovInstruction extends Instruction {
     public int hashCode() {
         return Objects.hash(opcode, label, result, value);
     }
+
+    /**
+     * Returns a String representation of this MovInstruction. This will be in the format "[label: ]mov result source",
+     * where label, result, and source are the fields defined at construction, and the text enclosed in the
+     * square brackets is optional.
+     *
+     * @return a String representation of this MovInstruction readable by humans.
+     */
+    @Override
+    public String toString() {
+        return getLabelString() + getOpcode() + " " + result.toString() + " " + value;
+    }
+
 }

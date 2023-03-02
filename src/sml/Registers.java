@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 /**
  * The Registers of a Machine, storing their RegisterNames and the corresponding integer values.
  * <p></p>
- * Registers are predefined by the enum Register. The value of registers can be set, gotten, and cleared.
+ * Registers are predefined by the enum Register.
+ * The value of registers can be set, gotten, and cleared.
  * @author ...
  * @author Roland Crompton
  */
@@ -60,12 +61,13 @@ public final class Registers {
     }
 
     /**
-     *Compares two instances of Registers. Two instances of Registers are equal if their Registers are all set to the
-     * same values.
+     * Compares two instances of Registers.
+     * Two instances of Registers are equal if
+     * their Registers are all set to the same values.
      *
      * @param o the object to be compared to this instance of Registers
-     * @return false if o is not an instance of Registers or if the values of o's Registers are not set to the same
-     * values as this instance's Registers.
+     * @return false if o is not an instance of Registers or
+     * if the values of o's Registers are not set to the same values as this instance's Registers.
      */
     @Override
     public boolean equals(Object o) {
@@ -76,7 +78,8 @@ public final class Registers {
     }
 
     /**
-     * Returns a hash code for this instance of Registers. Two instances of Registers will have the same hash code if
+     * Returns a hash code for this instance of Registers.
+     * Two instances of Registers will have the same hash code if
      * their Registers are all set to the same values.
      *
      * @return the hash code for this instance of Registers
@@ -87,7 +90,8 @@ public final class Registers {
     }
 
     /**
-     * Returns a String representation of this instance of Registers in the format "[EAX = x, EBX = y, ... , EDI = z]"
+     * Returns a String representation of this instance of Registers in the format:
+     * "[EAX = x, EBX = y, ... , EDI = z]"
      * where x, y, and z are the integer values of their respective Registers.
      *
      * @return a String value representing this instance of Registers readable by humans.
