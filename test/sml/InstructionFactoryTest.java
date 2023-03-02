@@ -133,7 +133,7 @@ public class InstructionFactoryTest {
 
     @Test
     public void testGetInstructionInvalidRegName() {
-        list.add(null);
+        list.add("er");
         list.add("a");
         Instruction i = fact.getInstruction(null, "jnz", list);
         Assertions.assertNull(i);
@@ -144,7 +144,7 @@ public class InstructionFactoryTest {
     public void testGetInstructionInvalidOpCode() {
         list.add("EAX");
         list.add("a");
-        Instruction i = fact.getInstruction(null, null, list);
+        Instruction i = fact.getInstruction(null, "zzz", list);
         Assertions.assertNull(i);
 
     }
