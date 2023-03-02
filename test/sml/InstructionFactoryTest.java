@@ -3,8 +3,7 @@ package sml;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sml.instruction.AddInstruction;
-import sml.instruction.MovInstruction;
+import sml.instruction.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,12 +30,13 @@ public class InstructionFactoryTest {
     }
 
     @Test
-    public void testGetInstruction() {
+    public void testGetInstructionMov() {
         list.add("EAX");
         list.add("1");
-        Instruction i = fact.getInstruction(null, "mov", list);
+        Instruction i = fact.getInstruction("s", "mov", list);
 
         Assertions.assertInstanceOf(MovInstruction.class, i);
+        Assertions.assertEquals("s: mov EAX 1", i.toString());
 
         Machine m = new Machine(new Registers());
         i.execute(m);
@@ -53,7 +53,65 @@ public class InstructionFactoryTest {
         Assertions.assertEquals("add EAX EBX", i.toString());
         Machine m = new Machine(new Registers());
         i.execute(m);
+    }
 
+    @Test
+    public void testGetInstructionSub() {
+        list.add("EAX");
+        list.add("EBX");
+        Instruction i = fact.getInstruction(null, "sub", list);
+
+        Assertions.assertInstanceOf(SubInstruction.class, i);
+        Assertions.assertEquals("sub EAX EBX", i.toString());
+        Machine m = new Machine(new Registers());
+        i.execute(m);
+    }
+
+    @Test
+    public void testGetInstructionMul() {
+        list.add("EAX");
+        list.add("EBX");
+        Instruction i = fact.getInstruction(null, "mul", list);
+
+        Assertions.assertInstanceOf(MulInstruction.class, i);
+        Assertions.assertEquals("mul EAX EBX", i.toString());
+        Machine m = new Machine(new Registers());
+        i.execute(m);
+    }
+
+    @Test
+    public void testGetInstructionDiv() {
+        list.add("EAX");
+        list.add("EBX");
+        Instruction i = fact.getInstruction(null, "div", list);
+
+        Assertions.assertInstanceOf(DivInstruction.class, i);
+        Assertions.assertEquals("div EAX EBX", i.toString());
+        Machine m = new Machine(new Registers());
+        i.execute(m);
+    }
+
+    @Test
+    public void testGetInstructionJnz() {
+        list.add("EAX");
+        list.add("a");
+        Instruction i = fact.getInstruction(null, "jnz", list);
+
+        Assertions.assertInstanceOf(JnzInstruction.class, i);
+        Assertions.assertEquals("jnz EAX a", i.toString());
+        Machine m = new Machine(new Registers());
+        i.execute(m);
+    }
+
+    @Test
+    public void testGetInstructionOut() {
+        list.add("EAX");
+        Instruction i = fact.getInstruction(null, "out", list);
+
+        Assertions.assertInstanceOf(OutInstruction.class, i);
+        Assertions.assertEquals("out EAX", i.toString());
+        Machine m = new Machine(new Registers());
+        i.execute(m);
     }
 
     @Test
@@ -90,5 +148,5 @@ public class InstructionFactoryTest {
         Assertions.assertNull(i);
 
     }
-    
+
 }
