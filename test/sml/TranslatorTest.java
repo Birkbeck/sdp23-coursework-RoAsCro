@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public class TranslatorTest {
-
-    private Translator translator;
     private LinkedList<Instruction> list;
-
     private final String fileLocation = "./testResources/";
+    private Translator translator;
 
     @BeforeEach
     public void setUp(){
@@ -21,7 +19,6 @@ public class TranslatorTest {
 
     @Test
     public void testValidGetInstruction() {
-
         translator = new Translator(fileLocation + "test3.sml");
         assertDoesNotThrow(() -> translator.readAndTranslate(new Labels(), list));
         assertEquals("mov", list.get(0).getOpcode());
@@ -32,10 +29,8 @@ public class TranslatorTest {
 
     }
 
-
     @Test
     public void testDuplicateLabels() {
-
         translator = new Translator(fileLocation + "test5.sml");
         assertThrows(IOException.class,() -> translator.readAndTranslate(new Labels(), list));
     }

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sml.Instruction;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static sml.Registers.Register.*;
 
 public class MulInstructionTest extends AbstractInstructionTest{
@@ -14,7 +13,7 @@ public class MulInstructionTest extends AbstractInstructionTest{
         registers.set(EBX, 2);
         Instruction instruction = new MulInstruction(null, EAX, EBX);
         instruction.execute(machine);
-        assertEquals(6, machine.getRegisters().get(EAX));
+        Assertions.assertEquals(6, machine.getRegisters().get(EAX));
     }
 
     @Test
@@ -23,7 +22,7 @@ public class MulInstructionTest extends AbstractInstructionTest{
         registers.set(EBX, -1);
         Instruction instruction = new MulInstruction(null, EAX, EBX);
         instruction.execute(machine);
-        assertEquals(-3, machine.getRegisters().get(EAX));
+        Assertions.assertEquals(-3, machine.getRegisters().get(EAX));
     }
 
     @Test
@@ -32,20 +31,20 @@ public class MulInstructionTest extends AbstractInstructionTest{
         registers.set(EBX, -2);
         Instruction instruction = new MulInstruction(null, EAX, EBX);
         instruction.execute(machine);
-        assertEquals(6, machine.getRegisters().get(EAX));
+        Assertions.assertEquals(6, machine.getRegisters().get(EAX));
     }
 
     @Test
     public void testToStringWithLabel() {
         Instruction instruction = new MulInstruction("x", EAX, EBX);
-        assertEquals("x: mul EAX EBX", instruction.toString());
+        Assertions.assertEquals("x: mul EAX EBX", instruction.toString());
     }
 
 
     @Test
     public void testToStringNoLabel() {
         Instruction instruction = new MulInstruction(null, EAX, EBX);
-        assertEquals("mul EAX EBX", instruction.toString());
+        Assertions.assertEquals("mul EAX EBX", instruction.toString());
     }
 
     @Test

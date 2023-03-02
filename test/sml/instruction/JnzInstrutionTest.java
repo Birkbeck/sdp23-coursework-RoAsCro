@@ -2,7 +2,6 @@ package sml.instruction;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import static sml.Registers.Register.*;
 
 import sml.Instruction;
@@ -27,9 +26,9 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
         machine.getLabels().addLabel("b", 11);
         machine.getProgram().add(new OutInstruction(null, EBX));
         machine.execute();
-        assertEquals(0, machine.getRegisters().get(EAX));
-        assertEquals(0, machine.getRegisters().get(EBX));
-        assertEquals(1, machine.getRegisters().get(ESI));
+        Assertions.assertEquals(0, machine.getRegisters().get(EAX));
+        Assertions.assertEquals(0, machine.getRegisters().get(EBX));
+        Assertions.assertEquals(1, machine.getRegisters().get(ESI));
 
     }
 
@@ -41,20 +40,20 @@ public class JnzInstrutionTest extends AbstractInstructionTest{
         machine.getProgram().add(new JnzInstruction(null, EAX, "a"));
         machine.getProgram().add(new MovInstruction(null, EAX, 1));
         machine.execute();
-        assertEquals(0, machine.getRegisters().get(EAX));
+        Assertions.assertEquals(0, machine.getRegisters().get(EAX));
     }
 
     @Test
     public void testToStringWithLabel() {
         Instruction instruction = new JnzInstruction("x", EAX, "y");
-        assertEquals("x: jnz EAX y", instruction.toString());
+        Assertions.assertEquals("x: jnz EAX y", instruction.toString());
     }
 
 
     @Test
     public void testToStringNoLabel() {
         Instruction instruction = new JnzInstruction(null, EAX, "y");
-        assertEquals("jnz EAX y", instruction.toString());
+        Assertions.assertEquals("jnz EAX y", instruction.toString());
     }
 
     @Test

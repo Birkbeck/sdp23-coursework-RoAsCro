@@ -2,7 +2,6 @@ package sml.instruction;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import sml.Instruction;
 import static sml.Registers.Register.*;
@@ -15,7 +14,7 @@ public class SubInstructionTest extends AbstractInstructionTest {
         registers.set(EBX, 2);
         Instruction instruction = new SubInstruction(null, EAX, EBX);
         instruction.execute(machine);
-        assertEquals(1, machine.getRegisters().get(EAX));
+        Assertions.assertEquals(1, machine.getRegisters().get(EAX));
     }
 
     @Test
@@ -24,7 +23,7 @@ public class SubInstructionTest extends AbstractInstructionTest {
         registers.set(EBX, -2);
         Instruction instruction = new SubInstruction(null, EAX, EBX);
         instruction.execute(machine);
-        assertEquals(5, machine.getRegisters().get(EAX));
+        Assertions.assertEquals(5, machine.getRegisters().get(EAX));
     }
 
     @Test
@@ -33,20 +32,20 @@ public class SubInstructionTest extends AbstractInstructionTest {
         registers.set(EBX, -2);
         Instruction instruction = new SubInstruction(null, EAX, EBX);
         instruction.execute(machine);
-        assertEquals(-1, machine.getRegisters().get(EAX));
+        Assertions.assertEquals(-1, machine.getRegisters().get(EAX));
     }
 
     @Test
     public void testToStringWithLabel() {
         Instruction instruction = new SubInstruction("x", EAX, EBX);
-        assertEquals("x: sub EAX EBX", instruction.toString());
+        Assertions.assertEquals("x: sub EAX EBX", instruction.toString());
     }
 
 
     @Test
     public void testToStringNoLabel() {
         Instruction instruction = new SubInstruction(null, EAX, EBX);
-        assertEquals("sub EAX EBX", instruction.toString());
+        Assertions.assertEquals("sub EAX EBX", instruction.toString());
     }
 
     @Test

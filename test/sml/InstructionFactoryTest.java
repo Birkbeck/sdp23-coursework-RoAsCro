@@ -3,13 +3,11 @@ package sml;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sml.instruction.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import sml.instruction.*;
 import static sml.Registers.Register.EAX;
 
 public class InstructionFactoryTest {

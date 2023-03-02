@@ -1,7 +1,6 @@
 package sml.instruction;
 
 import org.junit.jupiter.api.Assertions;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import sml.Instruction;
@@ -20,14 +19,14 @@ public class OutInstructionTest extends AbstractInstructionTest {
     @Test
     public void testToStringWithLabel() {
         Instruction instruction = new OutInstruction("x", EAX);
-        assertEquals("x: out EAX", instruction.toString());
+        Assertions.assertEquals("x: out EAX", instruction.toString());
     }
 
 
     @Test
     public void testToStringNoLabel() {
         Instruction instruction = new OutInstruction(null, EAX);
-        assertEquals("out EAX", instruction.toString());
+        Assertions.assertEquals("out EAX", instruction.toString());
     }
 
     @Test

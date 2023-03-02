@@ -2,7 +2,6 @@ package sml.instruction;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import sml.Instruction;
 import static sml.Registers.Register.*;
@@ -14,27 +13,27 @@ public class MovInstructionTest extends AbstractInstructionTest {
     public void executeValidPositive() {
         Instruction instruction = new MovInstruction(null, EAX, 1);
         instruction.execute(machine);
-        assertEquals(1, registers.get(EAX));
+        Assertions.assertEquals(1, registers.get(EAX));
     }
 
     @Test
     public void executeValidNegative() {
         Instruction instruction = new MovInstruction(null, EAX, -1);
         instruction.execute(machine);
-        assertEquals(-1, registers.get(EAX));
+        Assertions.assertEquals(-1, registers.get(EAX));
     }
 
     @Test
     public void testToStringWithLabel() {
         Instruction instruction = new MovInstruction("x", EAX, 1);
-        assertEquals("x: mov EAX 1", instruction.toString());
+        Assertions.assertEquals("x: mov EAX 1", instruction.toString());
     }
 
 
     @Test
     public void testToStringNoLabel() {
         Instruction instruction = new MovInstruction(null, EAX, 1);
-        assertEquals("mov EAX 1", instruction.toString());
+        Assertions.assertEquals("mov EAX 1", instruction.toString());
     }
 
     @Test
